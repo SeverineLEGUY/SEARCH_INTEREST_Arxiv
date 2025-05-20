@@ -1,0 +1,6 @@
+redis
+pymongo
+arxiv
+transformers
+feedparser
+openai
