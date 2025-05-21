@@ -10,10 +10,10 @@ x-airflow-common:
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
     AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-run-postgres/airflow
     AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@airflow-run-postgres/airflow
-    AIRFLOW__CELERY__BROKER_URL: redis://:@airflow-run-redis:6379/0
+    AIRFLOW__CELERY__BROKER_URL: redis://airflow-run-redis:6379/0
     AIRFLOW__CORE__FERNET_KEY: ''
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
-    AIRFLOW__CORE__LOAD_EXAMPLES: 'true'
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
     AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth'
     _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
   volumes:
@@ -44,9 +44,6 @@ services:
 
   airflow-run-redis:
     image: redis:7
-
-    expose:
-      - 6379
     ports:
       - "6379:6379"
     healthcheck:

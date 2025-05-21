@@ -66,7 +66,7 @@ with DAG(
     dag_id="arxiv_to_redis",
     default_args=default_args,
     start_date=datetime(2025, 1, 1),
-    schedule_interval="@daily",
+    schedule_interval="*/5 * * * *",  # Toutes les 5 minutes
     catchup=False,
     tags=["arxiv", "redis"],
 ) as dag:

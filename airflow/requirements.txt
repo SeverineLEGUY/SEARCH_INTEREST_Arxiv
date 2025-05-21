@@ -3,4 +3,4 @@ pymongo
 arxiv
 transformers
 feedparser
-openai
+mistralai

@@ -5,7 +5,9 @@ from datetime import datetime, timedelta
 import redis
 import json
 import pymongo
-import openai
+
+from mistralai.client import MistralClient
+from mistralai.models.chat_completion import ChatMessage
 
 # === VARIABLES AIRFLOW ===
 
@@ -17,8 +19,8 @@ MONGO_URI = Variable.get("MONGO_URI", default_var="mongodb://localhost:27017/")
 MONGO_DB = Variable.get("MONGO_DB", default_var="arxiv")
 MONGO_COLLECTION = Variable.get("MONGO_COLLECTION", default_var="summaries")
 
-OPENAI_API_KEY = Variable.get("OPENAI_API_KEY", default_var="your_openai_api_key")
-openai.api_key = OPENAI_API_KEY
+MISTRAL_API_KEY = Variable.get("MISTRAL_API_KEY", default_var="your_mistral_api_key")
+mistral_client = MistralClient(api_key=MISTRAL_API_KEY)
 
 # === REDIS ===
 
@@ -40,13 +42,16 @@ Lis le texte suivant, résume-le en un seul paragraphe et traduis ce résumé en
 
 {text}
 """
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.7,
-        max_tokens=300
-    )
-    return response['choices'][0]['message']['content'].strip()
+    try:
+        response = mistral_client.chat(
+            model="mistral-large-latest",  # ou mistral-small-latest selon ton plan
+            messages=[ChatMessage(role="user", content=prompt)],
+            temperature=0.7,
+            max_tokens=300,
+        )
+        return response.choices[0].message.content.strip()
+    except Exception as e:
+        raise RuntimeError(f"Erreur lors de l'appel à Mistral: {e}")
 
 # === TÂCHE PRINCIPALE ===
 
@@ -77,7 +82,6 @@ def process_article_from_redis():
         print(f"[OK] Article inséré dans MongoDB avec résumé français.")
     except Exception as e:
         print(f"[ERREUR] Échec de l'insertion MongoDB : {e}")
-        # Réinsérer l'élément dans Redis si besoin (rollback)
         redis_client.lpush(REDIS_QUEUE_NAME, item)
 
 # === DAG DEFINITION ===
@@ -90,12 +94,12 @@ default_args = {
 }
 
 with DAG(
-    dag_id="summarize_arxiv_article",
+    dag_id="summarize_arxiv_article_with_mistral",
     default_args=default_args,
     start_date=datetime(2025, 1, 1),
     schedule_interval="*/5 * * * *",  # Toutes les 5 minutes
     catchup=False,
-    tags=["arxiv", "llm", "redis", "mongo"],
+    tags=["arxiv", "llm", "redis", "mongo", "mistral"],
 ) as dag:
 
     summarize_task = PythonOperator(
