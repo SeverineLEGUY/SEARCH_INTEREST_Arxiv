@@ -38,8 +38,8 @@ def get_mongo_collection():
 
 def summarize_and_translate(text):
     prompt = f"""
-Analyse le texte scientifique entre les balses #BEGIN_TEXT# et #END_TEXT#, résume-le en un seul paragraphe pour un public général et traduis ce résumé en français. 
-
+Analyse le texte scientifique entre les balises #BEGIN_TEXT# et #END_TEXT# puis résume-le pour un public non spécialiste.
+Le résultat attendu doit être un texte en français, sans balises ni annotations supplémentaires.
 #BEGIN_TEXT#
 {text}
 #END_TEXT#
@@ -48,8 +48,8 @@ Analyse le texte scientifique entre les balses #BEGIN_TEXT# et #END_TEXT#, résu
         response = mistral_client.chat.complete(
             model="mistral-large-latest", 
             messages=[ {"role":"user", "content":prompt} ],            
-            temperature=0.5,            
-            max_tokens=300,        
+            temperature=0.3,            
+            max_tokens=1200,        
             )
 
         if not response.choices:
@@ -103,7 +103,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id="summarize_arxiv_article_with_mistral",
+    dag_id="summarize_arxiv_article",
     default_args=default_args,
     start_date=datetime(2025, 1, 1),
     schedule_interval="*/30 * * * *",  # Toutes les 30 minutes
