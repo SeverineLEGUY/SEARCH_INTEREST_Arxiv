@@ -156,6 +156,8 @@ services:
     build: ./backend
     ports:
       - "8500:8500"
+    volumes:
+      - ./backend:/app
     depends_on:
       - backend-run-mongodb
 
@@ -163,6 +165,8 @@ services:
     build: ./frontend
     ports:
       - "8501:8501"
+    volumes:
+      - ./frontend:/app
     depends_on:
       - backend-run-api
 

@@ -23,7 +23,7 @@ def get_redis_client():
 
 def fetch_arxiv_publications(**context):
     base_url = "http://export.arxiv.org/api/query"
-    max_results = 100
+    max_results = 10
     query = f"cat:{ARXIV_CATEGORY}"
     url = f"{base_url}?search_query={query}&sortBy=submittedDate&sortOrder=descending&max_results={max_results}"
 
@@ -66,7 +66,7 @@ with DAG(
     dag_id="arxiv_to_redis",
     default_args=default_args,
     start_date=datetime(2025, 1, 1),
-    schedule_interval="*/5 * * * *",  # Toutes les 5 minutes
+    schedule_interval="*/8 * * * *",  # Toutes les 8 minutes
     catchup=False,
     tags=["arxiv", "redis"],
 ) as dag:

@@ -6,8 +6,7 @@ import redis
 import json
 import pymongo
 
-from mistralai.client import MistralClient
-from mistralai.models.chat_completion import ChatMessage
+from mistralai import Mistral
 
 # === VARIABLES AIRFLOW ===
 
@@ -20,7 +19,8 @@ MONGO_DB = Variable.get("MONGO_DB", default_var="arxiv")
 MONGO_COLLECTION = Variable.get("MONGO_COLLECTION", default_var="summaries")
 
 MISTRAL_API_KEY = Variable.get("MISTRAL_API_KEY", default_var="your_mistral_api_key")
-mistral_client = MistralClient(api_key=MISTRAL_API_KEY)
+
+mistral_client = Mistral(api_key=MISTRAL_API_KEY)
 
 # === REDIS ===
 
@@ -38,17 +38,23 @@ def get_mongo_collection():
 
 def summarize_and_translate(text):
     prompt = f"""
-Lis le texte suivant, résume-le en un seul paragraphe et traduis ce résumé en français. Voici le texte :
+Analyse le texte scientifique entre les balses #BEGIN_TEXT# et #END_TEXT#, résume-le en un seul paragraphe pour un public général et traduis ce résumé en français. 
 
+#BEGIN_TEXT#
 {text}
+#END_TEXT#
 """
     try:
-        response = mistral_client.chat(
-            model="mistral-large-latest",  # ou mistral-small-latest selon ton plan
-            messages=[ChatMessage(role="user", content=prompt)],
-            temperature=0.7,
-            max_tokens=300,
-        )
+        response = mistral_client.chat.complete(
+            model="mistral-large-latest", 
+            messages=[ {"role":"user", "content":prompt} ],            
+            temperature=0.5,            
+            max_tokens=300,        
+            )
+
+        if not response.choices:
+            raise ValueError("Aucune réponse de Mistral.")
+
         return response.choices[0].message.content.strip()
     except Exception as e:
         raise RuntimeError(f"Erreur lors de l'appel à Mistral: {e}")
@@ -77,6 +83,9 @@ def process_article_from_redis():
 
     article["summary_fr"] = summary_fr
 
+    print(summary_en)
+    print(summary_fr)
+
     try:
         mongo_collection.insert_one(article)
         print(f"[OK] Article inséré dans MongoDB avec résumé français.")
@@ -97,7 +106,7 @@ with DAG(
     dag_id="summarize_arxiv_article_with_mistral",
     default_args=default_args,
     start_date=datetime(2025, 1, 1),
-    schedule_interval="*/5 * * * *",  # Toutes les 5 minutes
+    schedule_interval="*/30 * * * *",  # Toutes les 30 minutes
     catchup=False,
     tags=["arxiv", "llm", "redis", "mongo", "mistral"],
 ) as dag:
