@@ -4,3 +4,4 @@ arxiv
 transformers
 feedparser
 mistralai
+mlflow

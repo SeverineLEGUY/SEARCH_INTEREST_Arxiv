@@ -1,23 +1,28 @@
-from airflow import DAG
-from airflow.operators.python import PythonOperator
-from airflow.models import Variable
+import json
 from datetime import datetime, timedelta
+
 import feedparser
 import redis
-import json
+from airflow.models import Variable
+from airflow.operators.python import PythonOperator
 
-# === VARIABLES AIRFLOW ===
+from airflow import DAG
 
-ARXIV_CATEGORY = Variable.get("ARXIV_CATEGORY", default_var="cs.AI")
-START_DATE = Variable.get("ARXIV_START_DATE", default_var="2024-01-01T00:00:00Z")
-REDIS_HOST = Variable.get("REDIS_HOST", default_var="localhost")
-REDIS_PORT = int(Variable.get("REDIS_PORT", default_var="6379"))
-REDIS_QUEUE_NAME = Variable.get("REDIS_QUEUE_NAME", default_var="arxiv_publications")
+# === VARIABLES ===
 
-# === REDIS CONNECTION ===
+ARXIV_CATEGORY = Variable.get("ARXIV_CATEGORY")
+START_DATE = Variable.get("ARXIV_START_DATE")
+
+REDIS_HOST = Variable.get("REDIS_HOST")
+REDIS_PORT = int(Variable.get("REDIS_PORT"))
+REDIS_QUEUE_NAME = Variable.get("REDIS_QUEUE_NAME")
+
+
+# === DB CONNECTION ===
 
 def get_redis_client():
     return redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=0)
+
 
 # === TASK: Fetch from ArXiv ===
 
@@ -44,6 +49,7 @@ def fetch_arxiv_publications(**context):
 
     context['ti'].xcom_push(key='arxiv_results', value=publications)
 
+
 # === TASK: Push to Redis ===
 
 def push_to_redis(**context):
@@ -52,6 +58,7 @@ def push_to_redis(**context):
 
     for pub in publications:
         client.rpush(REDIS_QUEUE_NAME, json.dumps(pub))
+
 
 # === DAG DEFINITION ===
 
@@ -63,14 +70,13 @@ default_args = {
 }
 
 with DAG(
-    dag_id="arxiv_to_redis",
-    default_args=default_args,
-    start_date=datetime(2025, 1, 1),
-    schedule_interval="*/8 * * * *",  # Toutes les 8 minutes
-    catchup=False,
-    tags=["arxiv", "redis"],
+        dag_id="arxiv_to_redis",
+        default_args=default_args,
+        start_date=datetime(2025, 1, 1),
+        schedule_interval="*/8 * * * *",  # Toutes les 8 minutes
+        catchup=False,
+        tags=["arxiv", "redis"],
 ) as dag:
-
     fetch_arxiv = PythonOperator(
         task_id="fetch_arxiv",
         python_callable=fetch_arxiv_publications,

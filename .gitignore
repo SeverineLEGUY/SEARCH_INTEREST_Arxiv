@@ -5,3 +5,4 @@ airflow/plugins/
 mlruns/
 mlflow_example.py
 README.md
+.idea/
