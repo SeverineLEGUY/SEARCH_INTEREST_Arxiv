@@ -11,6 +11,7 @@ Ce projet met en place une architecture complète de data pipeline basée sur Ap
 | Airflow Worker        | -       | Exécution des tâches avec Celery |
 | Airflow Triggerer     | -       | Gestion des triggers (ex. capteurs) |
 | PostgreSQL            | -       | Base de données utilisée par Airflow |
+| PostgreSQL            | -       | Base de données utilisée par mlFlow |
 | Redis                 | `6379`  | Broker Celery pour Airflow |
 | MongoDB               | `27017` | Base de données utilisée par l'API backend |
 | FastAPI               | `8500`  | Backend API pour accéder aux données |
@@ -26,7 +27,7 @@ Ce projet met en place une architecture complète de data pipeline basée sur Ap
 ├── airflow/              # Dossiers Airflow (DAGs, logs, plugins)
 ├── backend/              # Code de l'API FastAPI
 ├── frontend/             # Interface Streamlit
-├── mlruns/               # Dossiers de suivi MLflow
+├── mlflow/               # Dossiers de suivi MLflow
 ├── .env                  # Fichier d’environnement
 ├── docker-compose.yaml   # Configuration Docker complète
 ├── import_env_to_airflow.py  # Script d'import des variables d'env dans Airflow
