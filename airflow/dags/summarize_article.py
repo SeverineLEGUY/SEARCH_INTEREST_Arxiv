@@ -136,9 +136,9 @@ with DAG(
         tags=["arxiv", "llm", "redis", "mongo", "mistral"],
 ) as dag:
     # Tâche unique : traitement des articles depuis Redis
-    summarize_task = PythonOperator(
+    summarize_and_store_article = PythonOperator(
         task_id="summarize_and_store_article",
         python_callable=process_articles_from_redis,
     )
 
-    summarize_task
+    summarize_and_store_article
