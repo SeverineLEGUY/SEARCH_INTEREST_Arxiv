@@ -1,8 +1,12 @@
+.DS_Store
+.env
+.idea/
 .venv/
 __pycache__/
 airflow/logs/
 airflow/plugins/
-mlruns/
+init_airflow_vars.sh
 mlflow_example.py
-README.md
-.idea/
+mlruns/
+airflow/dags/summarize_article.py
+airflow/dags/clessify_article.py

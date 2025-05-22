@@ -35,6 +35,8 @@ services:
       POSTGRES_USER: airflow
       POSTGRES_PASSWORD: airflow
       POSTGRES_DB: airflow
+    env_file:
+      - .env
     volumes:
       - postgresdb:/var/lib/postgresql/data
     healthcheck:
@@ -44,6 +46,8 @@ services:
 
   airflow-run-redis:
     image: redis:7
+    env_file:
+      - .env
     ports:
       - "6379:6379"
     healthcheck:
@@ -55,14 +59,23 @@ services:
 
   backend-run-mongodb:
     image: mongo:6
+    env_file:
+      - .env
     ports:
       - "27017:27017"
+    healthcheck:
+      test: [ "CMD", "mongo", "--eval", "db.runCommand({ ping: 1 })" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
       - mongodb:/data/db
 
   airflow-webserver:
     <<: *airflow-common
     command: webserver
+    env_file:
+      - .env
     ports:
       - "8080:8080"
     healthcheck:
@@ -79,6 +92,8 @@ services:
   airflow-scheduler:
     <<: *airflow-common
     command: scheduler
+    env_file:
+      - .env
     healthcheck:
       test: [ "CMD-SHELL", 'airflow jobs check --job-type SchedulerJob --hostname "$${HOSTNAME}"' ]
       interval: 10s
@@ -93,6 +108,8 @@ services:
   airflow-worker:
     <<: *airflow-common
     command: celery worker
+    env_file:
+      - .env
     healthcheck:
       test:
         - "CMD-SHELL"
@@ -114,6 +131,8 @@ services:
   airflow-triggerer:
     <<: *airflow-common
     command: triggerer
+    env_file:
+      - .env
     healthcheck:
       test: [ "CMD-SHELL", 'airflow jobs check --job-type TriggererJob --hostname "$${HOSTNAME}"' ]
       interval: 10s
@@ -131,10 +150,13 @@ services:
       bash -c "
       airflow db migrate &&
       airflow users create --username admin --firstname Airflow --lastname Admin --role Admin --email admin@example.com --password admin &&
-      /opt/airflow/init_airflow_vars.sh
+      python /opt/airflow/import_env_to_airflow.py
       "
+    env_file:
+      - .env
     volumes:
       - ./airflow/dags:/opt/airflow/dags
+      - ./import_env_to_airflow.py:/opt/airflow/import_env_to_airflow.py
     depends_on:
       - airflow-run-redis
       - backend-run-mongodb
@@ -146,6 +168,8 @@ services:
     environment:
       <<: *airflow-common-env
       CONNECTION_CHECK_MAX_COUNT: "0"
+    env_file:
+      - .env
     # Workaround for entrypoint issue. See: https://github.com/apache/airflow/issues/16252
     command:
       - bash
@@ -154,11 +178,8 @@ services:
 
   backend-run-api:
     build: ./backend
-    environment:
-      - MONGO_URI="mongodb://backend-run-mongodb:27017/
-        MONGO_DB=arxiv
-        MONGO_SUMMARIZE=arxiv_summaries
-        MONGO_CLASSIFIY=arxiv_classification
+    env_file:
+      - .env
     ports:
       - "8500:8500"
     volumes:
@@ -177,8 +198,8 @@ services:
 
   backend-run-mlflow:
     image: ghcr.io/mlflow/mlflow:v2.12.1
-    environment:
-      - MLFLOW_TRACKING_URI=http://mlflow:5050
+    env_file:
+      - .env
     ports:
       - "5050:5050"
     volumes:

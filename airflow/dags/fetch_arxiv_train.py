@@ -11,12 +11,11 @@ from airflow import DAG
 # === VARIABLES ===
 
 ARXIV_CATEGORY = Variable.get("ARXIV_CATEGORY").strip()
-START_DATE = Variable.get("ARXIV_START_DATE", default_var="2025-01-01T00:00:00Z")
-START_DATE = datetime.strptime(START_DATE, "%Y-%m-%dT%H:%M:%SZ")  # Assuming UTC ISO 8601 format
+START_DATE = datetime.strptime("2024-01-01T00:00:00Z", "%Y-%m-%dT%H:%M:%SZ")
 
 REDIS_HOST = Variable.get("REDIS_HOST")
 REDIS_PORT = int(Variable.get("REDIS_PORT"))
-REDIS_QUEUE = Variable.get("REDIS_CLASSQ")
+REDIS_QUEUE = Variable.get("REDIS_TRAINQ")
 
 
 # === DB CONNECTION ===
@@ -29,7 +28,7 @@ def get_redis_client():
 
 def fetch_arxiv(**context):
     base_url = "http://export.arxiv.org/api/query"
-    max_results = 100
+    max_results = 1000
     query = f"cat:{ARXIV_CATEGORY or 'all:*'}"
     url = f"{base_url}?search_query={query}&sortBy=submittedDate&sortOrder=descending&max_results={max_results}"
 
@@ -65,9 +64,6 @@ def push_to_redis(**context):
     for pub in publications:
         client.rpush(REDIS_QUEUE, json.dumps(pub))
 
-    newest_update = publications[0]['updated']
-    Variable.set("ARXIV_START_DATE", newest_update)
-
 
 # === DAG DEFINITION ===
 
@@ -79,23 +75,22 @@ default_args = {
 }
 
 with DAG(
-        dag_id="arxiv_to_redis",
+        dag_id="arxiv_to_redis_train",
         default_args=default_args,
-        start_date=datetime(2025, 1, 1),
-        schedule_interval="*/8 * * * *",  # Toutes les 8 minutes
+        schedule_interval=None,  # déclenché manuellement ou sur demande
         catchup=False,
-        tags=["arxiv", "redis"],
+        tags=["arxiv", "redis", "training"],
 ) as dag:
-    fetch_arxiv = PythonOperator(
-        task_id="fetch_arxiv",
+    fetch_arxiv_train = PythonOperator(
+        task_id="fetch_arxiv_train",
         python_callable=fetch_arxiv,
         provide_context=True
     )
 
-    push_to_redis = PythonOperator(
-        task_id="push_to_redis",
+    push_to_redis_train = PythonOperator(
+        task_id="push_to_redis_train",
         python_callable=push_to_redis,
         provide_context=True
     )
 
-    fetch_arxiv >> push_to_redis
+    fetch_arxiv_train >> push_to_redis_train
