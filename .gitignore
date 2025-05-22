@@ -8,5 +8,6 @@ airflow/plugins/
 init_airflow_vars.sh
 mlflow_example.py
 mlruns/
+mlflowdb/
 airflow/dags/summarize_article.py
 airflow/dags/clessify_article.py

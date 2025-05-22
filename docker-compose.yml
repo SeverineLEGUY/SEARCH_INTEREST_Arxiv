@@ -1,10 +1,10 @@
+# ========================================
+# === BLOC DE CONFIGURATION COMMUNE AIRFLOW
+# ========================================
 x-airflow-common:
   &airflow-common
-  # In order to add custom dependencies or upgrade provider packages you can use your extended image.
-  # Comment the image line, place your Dockerfile in the directory where you placed the docker-compose.yaml
-  # and uncomment the "build" line below, Then run `docker-compose build` to build the images.
   image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.3.2}
-  build: ./airflow
+  build: ./airflow  # Permet l’extension via Dockerfile personnalisé si besoin
   environment:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
@@ -28,6 +28,9 @@ x-airflow-common:
     airflow-run-postgres:
       condition: service_healthy
 
+# ========================================
+# === SERVICES DE BASE DE DONNÉES
+# ========================================
 services:
   airflow-run-postgres:
     image: postgres:13
@@ -38,7 +41,22 @@ services:
     env_file:
       - .env
     volumes:
-      - postgresdb:/var/lib/postgresql/data
+      - airflowdb:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "airflow" ]
+      interval: 5s
+      retries: 5
+
+  mlflow-run-postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: mlflow
+      POSTGRES_PASSWORD: mlflow
+      POSTGRES_DB: mlflow
+    env_file:
+      - .env
+    volumes:
+      - mlflowdb:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "airflow" ]
       interval: 5s
@@ -71,6 +89,9 @@ services:
     volumes:
       - mongodb:/data/db
 
+  # ========================================
+  # === COMPOSANTS AIRFLOW
+  # ========================================
   airflow-webserver:
     <<: *airflow-common
     command: webserver
@@ -119,9 +140,7 @@ services:
       retries: 5
     environment:
       <<: *airflow-common-env
-      # Required to handle warm shutdown of the celery workers properly
-      # See https://airflow.apache.org/docs/docker-stack/entrypoint.html#signal-propagation
-      DUMB_INIT_SETSID: "0"
+      DUMB_INIT_SETSID: "0"  # Permet une gestion propre des signaux d’arrêt
     restart: always
     depends_on:
       <<: *airflow-common-depends-on
@@ -170,12 +189,14 @@ services:
       CONNECTION_CHECK_MAX_COUNT: "0"
     env_file:
       - .env
-    # Workaround for entrypoint issue. See: https://github.com/apache/airflow/issues/16252
     command:
       - bash
       - -c
       - airflow
 
+  # ========================================
+  # === BACKEND FASTAPI
+  # ========================================
   backend-run-api:
     build: ./backend
     env_file:
@@ -187,6 +208,9 @@ services:
     depends_on:
       - backend-run-mongodb
 
+  # ========================================
+  # === FRONTEND STREAMLIT
+  # ========================================
   frontend-run-ui:
     build: ./frontend
     ports:
@@ -196,17 +220,28 @@ services:
     depends_on:
       - backend-run-api
 
+  # ========================================
+  # === MLFLOW SERVER
+  # ========================================
   backend-run-mlflow:
-    image: ghcr.io/mlflow/mlflow:v2.12.1
+    build: ./mlflow
     env_file:
       - .env
     ports:
       - "5050:5050"
     volumes:
-      - ./mlruns:/mlflow/mlruns
-    command: mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root /mlflow/mlruns --host 0.0.0.0
+      - ./mlflow/mlruns:/mlflow/mlruns
+    command: mlflow server --backend-store-uri postgresql+psycopg2://mlflow:mlflow@mlflow-run-postgres/mlflow --default-artifact-root /mlflow/mlruns --host 0.0.0.0 --port 5050
+    restart: unless-stopped
+    depends_on:
+      mlflow-run-postgres:
+        condition: service_healthy
 
+# ========================================
+# === VOLUMES PERSISTANTS
+# ========================================
 volumes:
   mlruns:
   mongodb:
-  postgresdb:
+  airflowdb:
+  mlflowdb:
