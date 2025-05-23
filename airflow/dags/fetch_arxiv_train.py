@@ -17,6 +17,7 @@ REDIS_HOST = Variable.get("REDIS_HOST")
 REDIS_PORT = int(Variable.get("REDIS_PORT"))
 REDIS_QUEUE = Variable.get("REDIS_TRAINQ")  # File Redis dédiée à l'entraînement
 
+MAX_RESULTS = 3000
 
 # === INITIALISATION CLIENT REDIS ===
 
@@ -29,14 +30,13 @@ def get_redis_client():
 
 def fetch_arxiv(**context):
     """
-    Récupère jusqu’à 1000 publications ArXiv dans la catégorie spécifiée.
+    Récupère jusqu’à 3000 publications ArXiv dans la catégorie spécifiée.
     Ne conserve que celles publiées après START_DATE.
     Envoie le résultat dans XCom.
     """
     base_url = "http://export.arxiv.org/api/query"
-    max_results = 1000
     query = f"{ARXIV_CATEGORY or 'all'}"
-    url = f"{base_url}?search_query={query}&sortBy=submittedDate&sortOrder=descending&max_results={max_results}"
+    url = f"{base_url}?search_query={query}&sortBy=submittedDate&sortOrder=descending&max_results={MAX_RESULTS}"
 
     feed = feedparser.parse(url)
     publications = []

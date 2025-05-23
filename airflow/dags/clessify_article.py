@@ -11,7 +11,7 @@ from airflow import DAG
 
 REDIS_HOST = Variable.get("REDIS_HOST")
 REDIS_PORT = int(Variable.get("REDIS_PORT"))
-REDIS_QUEUE_NAME = Variable.get("REDIS_QUEUE_NAME")
+REDIS_QUEUE = Variable.get("REDIS_CLASSQ")
 
 MONGO_URI = Variable.get("MONGO_URI")
 MONGO_DB = Variable.get("MONGO_DB")
@@ -19,44 +19,22 @@ MONGO_COLLECTION = Variable.get("MONGO_CLASSIFIY")
 
 MLFLOW_TRACKING_URI = Variable.get("MLFLOW_TRACKING_URI")
 
-HUGGINGFACE_USERNAME = Variable.get("HUGGINGFACE_USERNAME")
-HUGGINGFACE_MODELNAME = Variable.get("HUGGINGFACE_MODELNAME")
-HUGGINGFACE_API_URL = Variable.get("HUGGINGFACE_API_URL")
-HUGGINGFACE_TOKEN = Variable.get("HUGGINGFACE_TOKEN")
-
-
-# === DB CONNECTIONS ===
+# === CONNEXIONS AUX BASES DE DONNÉES ===
 
 def get_redis_client():
+    """Retourne une instance client Redis connectée à l’hôte configuré."""
     return redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=0)
 
 
 def get_mongo_collection():
+    """Retourne un handle sur la collection MongoDB cible."""
     client = pymongo.MongoClient(MONGO_URI)
     db = client[MONGO_DB]
     return db[MONGO_COLLECTION]
 
 
-# === CLASSIFY ===
 
-# classifier = pipeline("text-classification", model=HUGGINGFACE_MODELNAME)
-#
-#
-# def classify_article(title, summary):
-#     input_text = f"{title}\n{summary}"
-#     result = classifier(input_text, truncation=True)[0]
-#     return result
-#
-#
-# def log_with_mlflow(title, summary, classification_result):
-#     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
-#     mlflow.set_experiment("arxiv-article-classification")
-#
-#     with mlflow.start_run():
-#         mlflow.log_param("model_name", HUGGINGFACE_MODELNAME)
-#         mlflow.log_input({"title": title, "summary": summary})
-#         mlflow.log_metric("confidence", classification_result["score"])
-#         mlflow.log_param("predicted_label", classification_result["label"])
+# === CLASSIFY ===
 
 
 # === TASK: Classify Articles from Redis ===

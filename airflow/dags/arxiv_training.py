@@ -14,6 +14,8 @@ from sentence_transformers import SentenceTransformer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, accuracy_score
 from sklearn.preprocessing import LabelEncoder
+import csv
+import uuid
 
 from airflow import DAG
 
@@ -22,14 +24,14 @@ REDIS_HOST = Variable.get("REDIS_HOST")
 REDIS_PORT = int(Variable.get("REDIS_PORT"))
 REDIS_QUEUE = Variable.get("REDIS_TRAINQ")
 
-MODEL_NAME = "ll-MiniLM-L6-v2"
-NUM_SAMPLES = 1000  # Nombre max d'échantillons à tirer de Redis pour l'entraînement
+MLFLOW_TRACKING_URI = Variable.get("MLFLOW_TRACKING_URI")
+MLFLOW_LOCAL = "/opt/airflow/mlflow"
 
 # === CONFIGURATION MLFLOW ===
-MLFLOW_TRACKING_URI = "http://backend-run-mlflow:5050"  # URL du serveur MLflow
 os.environ["MLFLOW_TRACKING_URI"] = MLFLOW_TRACKING_URI
-
 os.environ["TOKENIZERS_PARALLELISM"] = "false"  # Évite les warnings de Hugging Face
+
+MODEL_NAME = "all-MiniLM-L6-v2"
 
 
 # === CONNEXION AUX BASES DE DONNÉES ===
@@ -58,6 +60,23 @@ def train_model_from_redis():
     if not data:
         print("Aucune donnée disponible pour l'entraînement.")
         return
+    else:
+        print(f"Entraînement sur {len(data)} samples.")
+
+    unique_id = uuid.uuid4()
+    data_file = f"{MLFLOW_LOCAL}/data_{unique_id}.csv"
+
+    # Champs à écrire dans le CSV
+    fieldnames = ["text", "label"]
+
+    # Écriture des données dans le fichier
+    with open(data_file, mode='w', newline='', encoding='utf-8') as file:
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in data:
+            writer.writerow(row)
+
+    print(f"Données écrites dans {data_file}")
 
     # --- Préparation des données ---
     texts = [d["text"] for d in data]
@@ -67,8 +86,8 @@ def train_model_from_redis():
     encoded_labels = encoder.fit_transform(labels)
 
     # Embedding avec SentenceTransformer
-    embedder = SentenceTransformer("all-MiniLM-L6-v2")
-    embedded_texts = embedder.encode(texts)
+    embedder = SentenceTransformer(MODEL_NAME)
+    embedded_texts = embedder.encode(texts, show_progress_bar=False)
 
     # Entraînement du modèle
     model = LogisticRegression(max_iter=1000)
@@ -79,23 +98,18 @@ def train_model_from_redis():
 
     report = classification_report(encoded_labels, predicted_labels, target_names=encoder.classes_)
     accuracy = accuracy_score(encoded_labels, predicted_labels)
+
     print("Classification Report:\n", report)
     print(f"Accuracy: {accuracy}")
 
     # --- Suivi avec MLflow ---
+    mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
     mlflow.set_experiment("arxiv_classification")
     with mlflow.start_run():
-        # args = TrainingArguments(
-        #     output_dir="/tmp/arxiv_model",
-        #     evaluation_strategy="no",
-        #     per_device_train_batch_size=8,
-        #     num_train_epochs=2,
-        #     logging_dir="/tmp/logs",
-        # )
-
-        mlflow.log_param("embedding_model", "all-MiniLM-L6-v2")
+        mlflow.log_param("embedding_model", MODEL_NAME)
         mlflow.log_param("classifier", "LogisticRegression")
-        mlflow.log_param("n_classes", len(encoder.classes_))
+        mlflow.log_param("num_classes", len(encoder.classes_))
+        mlflow.log_metric("train_samples", len(texts))
 
         # Log des métriques
         mlflow.log_metric("accuracy", accuracy)
@@ -109,27 +123,12 @@ def train_model_from_redis():
         )
 
         # Log du fichier de données
-        # mlflow.log_artifact(data)
+        mlflow.log_artifact(data_file)
 
         # Sauvegarde du LabelEncoder
-        label_encoder_path = "label_encoder.pkl"
-        joblib.dump(encoder, label_encoder_path)
-        mlflow.log_artifact(label_encoder_path)
-
-        # trainer = Trainer(
-        #     model=model,
-        #     args=args,
-        #     train_dataset=tokenized_dataset,
-        # )
-        #
-        # trainer.train()
-        #
-        # # Log du modèle et des métadonnées
-        # mlflow.log_param("model", MODEL_NAME)
-        # mlflow.log_param("num_classes", len(set(encoded_labels)))
-        # mlflow.log_metric("train_samples", len(texts))
-        #
-        # mlflow.pytorch.log_model(model, artifact_path="model")
+        label_encoder_file = f"{MLFLOW_LOCAL}/label_encoder.pkl"
+        joblib.dump(encoder, label_encoder_file)
+        mlflow.log_artifact(label_encoder_file)
 
 
 # === DEFINITION DU DAG AIRFLOW ===
@@ -137,7 +136,7 @@ def train_model_from_redis():
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
-    'retries': 1,
+    'retries': 0,
     'retry_delay': timedelta(minutes=5)
 }
 
