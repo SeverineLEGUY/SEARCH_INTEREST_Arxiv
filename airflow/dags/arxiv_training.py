@@ -122,22 +122,14 @@ def train_model_from_redis():
             artifact_path="model",
             input_example=input_example
         )
-        print("C")
 
         # Log du fichier de données
-        print("D")
         mlflow.log_artifact(data_file)
-        print("E")
 
         # Sauvegarde du LabelEncoder
-        print("F")
         label_encoder_file = f"{MLFLOW_LOCAL}/label_encoder.pkl"
-        print("G")
         joblib.dump(encoder, label_encoder_file)
-        print("H")
         mlflow.log_artifact(label_encoder_file)
-        print("I")
-
 
 # === DEFINITION DU DAG AIRFLOW ===
 
