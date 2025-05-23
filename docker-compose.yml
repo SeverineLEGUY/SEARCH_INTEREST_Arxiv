@@ -41,7 +41,7 @@ services:
     env_file:
       - .env
     volumes:
-      - airflowdb:/var/lib/postgresql/data
+      - ./db/airflow:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "airflow" ]
       interval: 5s
@@ -56,7 +56,7 @@ services:
     env_file:
       - .env
     volumes:
-      - mlflowdb:/var/lib/postgresql/data
+      - ./db/mlflow:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "airflow" ]
       interval: 5s
@@ -81,17 +81,31 @@ services:
       - .env
     ports:
       - "27017:27017"
+    volumes:
+      - ./db/mongo:/data/db
     healthcheck:
       test: [ "CMD", "mongo", "--eval", "db.runCommand({ ping: 1 })" ]
       interval: 10s
       timeout: 5s
       retries: 5
-    volumes:
-      - mongodb:/data/db
 
   # ========================================
   # === COMPOSANTS AIRFLOW
   # ========================================
+  airflow-init:
+    <<: *airflow-common
+    entrypoint: >
+      bash -c "
+      airflow db migrate &&
+      airflow users create --username admin --firstname Airflow --lastname Admin --role Admin --email admin@example.com --password admin &&
+      python /opt/airflow/import_env_to_airflow.py
+      "
+    env_file:
+      - .env
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./import_env_to_airflow.py:/opt/airflow/import_env_to_airflow.py
+
   airflow-webserver:
     <<: *airflow-common
     command: webserver
@@ -125,6 +139,8 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+#      backend-run-mongodb:
+#      backend-run-mlflow:
 
   airflow-worker:
     <<: *airflow-common
@@ -163,23 +179,6 @@ services:
       airflow-init:
         condition: service_completed_successfully
 
-  airflow-init:
-    <<: *airflow-common
-    entrypoint: >
-      bash -c "
-      airflow db migrate &&
-      airflow users create --username admin --firstname Airflow --lastname Admin --role Admin --email admin@example.com --password admin &&
-      python /opt/airflow/import_env_to_airflow.py
-      "
-    env_file:
-      - .env
-    volumes:
-      - ./airflow/dags:/opt/airflow/dags
-      - ./import_env_to_airflow.py:/opt/airflow/import_env_to_airflow.py
-    depends_on:
-      - airflow-run-redis
-      - backend-run-mongodb
-
   airflow-cli:
     <<: *airflow-common
     profiles:
@@ -199,6 +198,7 @@ services:
   # ========================================
   backend-run-api:
     build: ./backend
+    command: uvicorn main:app --reload --host 0.0.0.0 --port 8500
     env_file:
       - .env
     ports:
@@ -213,6 +213,7 @@ services:
   # ========================================
   frontend-run-ui:
     build: ./frontend
+    command: streamlit run app.py --server.port=8501 -server.headless=true --server.enableCORS=false --server.enableXsrfProtection=false
     ports:
       - "8501:8501"
     volumes:
@@ -225,14 +226,14 @@ services:
   # ========================================
   backend-run-mlflow:
     build: ./mlflow
+    command: mlflow server --backend-store-uri postgresql+psycopg2://mlflow:mlflow@mlflow-run-postgres/mlflow --default-artifact-root /mlflow/mlruns --host 0.0.0.0 --port 5050
+    restart: unless-stopped
     env_file:
       - .env
     ports:
       - "5050:5050"
     volumes:
       - ./mlflow/mlruns:/mlflow/mlruns
-    command: mlflow server --backend-store-uri postgresql+psycopg2://mlflow:mlflow@mlflow-run-postgres/mlflow --default-artifact-root /mlflow/mlruns --host 0.0.0.0 --port 5050
-    restart: unless-stopped
     depends_on:
       mlflow-run-postgres:
         condition: service_healthy
@@ -241,7 +242,7 @@ services:
 # === VOLUMES PERSISTANTS
 # ========================================
 volumes:
+  mongo:
+  airflow:
+  mlflow:
   mlruns:
-  mongodb:
-  airflowdb:
-  mlflowdb:

@@ -23,4 +23,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 5050
 
 # Définit la commande par défaut pour lancer MLflow en mode serveur local
-#CMD ["mlflow", "server", "--host", "0.0.0.0", "--port", "5050", "--default-artifact-root", "/mlflow/mlruns", "--dev"]
+CMD ["mlflow", "server", "--host", "0.0.0.0", "--port", "5050", "--default-artifact-root", "/mlflow/mlruns", "--dev"]
