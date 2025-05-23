@@ -1,13 +1,17 @@
+import json
 from datetime import datetime, timedelta
 
 import pymongo
 import redis
 from airflow.models import Variable
 from airflow.operators.python import PythonOperator
-
 from airflow import DAG
+import mlflow
+import joblib
+import numpy as np
+from sentence_transformers import SentenceTransformer
 
-# === VARIABLES ===
+# === VARIABLES DE CONFIGURATION ===
 
 REDIS_HOST = Variable.get("REDIS_HOST")
 REDIS_PORT = int(Variable.get("REDIS_PORT"))
@@ -15,9 +19,12 @@ REDIS_QUEUE = Variable.get("REDIS_CLASSQ")
 
 MONGO_URI = Variable.get("MONGO_URI")
 MONGO_DB = Variable.get("MONGO_DB")
-MONGO_COLLECTION = Variable.get("MONGO_CLASSIFIY")
+MONGO_COLLECTION = Variable.get("MONGO_CLASSIFY")
 
 MLFLOW_TRACKING_URI = Variable.get("MLFLOW_TRACKING_URI")
+MLFLOW_LOCAL = "/opt/airflow/mlflow"
+MODEL_NAME = "all-MiniLM-L6-v2"
+
 
 # === CONNEXIONS AUX BASES DE DONNÉES ===
 
@@ -33,42 +40,65 @@ def get_mongo_collection():
     return db[MONGO_COLLECTION]
 
 
-
-# === CLASSIFY ===
-
-
-# === TASK: Classify Articles from Redis ===
+# === TÂCHES ===
 
 def classify_articles_from_redis():
-    # redis_client = get_redis_client()
-    # mongo_collection = get_mongo_collection()
-    #
-    # while True:
-    #     item = redis_client.lpop(REDIS_QUEUE_NAME)
-    #     if not item:
-    #         print("[INFO] Aucun élément à classifier.")
-    #         break
-    #
-    #     article = json.loads(item)
-    #     title = article.get("title", "")
-    #     summary = article.get("summary", "")
-    #
-    #     print(f"[INFO] Classification de l'article : {article.get('id')}")
-    #
-    #     try:
-    #         classification_result = classify_article(title, summary)
-    #         log_with_mlflow(title, summary, classification_result)
-    #         article["predicted_category"] = classification_result["label"]
-    #         article["classification_confidence"] = classification_result["score"]
-    #         mongo_collection.insert_one(article)
-    #         print(f"[OK] Classification enregistrée avec succès.")
-    #     except Exception as e:
-    #         print(f"[ERREUR] Problème lors de la classification : {e}")
-    #         redis_client.lpush(REDIS_QUEUE_NAME, item)
-    pess
+    """
+    Consomme des articles depuis Redis, applique une classification ML,
+    et stocke le résultat enrichi dans MongoDB si l'article est nouveau.
+    """
+    redis_client = get_redis_client()
+    mongo_collection = get_mongo_collection()
+
+    mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
+    model_uri = "models:/arxiv_classification/Production"
+
+    try:
+        model = mlflow.sklearn.load_model(model_uri)
+        encoder = joblib.load(f"{MLFLOW_LOCAL}/label_encoder.pkl")
+    except Exception as e:
+        print(f"[ERREUR] Chargement du modèle ou de l’encodeur impossible : {e}")
+        return
+
+    embedder = SentenceTransformer(MODEL_NAME)
+
+    while True:
+        item = redis_client.lpop(REDIS_QUEUE)
+        if not item:
+            print("[INFO] File Redis vide. Fin du traitement.")
+            break
+
+        article = json.loads(item)
+        article_id = article.get("id")
+
+        if mongo_collection.find_one({"id": article_id}):
+            print(f"[INFO] Article {article_id} déjà présent dans MongoDB. Ignoré.")
+            continue
+
+        if "category" not in article:
+            print(f"[INFO] Article sans catégorie. Ignoré.")
+            continue
+
+        text = article["title"] + " " + article["summary"]
+        category = article["category"]
+        main_category = category.split('.')[0]
+
+        embedded_text = embedder.encode([text])
+        predicted_class = model.predict(embedded_text)[0]
+        label = encoder.inverse_transform([predicted_class])[0]
+        article[label] = label  # Ajout de la classification au document
+
+        print(f"Texte classé comme : {label}. Catégorie réelle {main_category}.")
+
+        try:
+            mongo_collection.insert_one(article)
+            print(f"[OK] Article inséré dans MongoDB avec classification.")
+        except Exception as e:
+            print(f"[ERREUR] Échec de l'insertion MongoDB : {e}")
+            redis_client.lpush(REDIS_QUEUE, item)
 
 
-# === DAG DEFINITION ===
+# === DEFINITION DU DAG AIRFLOW ===
 
 default_args = {
     'owner': 'airflow',
@@ -85,9 +115,9 @@ with DAG(
         catchup=False,
         tags=["arxiv", "classification", "huggingface", "mlflow"],
 ) as dag:
-    classify_task = PythonOperator(
-        task_id="classify_and_log_article",
+    classify_articles_from_redis = PythonOperator(
+        task_id="classify_articles_from_redis",
         python_callable=classify_articles_from_redis,
     )
 
-    classify_task
+    classify_articles_from_redis

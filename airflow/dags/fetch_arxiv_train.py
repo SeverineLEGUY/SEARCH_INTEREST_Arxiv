@@ -17,7 +17,7 @@ REDIS_HOST = Variable.get("REDIS_HOST")
 REDIS_PORT = int(Variable.get("REDIS_PORT"))
 REDIS_QUEUE = Variable.get("REDIS_TRAINQ")  # File Redis dédiée à l'entraînement
 
-MAX_RESULTS = 3000
+MAX_RESULTS = 100
 
 # === INITIALISATION CLIENT REDIS ===
 

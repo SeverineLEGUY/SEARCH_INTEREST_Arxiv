@@ -5,7 +5,8 @@
 __pycache__/
 airflow/logs/
 airflow/plugins/
-mlruns/
+airflow/mlflow/
+mlfow/mlruns/
 db/
 
 airflow/dags/clessify_article.py

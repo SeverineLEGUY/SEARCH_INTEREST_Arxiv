@@ -71,7 +71,7 @@ Le résultat attendu doit être un texte en français, sans balises ni annotatio
 
 # === TÂCHE : Résumer les articles depuis Redis et stocker dans MongoDB ===
 
-def process_articles_from_redis():
+def summarize_articles_from_redis():
     """
     Consomme les articles depuis Redis, génère un résumé FR avec MistralAI,
     et insère le résultat enrichi dans MongoDB. Évite les doublons.
@@ -136,9 +136,9 @@ with DAG(
         tags=["arxiv", "llm", "redis", "mongo", "mistral"],
 ) as dag:
     # Tâche unique : traitement des articles depuis Redis
-    summarize_and_store_article = PythonOperator(
-        task_id="summarize_and_store_article",
-        python_callable=process_articles_from_redis,
+    summarize_articles_from_redis = PythonOperator(
+        task_id="summarize_articles_from_redis",
+        python_callable=summarize_articles_from_redis,
     )
 
-    summarize_and_store_article
+    summarize_articles_from_redis

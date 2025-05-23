@@ -28,7 +28,6 @@ MLFLOW_TRACKING_URI = Variable.get("MLFLOW_TRACKING_URI")
 MLFLOW_LOCAL = "/opt/airflow/mlflow"
 
 # === CONFIGURATION MLFLOW ===
-os.environ["MLFLOW_TRACKING_URI"] = MLFLOW_TRACKING_URI
 os.environ["TOKENIZERS_PARALLELISM"] = "false"  # Évite les warnings de Hugging Face
 
 MODEL_NAME = "all-MiniLM-L6-v2"
@@ -55,7 +54,9 @@ def train_model_from_redis():
         sample = json.loads(item)
         if "category" in sample:
             text = sample["title"] + " " + sample["summary"]
-            data.append({"text": text, "label": sample["category"]})
+            category = sample["category"]
+            main_category = category.split('.')[0]
+            data.append({"text": text, "label": main_category})
 
     if not data:
         print("Aucune donnée disponible pour l'entraînement.")
@@ -87,7 +88,7 @@ def train_model_from_redis():
 
     # Embedding avec SentenceTransformer
     embedder = SentenceTransformer(MODEL_NAME)
-    embedded_texts = embedder.encode(texts, show_progress_bar=False)
+    embedded_texts = embedder.encode(texts, show_progress_bar=True)
 
     # Entraînement du modèle
     model = LogisticRegression(max_iter=1000)
@@ -121,14 +122,21 @@ def train_model_from_redis():
             artifact_path="model",
             input_example=input_example
         )
+        print("C")
 
         # Log du fichier de données
+        print("D")
         mlflow.log_artifact(data_file)
+        print("E")
 
         # Sauvegarde du LabelEncoder
+        print("F")
         label_encoder_file = f"{MLFLOW_LOCAL}/label_encoder.pkl"
+        print("G")
         joblib.dump(encoder, label_encoder_file)
+        print("H")
         mlflow.log_artifact(label_encoder_file)
+        print("I")
 
 
 # === DEFINITION DU DAG AIRFLOW ===

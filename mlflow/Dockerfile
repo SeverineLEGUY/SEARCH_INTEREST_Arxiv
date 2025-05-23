@@ -7,17 +7,15 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+RUN mkdir /mlflow && chmod -R 777 /mlflow
+
 # Set the working directory to the user's home directory
 WORKDIR /mlflow
-
-ENV HOME=/mlflow \
-	PATH=/home/user/.local/bin:$PATH
 
 # Try and run pip command after setting the user with `USER user` to avoid permission issues with Python
 RUN pip install --no-cache-dir --upgrade pip
 
 COPY requirements.txt /mlflow
-RUN chmod -R 777 /mlflow
 
 # Install MLflow
 RUN pip install --no-cache-dir -r requirements.txt

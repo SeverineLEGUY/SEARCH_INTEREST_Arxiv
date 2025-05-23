@@ -8,6 +8,8 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+RUN mkdir /mlflow && chmod -R 777 /mlflow
+
 USER airflow
 
 # Set the working directory to the user's home directory
