@@ -58,7 +58,7 @@ services:
     volumes:
       - ./db/mlflow:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD", "pg_isready", "-U", "airflow" ]
+      test: [ "CMD", "pg_isready", "-U", "mlflow" ]
       interval: 5s
       retries: 5
 
@@ -213,7 +213,7 @@ services:
   # ========================================
   frontend-run-ui:
     build: ./frontend
-    command: streamlit run app.py --server.port=8501 -server.headless=true --server.enableCORS=false --server.enableXsrfProtection=false
+    command: streamlit run app.py --server.port=8501 --server.headless=true --server.enableCORS=false --server.enableXsrfProtection=false
     ports:
       - "8501:8501"
     volumes:
