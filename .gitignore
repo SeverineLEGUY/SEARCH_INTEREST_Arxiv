@@ -9,5 +9,4 @@ airflow/mlflow/
 mlfow/mlruns/
 db/
 
-airflow/dags/clessify_article.py
 mlflow_example.py
