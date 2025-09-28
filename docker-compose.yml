@@ -258,5 +258,5 @@ volumes:
   airflow:
   mlflow:
   mlruns:
-  ample-jenkins-server_jenkins-data:
+  sample-jenkins-server_jenkins-data:
 
