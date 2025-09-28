@@ -238,7 +238,7 @@ services:
     depends_on:
       mlflow-run-postgres:
         condition: service_healthy
-
+  
 # ========================================
 # === VOLUMES PERSISTANTS
 # ========================================
@@ -247,3 +247,4 @@ volumes:
   airflow:
   mlflow:
   mlruns:
+
