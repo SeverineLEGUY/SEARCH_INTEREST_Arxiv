@@ -88,6 +88,11 @@ def classify_articles_from_redis():
         label = encoder.inverse_transform([predicted_class])[0]
         article[label] = label  # Ajout de la classification au document
 
+       # POUR EVIDENTLY  ===
+        # Convertir l'array NumPy en liste Python pour MongoDB.
+        # On stocke le vecteur embedded_text (nos features) sous la clé 'embedding'.
+        article['embedding'] = embedded_text[0].tolist() 
+
         print(f"Texte classé comme : {label}. Catégorie réelle {main_category}.")
 
         try:

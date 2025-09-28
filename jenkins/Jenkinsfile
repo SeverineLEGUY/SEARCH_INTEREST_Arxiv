@@ -1,0 +1,80 @@
+pipeline {
+    agent any
+
+    environment {
+        TEST_IMAGE = 'arxive-tests'
+        APP_IMAGE = 'arxiv-app'
+        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+        AWS_DEFAULT_REGION = 'eu-north-1'
+        S3_BUCKET_NAME ='bucketarxiv' 
+    }
+
+    stages {
+        
+        stage('Clone Repository') {
+            steps {
+                git branch: 'main', url: 'https://github.com/00-10-01-11/dsl-31-final-project.git'
+            }
+        }
+
+        stage('Build Test Container') {
+            steps {
+                sh 'docker build -t ${TEST_IMAGE} -f tests/Dockerfile .'
+            }
+        }
+
+        stage('Run Unit Tests') {
+            steps {
+                sh '''
+                    docker run --rm \
+                        --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
+                        --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
+                        --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \
+                        ${TEST_IMAGE}
+            '''
+            }
+        }
+
+        stage('Build ETL Container') {
+            steps {
+                sh 'docker build -t ${APP_IMAGE} .'
+            }
+        }
+
+        stage('Run ETL and Upload to S3') {
+            steps {
+                script {
+                    echo "Starting ETL Process using image: ${APP_IMAGE}"
+                    
+                    // 1. Exécution de l'ETL
+                    sh "docker run --rm -v ${PWD}/data:/app/data ${APP_IMAGE} python etl_process.py"
+                    
+                    echo "ETL finished. Starting upload of output_data.csv to S3..."
+
+                    // 2. Upload vers S3
+                    sh '''
+                        docker run --rm \\
+                            --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\
+                            --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\
+                            --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\
+                            -v ${PWD}/data:/app/data \\
+                            ${APP_IMAGE} python upload_s3.py ${S3_BUCKET_NAME} data/output_data.csv
+                    '''
+                }
+            }
+        }
+    }
+
+    }
+
+    post {
+        success {
+            echo '✅ Test Pipeline completed successfully! Tests results sent to your Bucket!'
+        }
+        failure {
+            echo '❌ Test Pipeline failed.'
+        }
+    }
+}
+ 

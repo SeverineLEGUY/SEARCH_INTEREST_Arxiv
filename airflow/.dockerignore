@@ -1,0 +1,8 @@
+# Ignore les dossiers de logs et de données générés par les conteneurs
+airflow/logs/
+airflow/mlflow/
+.venv/
+__pycache__/
+
+# AJOUTEZ CECI pour contourner le verrouillage spécifique sur Windows/Mac
+**/logs/scheduler/latest

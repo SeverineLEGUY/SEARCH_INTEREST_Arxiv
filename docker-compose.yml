@@ -97,7 +97,7 @@ services:
     <<: *airflow-common
     entrypoint: >
       bash -c "
-      airflow db migrate &&
+      airflow db upgrade &&
       airflow users create --username admin --firstname Airflow --lastname Admin --role Admin --email admin@example.com --password admin &&
       python /opt/airflow/import_env_to_airflow.py
       "
@@ -113,7 +113,7 @@ services:
     env_file:
       - .env
     ports:
-      - "8080:8080"
+      - "8082:8080"
     healthcheck:
       test: [ "CMD", "curl", "--fail", "http://localhost:8080/health" ]
       interval: 10s
@@ -214,7 +214,7 @@ services:
   # ========================================
   frontend-run-ui:
     build: ./frontend
-    command: streamlit run app.py --server.port=8501 --server.headless=true --server.enableCORS=false --server.enableXsrfProtection=false
+    command: streamlit run app.py --server.port=8501 --server.headless=true --server.enableCORS=false --server.enableXsrfProtection=false --server.runOnSave true
     ports:
       - "8501:8501"
     volumes:

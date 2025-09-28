@@ -19,6 +19,19 @@ import uuid
 
 from airflow import DAG
 
+import pandas as pd
+
+
+from evidently.test_suite import TestSuite
+from evidently.test_preset import DataStabilityTestPreset
+
+from evidently.report import Report
+from evidently.metric_preset import DataDriftPreset
+
+from evidently.pipeline.column_mapping import ColumnMapping
+
+
+
 # === VARIABLES DE CONFIGURATION ===
 REDIS_HOST = Variable.get("REDIS_HOST")
 REDIS_PORT = int(Variable.get("REDIS_PORT"))
@@ -121,7 +134,7 @@ def train_model_from_redis():
             model,
             artifact_path="model",
             input_example=input_example
-        )
+            )
 
         # Log du fichier de données
         mlflow.log_artifact(data_file)
@@ -130,6 +143,69 @@ def train_model_from_redis():
         label_encoder_file = f"{MLFLOW_LOCAL}/label_encoder.pkl"
         joblib.dump(encoder, label_encoder_file)
         mlflow.log_artifact(label_encoder_file)
+
+        # ====================================================================
+        # === AJOUT CRITIQUE : Sauvegarder l'ID du run dans une Variable Airflow ===
+        # ====================================================================
+        
+        # Récupérer l'ID du run MLflow actuellement actif
+        current_run_id = mlflow.active_run().info.run_id
+        
+        # Mettre à jour la Variable Airflow qui sera lue par le DAG de monitoring
+        Variable.set("LATEST_TRAINING_RUN_ID", current_run_id) 
+        
+        print(f"MLflow Run ID du dernier entraînement sauvegardé : {current_run_id}")
+
+        # 1. Créer le DataFrame de Référence (Embeddings et Target)
+        df_reference = pd.DataFrame(
+            embedded_texts,
+            columns=[f"feature_{i}" for i in range(embedded_texts.shape[1])]
+            )
+# Ajout de la colonne 'target' pour un monitoring complet du Target Drift
+        df_reference['target'] = encoded_labels 
+
+# Définir le mapping des colonnes (utile surtout si les noms sont personnalisés, mais laissons-le pour l'exemple)
+        column_mapping = ColumnMapping(
+            target='target', 
+            numerical_features=[f"feature_{i}" for i in range(embedded_texts.shape[1])],
+            categorical_features=[] # Tous vos features sont des composantes d'embedding, donc numériques
+            )
+
+# 2. Sauvegarder le jeu de données de référence (CSV) et le logguer dans MLflow
+        reference_data_file = f"{MLFLOW_LOCAL}/reference_data.csv"
+        df_reference.to_csv(reference_data_file, index=False)
+        mlflow.log_artifact(reference_data_file, artifact_path="evidently_reference")
+        print(f"Jeu de données de référence Evidently sauvegardé dans MLflow.")
+
+        # 3. Générer la TestSuite (Data Stability)
+        # On vérifie la stabilité des données d'entraînement elles-mêmes (Reference vs Reference)
+        data_stability_test = TestSuite(tests=[DataStabilityTestPreset()])
+        data_stability_test.run(
+            current_data=df_reference, 
+            reference_data=df_reference, 
+            column_mapping=column_mapping
+        )
+# Sauvegarde du résultat du test (JSON et HTML)
+        test_suite_html = f"{MLFLOW_LOCAL}/initial_stability_test.html"
+        data_stability_test.save_html(test_suite_html)
+        mlflow.log_artifact(test_suite_html, artifact_path="evidently_report")
+        mlflow.log_metric("initial_data_stability_pass", int(data_stability_test.as_dict()['success']))
+        print(f"Test Suite de stabilité initiale générée et logguée: {data_stability_test.as_dict()['summary']['success']}")
+
+    # 4. Générer le Report (Data Drift)
+    # Génération d'un rapport visuel initial (Reference vs Reference)
+        data_drift_report = Report(metrics=[DataDriftPreset()])
+        data_drift_report.run(
+            current_data=df_reference, 
+            reference_data=df_reference, 
+            column_mapping=column_mapping   
+        )
+# Sauvegarde du rapport (HTML)
+        report_file = f"{MLFLOW_LOCAL}/initial_drift_report.html"
+        data_drift_report.save_html(report_file)
+        mlflow.log_artifact(report_file, artifact_path="evidently_report")
+        print(f"Rapport de dérive initial sauvegardé dans MLflow.")
+
 
 # === DEFINITION DU DAG AIRFLOW ===
 
@@ -143,7 +219,8 @@ default_args = {
 with DAG(
         dag_id="arxiv_training",
         default_args=default_args,
-        schedule_interval=None,  # Déclenchement manuel ou via trigger externe
+        schedule_interval=None,  
+        # Déclenchement manuel ou via trigger externe
         catchup=False,
         tags=["arxiv", "ml", "training"]
 ) as dag:

@@ -13,3 +13,5 @@ redis
 scikit-learn
 sentence-transformers
 transformers
+pandas
+evidently==0.6.1
