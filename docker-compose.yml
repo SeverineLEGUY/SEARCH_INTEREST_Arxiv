@@ -243,7 +243,7 @@ services:
   # ========================================
 # === JENKINS
 # ========================================
-    jenkins-blueocean: # Nom du service Jenkins initial
+  jenkins-blueocean: # Nom du service Jenkins initial
     image: jenkins/jenkins:lts
     user: root 
     privileged: true # Peut être nécessaire pour le Docker-in-Docker
