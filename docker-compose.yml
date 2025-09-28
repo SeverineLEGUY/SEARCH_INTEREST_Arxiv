@@ -90,16 +90,7 @@ services:
       timeout: 5s
       retries: 5
 
-  jenkins-blueocean: # Nom du service Jenkins initial
-    image: jenkins/jenkins:lts
-    user: root 
-    privileged: true # Peut être nécessaire pour le Docker-in-Docker
-    ports:
-      - "8080:8080"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /usr/bin/docker:/usr/bin/docker
-      - sample-jenkins-server_jenkins-data:/var/jenkins_home
+
 
   # ========================================
   # === COMPOSANTS AIRFLOW
@@ -249,7 +240,20 @@ services:
     depends_on:
       mlflow-run-postgres:
         condition: service_healthy
-  
+  # ========================================
+# === JENKINS
+# ========================================
+    jenkins-blueocean: # Nom du service Jenkins initial
+    image: jenkins/jenkins:lts
+    user: root 
+    privileged: true # Peut être nécessaire pour le Docker-in-Docker
+    ports:
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+      - sample-jenkins-server_jenkins-data:/var/jenkins_home
+
 # ========================================
 # === VOLUMES PERSISTANTS
 # ========================================
@@ -258,5 +262,6 @@ volumes:
   airflow:
   mlflow:
   mlruns:
-  sample-jenkins-server_jenkins-data:
+  sample-jenkins-server_jenkins-data: 
+    external: true 
 
