@@ -4,8 +4,8 @@ WORKDIR /app
 
 # 1. Copie du fichier de dépendance spécifique aux tests
 # Le contexte de build étant la racine (.), le chemin est relatif à la racine.
-COPY jenkins/tests/requirements_tests.txt .
-RUN pip install --no-cache-dir -r requirements_tests.txt
+COPY jenkins/tests/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
 # 2. Copie du code de test et du code d'application
 # Le chemin DOIT être spécifié depuis la racine du contexte (la racine du projet)
