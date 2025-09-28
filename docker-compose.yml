@@ -243,18 +243,37 @@ services:
   # ========================================
 # === JENKINS
 # ========================================
-  jenkins-blueocean: # Nom du service Jenkins initial
+  jenkins-blueocean: # Conservez le nom de votre service (ici, jenkins-blueocean)
     image: jenkins/jenkins:lts
-    user: root 
-    privileged: true # Peut être nécessaire pour le Docker-in-Docker
+    container_name: sample-jenkins-server_jenkins-data # Le nom de conteneur que vous avez identifié
+    user: root  # C'est une bonne pratique ici pour éviter les problèmes de permissions liées au socket
+    privileged: true
     ports:
       - "8080:8080"
+
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /usr/bin/docker:/usr/bin/docker
+      # Ligne ESSENTIELLE : Permet la communication avec Docker de l'hôte
+      #- /var/run/docker.sock:/var/run/docker.sock 
+       # 2. Exécutable : Pour que la commande 'docker' existe à l'intérieur du conteneur (résout "executable file not found")
+      #- /usr/bin/docker:/usr/bin/docker 
       - sample-jenkins-server_jenkins-data:/var/jenkins_home
 
-# ========================================
+    depends_on:
+      - jenkins-docker
+      # ----------------------------------------
+# === DOCKER-IN-DOCKER SERVICE (NOUVEAU BLOC)
+# ----------------------------------------
+  jenkins-docker:
+    image: docker:dind
+    privileged: true
+    container_name: jenkins-docker # Gardez le nom cohérent avec le depends_on
+     # Exposer le port de l'API Docker pour que Jenkins puisse le contacter
+    ports:
+       - "2376:2376" 
+    volumes:
+      - jenkins-docker-certs:/certs/client # Pour la communication sécurisée si utilisée
+      - jenkins-data:/var/lib/docker # Pour persister les images/conteneurs construits par DinD
+
 # === VOLUMES PERSISTANTS
 # ========================================
 volumes:
@@ -264,4 +283,6 @@ volumes:
   mlruns:
   sample-jenkins-server_jenkins-data: 
     external: true 
-
+  jenkins-docker-certs:
+  jenkins-data:
+  

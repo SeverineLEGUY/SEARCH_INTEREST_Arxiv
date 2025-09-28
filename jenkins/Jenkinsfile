@@ -14,22 +14,26 @@ pipeline {
         stage('Build Test Container') {
             steps {
                 // S'assure que l'agent a le code (via SCM auto-géré) et le construit
-                sh 'docker build -t ${TEST_IMAGE} -f tests/Dockerfile .'
+                withEnv(["DOCKER_HOST=tcp://jenkins-docker:2376"]) {
+                    sh 'docker build -t arxive-tests -f tests/Dockerfile .'
+                 }
             }
         }
 
         stage('Run Unit Tests') {
             steps {
                 script {
-                    sh """
-                        docker run --rm \\
-                            --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\
-                            --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\
-                            --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\
-                            -v ${PWD}/tests:/app/tests \\ 
-                            ${TEST_IMAGE} \\
-                            /bin/bash -c "pytest --junitxml=/app/tests/junit-report.xml"
-                    """
+                    withEnv(["DOCKER_HOST=tcp://jenkins-docker:2376"]) {
+                        sh """
+                            docker run --rm \\
+                                --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\
+                                --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\
+                                --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\
+                                -v ${PWD}/tests:/app/tests \\ 
+                                ${TEST_IMAGE} \\
+                                /bin/bash -c "pytest --junitxml=/app/tests/junit-report.xml"
+                        """
+                    }
                 }
             }
             post {
