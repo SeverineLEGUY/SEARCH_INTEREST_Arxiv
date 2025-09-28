@@ -16,7 +16,7 @@ pipeline {
                 // S'assure que l'agent a le code (via SCM auto-géré) et le construit
                 withEnv(["DOCKER_HOST=tcp://jenkins-docker:2376"]) {
                     dir('jenkins') {
-                          sh 'docker build -t arxive-tests -f Dockerfile .' 
+                          sh 'docker build -t arxive-tests -f jenkins/tests/Dockerfile_test .' 
                         }
                  }
             }
@@ -31,7 +31,7 @@ pipeline {
                                 --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\
                                 --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\
                                 --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\
-                                -v ${PWD}/jenkins:/app/tests \\ 
+                                -v ${PWD}/jenkins/tests:/app/tests \\ 
                                 ${TEST_IMAGE} \\
                                 /bin/bash -c "pytest --junitxml=/app/tests/junit-report.xml"
                         """
@@ -40,7 +40,7 @@ pipeline {
             }
             post {
                 always {
-                    junit 'jenkins/junit-report.xml' 
+                    junit 'jenkins/tests/junit-report.xml' 
                 }
             }
         }
