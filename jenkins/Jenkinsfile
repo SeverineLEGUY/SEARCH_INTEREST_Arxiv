@@ -16,7 +16,7 @@ pipeline {
                 // S'assure que l'agent a le code (via SCM auto-géré) et le construit
                 withEnv(["DOCKER_HOST=tcp://jenkins-docker:2376"]) {
                     // sh 'docker build -t arxive-tests -f jenkins/tests/Dockerfile_test .' 
-                    sh "docker build -t arxive-tests -f ${WORKSPACE}/jenkins/tests/Dockerfile_test ." 
+                    sh 'docker build -t arxive-tests -f tests/Dockerfile_test jenkins/' 
                         
                  }
             }
