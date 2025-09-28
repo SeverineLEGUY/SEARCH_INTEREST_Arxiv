@@ -20,7 +20,7 @@ pipeline {
                         sh 'docker build -t arxive-tests -f tests/Dockerfile_test .'
                         
                  }
-            }
+            }exi
         }
 
         stage('Run Unit Tests') {
@@ -48,7 +48,10 @@ pipeline {
 
         stage('Build ETL Container') {
             steps {
-                sh 'docker build -t ${APP_IMAGE} .'
+                withEnv(["DOCKER_HOST=tcp://jenkins-docker:2376"]) { // Ajout de withEnv pour DinD
+                    dir('jenkins') { // Déplacement dans le dossier
+                         // Assumant que le Dockerfile principal est nommé "Dockerfile" et se trouve dans jenkins/
+                        sh 'docker build -t ${APP_IMAGE} .'
             }
         }
 
