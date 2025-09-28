@@ -244,7 +244,8 @@ services:
 # === JENKINS
 # ========================================
   jenkins-blueocean: # Conservez le nom de votre service (ici, jenkins-blueocean)
-    image: jenkins/jenkins:lts
+    #image: jenkins/jenkins:lts
+    build: ./jenkins
     container_name: sample-jenkins-server_jenkins-data # Le nom de conteneur que vous avez identifié
     user: root  # C'est une bonne pratique ici pour éviter les problèmes de permissions liées au socket
     privileged: true
