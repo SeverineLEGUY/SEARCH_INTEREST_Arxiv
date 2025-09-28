@@ -15,8 +15,9 @@ pipeline {
             steps {
                 // S'assure que l'agent a le code (via SCM auto-géré) et le construit
                 withEnv(["DOCKER_HOST=tcp://jenkins-docker:2376"]) {
-                    // sh 'docker build -t arxive-tests -f jenkins/tests/Dockerfile_test .' 
-                    sh "docker build -t ${TEST_IMAGE} -f jenkins/tests/Dockerfile_test ." 
+                    dir('jenkins') {
+                    // Le contexte de build est maintenant jenkins/, donc le Dockerfile est relatif à jenkins/
+                        sh 'docker build -t arxive-tests -f tests/Dockerfile_test .'
                         
                  }
             }
