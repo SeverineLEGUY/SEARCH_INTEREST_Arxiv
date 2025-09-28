@@ -14,7 +14,7 @@ pipeline {
         
         stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/00-10-01-11/dsl-31-final-project.git'
+                git branch: 'main', url: 'https://github.com/SeverineLEGUY/SEARCH_INTEREST_Arxiv.git'
             }
         }
 
@@ -26,13 +26,25 @@ pipeline {
 
         stage('Run Unit Tests') {
             steps {
-                sh '''
-                    docker run --rm \
-                        --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
-                        --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
-                        --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \
-                        ${TEST_IMAGE}
-            '''
+                script {
+                    sh """
+                        docker run --rm \\
+                            --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\
+                            --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\
+                            --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\
+                            -v ${PWD}/tests:/app/tests \\ ⬅️ Montage du volume pour le rapport
+                            ${TEST_IMAGE} \\
+                            /bin/bash -c "pytest --junitxml=/app/tests/junit-report.xml" ⬅️ Commande qui lance pytest
+                    """
+                }
+            }
+        }
+
+        post {
+                always {
+                    // Archive et affiche les résultats des tests dans Jenkins
+                    junit 'tests/junit-report.xml' 
+                }
             }
         }
 
