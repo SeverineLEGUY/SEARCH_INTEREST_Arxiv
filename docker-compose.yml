@@ -99,7 +99,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker
-      - jenkins-data:/var/jenkins_home
+      - sample-jenkins-server_jenkins-data:/var/jenkins_home
 
   # ========================================
   # === COMPOSANTS AIRFLOW
@@ -258,5 +258,5 @@ volumes:
   airflow:
   mlflow:
   mlruns:
-  jenkins-data:
+  ample-jenkins-server_jenkins-data:
 
