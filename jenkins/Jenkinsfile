@@ -4,6 +4,7 @@ pipeline {
     environment {
         TEST_IMAGE = 'arxive-tests'
         APP_IMAGE = 'arxiv-app'
+        // Assurez-vous que ces variables sont bien des identifiants Jenkins
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
         AWS_DEFAULT_REGION = 'eu-north-1'
@@ -32,17 +33,15 @@ pipeline {
                             --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\
                             --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\
                             --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\
-                            -v ${PWD}/tests:/app/tests \\ ⬅️ Montage du volume pour le rapport
+                            -v ${PWD}/tests:/app/tests \\ 
                             ${TEST_IMAGE} \\
-                            /bin/bash -c "pytest --junitxml=/app/tests/junit-report.xml" ⬅️ Commande qui lance pytest
+                            /bin/bash -c "pytest --junitxml=/app/tests/junit-report.xml"
                     """
                 }
             }
-        }
-
-        post {
+            // Bloc post spécifique à ce stage, pour archiver les résultats JUnit
+            post {
                 always {
-                    // Archive et affiche les résultats des tests dans Jenkins
                     junit 'tests/junit-report.xml' 
                 }
             }
@@ -59,7 +58,7 @@ pipeline {
                 script {
                     echo "Starting ETL Process using image: ${APP_IMAGE}"
                     
-                    // 1. Exécution de l'ETL
+                    // 1. Exécution de l'ETL (génère output_data.csv dans /data)
                     sh "docker run --rm -v ${PWD}/data:/app/data ${APP_IMAGE} python etl_process.py"
                     
                     echo "ETL finished. Starting upload of output_data.csv to S3..."
@@ -76,17 +75,15 @@ pipeline {
                 }
             }
         }
-    }
-
-    }
-
-    post {
+    } // <-- Ferme le bloc stages
+    
+    // Bloc post du PIPELINE (s'exécute après tous les stages)
+    post { 
         success {
-            echo '✅ Test Pipeline completed successfully! Tests results sent to your Bucket!'
+            echo '✅ Pipeline completed successfully!'
         }
         failure {
-            echo '❌ Test Pipeline failed.'
+            echo '❌ Pipeline failed.'
         }
     }
-}
- 
+} 
