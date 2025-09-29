@@ -3,9 +3,16 @@ import pytest
 from unittest.mock import patch, MagicMock
 
 # === PATCH AVANT IMPORT ===
-# On force Variable.get à retourner "cs.AI" dès le départ,
-# pour que fetch_arxiv.py puisse s'importer sans planter.
-patcher = patch("airflow.models.Variable.get", return_value="cs.AI")
+# On définit des valeurs différentes selon la variable demandée
+def fake_variable_get(key, default_var=None):
+    if key == "ARXIV_CATEGORY":
+        return "cs.AI"
+    elif key == "START_DATE":
+        return "2025-01-01T00:00:00Z"
+    else:
+        return default_var or "dummy"
+
+patcher = patch("airflow.models.Variable.get", side_effect=fake_variable_get)
 patcher.start()
 
 # Ensuite on importe fetch_arxiv (cette fois sans erreur)
