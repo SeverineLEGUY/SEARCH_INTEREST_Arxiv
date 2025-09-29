@@ -36,7 +36,7 @@ pipeline {
                         --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \
                         --env S3_BUCKET=${S3_BUCKET_NAME} \
                         -v /var/jenkins_home/workspace/Pipeline-Arxiv-FINAL:/app \
-                        ${TEST_IMAGE} /bin/bash -c "PYTHONPATH=/app pytest jenkins/tests --junitxml=/app/jenkins/tests/junit-report.xml"
+                        ${TEST_IMAGE} /bin/bash -c "PYTHONPATH=/app pytest . --junitxml=/app/jenkins/tests/junit-report.xml"
                     '''
                  }
             }
