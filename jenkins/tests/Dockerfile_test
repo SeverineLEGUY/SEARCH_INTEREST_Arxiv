@@ -1,27 +1,20 @@
 FROM python:3.9-slim
 
-# Mettre à jour apt et installer pip et dépendances de base
+#  Installer les dépendances système nécessaires
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        build-essential \
-        curl \
+    build-essential \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Créer un répertoire de travail
+#  Définir le répertoire de travail
 WORKDIR /app
 
-# 1. Copier requirements et installer
-# L'image est maintenant construite depuis la racine du projet, 
-# donc le chemin de requirements.txt doit inclure 'jenkins/tests/'
+#  Copier et installer les dépendances Python
 COPY jenkins/tests/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 2. Copier l'intégralité du projet dans le conteneur
-# 'COPY . ./' copie la racine du dépôt (votre contexte de build) dans /app.
-# Cela garantit que TOUS les fichiers du projet (y compris les fichiers de config
-# ou les modules manquants) sont présents pour Pytest.
-COPY . ./\
+#  Copier le reste du projet
+COPY . .
 
-# Par défaut, lancer pytest sur le répertoire des tests
-# Nous changeons le répertoire cible de Pytest pour qu'il s'exécute sur le dossier 'jenkins/tests' 
-# à l'intérieur du conteneur (/app/jenkins/tests).
+# 6️ Commande par défaut pour exécuter les tests unitaires
 CMD ["pytest", "jenkins/tests", "--junitxml=junit-report.xml"]
