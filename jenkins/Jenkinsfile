@@ -14,9 +14,11 @@ pipeline {
 
         stage('Build Test Container') {
             steps {
-                dir('jenkins') {
-                    // Le contexte de build est jenkins/tests/
-                    sh 'docker build -t arxive-tests -f tests/Dockerfile_test tests'
+                // MODIFICATION 1 : Changement du contexte de build
+                // Exécuté à la racine du workspace (dir('.')) pour inclure TOUS les fichiers du projet
+                dir('.') { 
+                    // Utilise '.' (la racine du projet) comme contexte de build à la fin de la commande
+                    sh "docker build -t ${TEST_IMAGE} -f jenkins/tests/Dockerfile_test ."
                 }
             }
         }
@@ -24,7 +26,8 @@ pipeline {
         stage('Run Unit Tests') {
             steps {
                 script {
-                    dir('jenkins') {
+                    // MODIFICATION 2 : Exécuté à la racine du workspace pour un chemin absolu
+                    dir('.') {
                         sh """
                         docker run --rm \\
                             --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\
@@ -37,7 +40,8 @@ pipeline {
             }
             post {
                 always {
-                    // Publie le rapport JUnit dans Jenkins
+                    // Le rapport JUnit se trouve maintenant dans le chemin 'jenkins/tests' de l'image Docker,
+                    // et doit être récupéré depuis la racine du workspace Jenkins.
                     junit 'jenkins/tests/junit-report.xml'
                 }
             }

@@ -9,12 +9,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Créer un répertoire de travail
 WORKDIR /app
 
-# Copier requirements et installer
-COPY requirements.txt .
+# 1. Copier requirements et installer
+# L'image est maintenant construite depuis la racine du projet, 
+# donc le chemin de requirements.txt doit inclure 'jenkins/tests/'
+COPY jenkins/tests/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copier les fichiers de test
-COPY test_fetch_arxiv.py fetch_arxiv.py ./
+# 2. Copier l'intégralité du projet dans le conteneur
+# 'COPY . ./' copie la racine du dépôt (votre contexte de build) dans /app.
+# Cela garantit que TOUS les fichiers du projet (y compris les fichiers de config
+# ou les modules manquants) sont présents pour Pytest.
+COPY . ./\
 
-# Par défaut, lancer pytest sur /app
-CMD ["pytest", "--junitxml=junit-report.xml"]
+# Par défaut, lancer pytest sur le répertoire des tests
+# Nous changeons le répertoire cible de Pytest pour qu'il s'exécute sur le dossier 'jenkins/tests' 
+# à l'intérieur du conteneur (/app/jenkins/tests).
+CMD ["pytest", "jenkins/tests", "--junitxml=junit-report.xml"]
