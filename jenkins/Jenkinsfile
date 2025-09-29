@@ -17,11 +17,11 @@ pipeline {
 
     stages {
 
-        stage('Build ETL Container') {
+        stage('Build ETL Application') {
     steps {
         dir('.') { 
             // Utilise le Dockerfile dans 'jenkins/', qui doit être le Dockerfile Python
-            sh "docker build -t ${APP_IMAGE} -f jenkins/Dockerfile ."
+            sh "docker build -t ${APP_IMAGE} -f jenkins/tests/Dockerfile_test ."
                 }
             }
         }
@@ -48,15 +48,7 @@ pipeline {
             }
         }
 
-        stage('Build ETL Container') {
-            steps {
-                dir('jenkins') {
-                    // Suppose que le Dockerfile de l'application (APP_IMAGE) est dans le dossier 'jenkins'
-                    sh "docker build -t ${APP_IMAGE} ."
-                }
-            }
-        }
-
+     
         stage('Run ETL and Upload to S3') {
             steps {
                 dir('.') {
