@@ -1,13 +1,20 @@
 FROM python:3.9-slim
 
+# Mettre à jour apt et installer pip et dépendances de base
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        build-essential \
+        curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Créer un répertoire de travail
 WORKDIR /app
 
-# Copier tous les fichiers Python et le requirements.txt depuis le contexte
-COPY *.py .
+# Copier requirements et installer
 COPY requirements.txt .
-
-# Installer les dépendances
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Optionnel : créer un sous-dossier pour les tests si besoin
-# COPY tests/ /app/tests/
+# Copier les fichiers de test
+COPY test_fetch_arxiv.py fetch_arxiv.py ./
+
+# Par défaut, lancer pytest sur /app
+CMD ["pytest", "--junitxml=junit-report.xml"]

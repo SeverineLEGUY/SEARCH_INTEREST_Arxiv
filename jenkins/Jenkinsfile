@@ -1,101 +1,88 @@
-pipeline { //1
+pipeline {
     agent any
 
-    environment { //2
+    environment {
         TEST_IMAGE = 'arxive-tests'
         APP_IMAGE = 'arxiv-app'
         AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
         AWS_DEFAULT_REGION    = 'eu-west-3'
         S3_BUCKET_NAME        = 'bucketarxiv'
-    } //2
+    }
 
-    stages { //2
-        
-        
-        stage('Build Test Container') { //3
-            steps { //4
-                // S'assure que l'agent a le code (via SCM auto-géré) et le construit
-            //    withEnv(["DOCKER_HOST=tcp://jenkins-docker:2376"]) {  //5
-                    dir('jenkins') { //6
-                    // Le contexte de build est maintenant jenkins/, donc le Dockerfile est relatif à jenkins/
-                        sh 'docker build -t arxive-tests -f tests/Dockerfile_test .'
-                    } //6 
-            //     } //5
-            } //4
-        } //3
+    stages {
 
-        stage('Run Unit Tests') { //3
-            steps { //4
-                script { //5
+        stage('Build Test Container') {
+            steps {
+                dir('jenkins') {
+                    // Le contexte de build est jenkins/tests/
+                    sh 'docker build -t arxive-tests -f tests/Dockerfile_test tests'
+                }
+            }
+        }
+
+        stage('Run Unit Tests') {
+            steps {
+                script {
                     dir('jenkins') {
-                    //
                         sh """
                         docker run --rm \\
                             --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\
                             --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\
                             --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\
-                            ${TEST_IMAGE} \\
-                            export AIRFLOW__VARIABLES__ARXIV_CATEGORY=cs.AI
-                            pytest /app/tests --junitxml=/app/tests/junit-report.xml
-                    """
+                            ${TEST_IMAGE}
+                        """
                     }
-                    // /bin/bash -c "pytest /app/tests --junitxml=/app/tests/junit-report.xml"
-                    // -v ${WORKSPACE}/jenkins/tests:/app/tests \\
-                }  //5
-            } //4
-            post { //4
-                always {  //5   
-                    junit 'jenkins/tests/junit-report.xml' 
-                } //5
-        } //4
-        } //3
+                }
+            }
+            post {
+                always {
+                    // Publie le rapport JUnit dans Jenkins
+                    junit 'jenkins/tests/junit-report.xml'
+                }
+            }
+        }
 
-        stage('Build ETL Container') { //3
-            steps { //4
-            // withEnv(["DOCKER_HOST=tcp://jenkins-docker:2376"]) { // 5
-                dir('jenkins') { // 6
-                // Assumant que le Dockerfile principal est nommé "Dockerfile" et se trouve dans jenkins/
+        stage('Build ETL Container') {
+            steps {
+                dir('jenkins') {
+                    // Construit le container principal pour le ETL
                     sh "docker build -t ${APP_IMAGE} ."
-                            } // 6 - Ferme dir('jenkins')
-            //            } // 5
+                }
+            }
+        }
 
-                    } // 4
-                 } // 3
-
-        stage('Run ETL and Upload to S3') { //3
-            steps { //4
-                script { //5
-                  dir('jenkins') {
-                    echo "Starting ETL Process using image: ${APP_IMAGE}"
-                    
-                    // On utilise le code du workspace monté en volume
-                    sh "docker run --rm -v ${WORKSPACE}/data:/app/data ${APP_IMAGE} python etl_process.py"
-                    
-                    echo "ETL finished. Starting upload of output_data.csv to S3..."
-
-                    // 2. Upload vers S3
-                    sh """
+        stage('Run ETL and Upload to S3') {
+            steps {
+                script {
+                    dir('jenkins') {
+                        echo "Starting ETL Process using image: ${APP_IMAGE}"
+                        
+                        // Exécuter le processus ETL
+                        sh "docker run --rm -v ${WORKSPACE}/data:/app/data ${APP_IMAGE} python etl_process.py"
+                        
+                        echo "ETL finished. Uploading output_data.csv to S3..."
+                        
+                        // Upload vers S3
+                        sh """
                         docker run --rm \\
                             --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\
                             --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\
-                            --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\                            
+                            --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\
                             ${APP_IMAGE} python upload_s3.py ${S3_BUCKET_NAME} data/output_data.csv
-                    """
-                    } // -v ${WORKSPACE}/data:/app/data \\
-                } //5
-            } //4
-       
-   
-      } //3
-    } //2
-    post { //4
-        success { //5
+                        """
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        success {
             echo '✅ Pipeline completed successfully!'
-        } //5
-        failure { //5
+        }
+        failure {
             echo '❌ Pipeline failed.'
-            } //5
-        } //4
-      
-} 
+        }
+    }
+}

@@ -1,7 +1,9 @@
+# test_fetch_arxiv.py
 import pytest
 from unittest.mock import patch, MagicMock
 
 # === PATCH AVANT IMPORT ===
+# Simule les variables Airflow pour que fetch_arxiv s'importe correctement
 def fake_variable_get(key, default_var=None):
     if key == "ARXIV_CATEGORY":
         return "cs.AI"
@@ -17,10 +19,10 @@ def fake_variable_get(key, default_var=None):
 patcher = patch("airflow.models.Variable.get", side_effect=fake_variable_get)
 patcher.start()
 
-# Maintenant l'import marche
+# Import après le patch pour éviter les erreurs de Variable.get
 from fetch_arxiv import fetch_arxiv, push_to_redis
 
-# On arrête le patch une fois la session terminée
+# On arrête le patch à la fin de la session pytest
 @pytest.fixture(scope="session", autouse=True)
 def stop_patcher():
     yield
