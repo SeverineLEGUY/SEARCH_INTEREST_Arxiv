@@ -2,15 +2,20 @@
 import pytest
 from unittest.mock import patch, MagicMock
 
-# === FIXTURE POUR PATCHER AIRFLOW.VARIABLE ===
-# On force Variable.get à retourner "cs.AI" avant même l'import de fetch_arxiv,
-# ce qui évite toute erreur liée à la base SQLite d'Airflow.
-@pytest.fixture(autouse=True)
-def patch_variable_get(monkeypatch):
-    monkeypatch.setattr("airflow.models.Variable.get", lambda key, default=None: "cs.AI")
+# === PATCH AVANT IMPORT ===
+# On force Variable.get à retourner "cs.AI" dès le départ,
+# pour que fetch_arxiv.py puisse s'importer sans planter.
+patcher = patch("airflow.models.Variable.get", return_value="cs.AI")
+patcher.start()
 
-# On importe ensuite les fonctions de fetch_arxiv (après le patch de Variable.get)
+# Ensuite on importe fetch_arxiv (cette fois sans erreur)
 from fetch_arxiv import fetch_arxiv, push_to_redis
+
+# On arrête le patch automatiquement à la fin des tests
+@pytest.fixture(scope="session", autouse=True)
+def stop_patcher():
+    yield
+    patcher.stop()
 
 # === MOCK ENTRY CONSTRUCTION ===
 def make_mock_entry():
