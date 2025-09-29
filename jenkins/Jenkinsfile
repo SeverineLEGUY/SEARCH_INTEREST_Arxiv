@@ -35,6 +35,7 @@ pipeline {
                         --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
                         --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \
                         --env S3_BUCKET=${S3_BUCKET_NAME} \
+                        --env PYTHONPATH=/app \
                         -v /var/jenkins_home/workspace/Pipeline-Arxiv-FINAL:/app \
                         ${TEST_IMAGE} pytest --pyargs jenkins.tests --junitxml=/app/jenkins/tests/junit-report.xml
                     '''
