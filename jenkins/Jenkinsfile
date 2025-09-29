@@ -19,9 +19,9 @@ pipeline {
 
         stage('Build ETL Container') {
     steps {
-        dir('jenkins') {
+        dir('.') { 
             // Utilise le Dockerfile dans 'jenkins/', qui doit être le Dockerfile Python
-            sh "docker build -t ${APP_IMAGE} ." 
+            sh "docker build -t ${APP_IMAGE} -f jenkins/Dockerfile ."
                 }
             }
         }
