@@ -29,7 +29,7 @@ pipeline { //1
             steps { //4
                 script { //5
                    // dir('jenkins') 
-                    {
+                    //{
                         sh """
                         docker run --rm \\
                             --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\
