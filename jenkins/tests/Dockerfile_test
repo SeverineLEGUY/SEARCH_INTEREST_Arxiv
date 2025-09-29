@@ -1,17 +1,14 @@
-# Dockerfile_test
 FROM python:3.9-slim
 
-# Définir le répertoire de travail
+# Définir le répertoire de travail dans le container
 WORKDIR /app
 
-# Installer les dépendances de tests
-COPY tests/requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copier le code applicatif nécessaire aux tests
+# Copier les fichiers nécessaires dans le container
 COPY etl_process.py .
 COPY upload_s3.py .
-COPY tests/fetch_arxiv.py .
+COPY fetch_arxiv.py .   # maintenant présent dans ce dossier
+COPY requirements.txt .
+COPY ./ /app/tests/     # tout le reste des tests
 
-# Copier les tests
-COPY tests/ /app/tests/
+# Installer les dépendances Python
+RUN pip install --no-cache-dir -r requirements.txt
