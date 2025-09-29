@@ -28,6 +28,7 @@ def fetch_arxiv(query="cat:cs.LG", max_results=5):
     }
     response = requests.get(base_url, params=params)
     response.raise_for_status()
+    # Retourne la réponse XML brute de l'API Arxiv
     return response.text
 
 # -----------------------------
@@ -38,11 +39,13 @@ def upload_to_s3(content, filename=None):
     if filename is None:
         filename = f"arxiv_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xml"
 
+    # Le client boto3 utilise les variables d'environnement AWS
     s3 = boto3.client(
         "s3",
         aws_access_key_id=AWS_ACCESS_KEY_ID,
         aws_secret_access_key=AWS_SECRET_ACCESS_KEY
     )
+    # L'objet S3 Key sera le nom du fichier (ex: arxiv_20250929_182100.xml)
     s3.put_object(Bucket=S3_BUCKET, Key=filename, Body=content)
     print(f"✅ Fichier uploadé sur S3: s3://{S3_BUCKET}/{filename}")
 

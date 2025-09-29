@@ -2,20 +2,26 @@ pipeline {
     agent any
 
     environment {
+        // Noms des images Docker
         TEST_IMAGE = 'arxive-tests'
         APP_IMAGE = 'arxiv-app'
+        
+        // Variables d'accès (Utilisent des identifiants stockés dans Jenkins)
         AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+        
+        // Configuration S3
         AWS_DEFAULT_REGION    = 'eu-west-3'
         S3_BUCKET_NAME        = 'bucketarxiv'
     }
 
     stages {
 
-        stage('Build Test Container') {
-            steps {
-                dir('.') {
-                    sh "docker build -t ${TEST_IMAGE} -f jenkins/tests/Dockerfile_test ."
+        stage('Build ETL Container') {
+    steps {
+        dir('jenkins') {
+            // Utilise le Dockerfile dans 'jenkins/', qui doit être le Dockerfile Python
+            sh "docker build -t ${APP_IMAGE} ." 
                 }
             }
         }
@@ -23,17 +29,20 @@ pipeline {
         stage('Run Unit Tests') {
             steps {
                 dir('.') {
+                    // NOUVEAU : Exécution avec Pytest et ajout de S3_BUCKET
                     sh """
-                    docker run --rm \\
-                        --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\
-                        --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\
-                        --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\
-                        ${TEST_IMAGE} python -m unittest discover -s jenkins/tests -p '*_test.py'
+                    docker run --rm \\\\
+                        --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\\\
+                        --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\\\
+                        --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\\\
+                        --env S3_BUCKET=${S3_BUCKET_NAME} \\\\
+                        ${TEST_IMAGE} pytest jenkins/tests/test_fetch_arxiv.py --junitxml=jenkins/tests/junit-report.xml
                     """
                 }
             }
             post {
                 always {
+                    // Publie les résultats des tests unitaires
                     junit 'jenkins/tests/junit-report.xml'
                 }
             }
@@ -42,6 +51,7 @@ pipeline {
         stage('Build ETL Container') {
             steps {
                 dir('jenkins') {
+                    // Suppose que le Dockerfile de l'application (APP_IMAGE) est dans le dossier 'jenkins'
                     sh "docker build -t ${APP_IMAGE} ."
                 }
             }
@@ -52,14 +62,14 @@ pipeline {
                 dir('.') {
                     echo "Starting ETL Process using ${APP_IMAGE}..."
 
-                    // Exécuter le script fetch_arxiv_unitaire.py qui fait fetch + upload S3
+                    // NOUVEAU : Correction du chemin d'exécution dans le conteneur
                     sh """
-                    docker run --rm \\
-                        --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\
-                        --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\
-                        --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\
-                        --env S3_BUCKET=${S3_BUCKET_NAME} \\
-                        ${APP_IMAGE} python jenkins/tests/fetch_arxiv_unitaire.py
+                    docker run --rm \\\\
+                        --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\\\
+                        --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\\\
+                        --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\\\
+                        --env S3_BUCKET=${S3_BUCKET_NAME} \\\\
+                        ${APP_IMAGE} python /app/jenkins/tests/fetch_arxiv_unitaire.py
                     """
                 }
             }

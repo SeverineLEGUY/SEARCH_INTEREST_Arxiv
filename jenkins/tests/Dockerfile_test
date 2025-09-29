@@ -9,13 +9,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Définir le répertoire de travail
 WORKDIR /app
 
-# Copier les fichiers Python et requirements
+# Copier les fichiers Python et requirements (pour la mise en cache de la couche d'installation)
 COPY jenkins/tests/requirements.txt .
 
 # Installer les dépendances Python
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copier tout le projet dans le container
+# Copier tout le projet dans le container (inclut les dossiers jenkins/tests/ avec les scripts)
 COPY . .
 
 # Commande par défaut si on exécute le container sans arguments
