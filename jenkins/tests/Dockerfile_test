@@ -11,7 +11,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copier le code applicatif nécessaire aux tests
 COPY etl_process.py .
 COPY upload_s3.py .
-COPY ../dags/fetch_arxiv.py .
+COPY tests/fetch_arxiv.py .
 
 # Copier les tests
 COPY tests/ /app/tests/
