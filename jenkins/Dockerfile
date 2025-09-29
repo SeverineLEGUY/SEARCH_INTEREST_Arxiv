@@ -7,9 +7,8 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
-RUN pip install --user --no-cache-dir -r requirements.txt
+RUN pip install --break-system-packages --no-cache-dir -r requirements.txt
 
 # Ajoutez l'utilisateur jenkins au groupe docker
-RUN usermod -a -G docker jenkins
-
+RUN usermod -a -G docker jenk
 USER jenkins
