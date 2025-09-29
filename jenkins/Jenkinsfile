@@ -35,12 +35,12 @@ pipeline { //1
                             --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\
                             --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\
                             --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\
-                            -v ${WORKSPACE}/jenkins/tests:/app/tests \\
                             ${TEST_IMAGE} \\
                             pytest /app/tests --junitxml=/app/tests/junit-report.xml
                     """
                     }
                     // /bin/bash -c "pytest /app/tests --junitxml=/app/tests/junit-report.xml"
+                    // -v ${WORKSPACE}/jenkins/tests:/app/tests \\
                 }  //5
             } //4
             post { //4
@@ -78,11 +78,10 @@ pipeline { //1
                         docker run --rm \\
                             --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\
                             --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\
-                            --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\
-                            -v ${WORKSPACE}/data:/app/data \\
+                            --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\                            
                             ${APP_IMAGE} python upload_s3.py ${S3_BUCKET_NAME} data/output_data.csv
                     """
-                    }
+                    } // -v ${WORKSPACE}/data:/app/data \\
                 } //5
             } //4
        
