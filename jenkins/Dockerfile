@@ -1,24 +1,15 @@
-FROM python:3.9-slim
-
-# Mise à jour du système et installation des utilitaires
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl \
+FROM jenkins/jenkins:lts
+USER root
+RUN apt-get update && apt-get install -y \
+    docker.io \
+    # Ajoutez python3 et python3-pip ici si nécessaire pour les tests Jenkins
+    python3 python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
-# Définir le répertoire de travail
-WORKDIR /app
-
-# CORRECTION : Copier le fichier de dépendances SPECIFIQUE aux tests/CI
-# Le chemin source est relatif à la racine du projet (le contexte '.')
-COPY requirements.txt requirements.txt 
-
-# Installer les dépendances Python
-# Cette étape est mise en cache tant que requirements.txt ne change pas.
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copier le script ETL principal
+# Ajoutez l'utilisateur jenkins au groupe docker
+RUN usermod -a -G docker jenkins
 
-COPY tests/fetch_arxiv_unitaire.py jenkins/tests/fetch_arxiv_unitaire.py
-
-# Définir l'entrée principale du conteneur
-ENTRYPOINT ["python", "/app/fetch_arxiv_unitaire.py"]
+USER jenkins
