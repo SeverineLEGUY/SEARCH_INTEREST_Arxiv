@@ -1,22 +1,11 @@
 FROM jenkins/jenkins:lts
-
 USER root
+RUN apt-get update && apt-get install -y \ docker.io \ && rm -rf /var/lib/apt/lists/*
 
-# Installer Docker client + Python3 + pip
-RUN apt-get update && apt-get install -y \
-    docker.io \
-    python3 \
-    python3-pip \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copier requirements
 COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Installer dépendances Python
-RUN python3 -m pip install --no-cache-dir -r requirements.txt
-
-# Ajouter l'utilisateur jenkins au groupe docker
+# Ajoutez l'utilisateur jenkins au groupe docker (le client docker s'exécutera sous root, mais c'est une bonne pratique)
 RUN usermod -a -G docker jenkins
 
-# Repasser à l'utilisateur Jenkins
 USER jenkins
