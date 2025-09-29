@@ -2,3 +2,6 @@ pytest
 boto3
 pandas
 numpy
+feedparser
+redis
+airflow
