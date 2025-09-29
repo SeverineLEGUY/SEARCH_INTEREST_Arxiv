@@ -29,16 +29,16 @@ pipeline {
         stage('Run Unit Tests') {
             steps {
                 dir('.') {
-                    // NOUVEAU : Exécution avec Pytest et ajout de S3_BUCKET
-                    sh """
-                    docker run --rm \\\\
-                        --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\\\
-                        --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\\\
-                        --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\\\
-                        --env S3_BUCKET=${S3_BUCKET_NAME} \\\\
-                        ${TEST_IMAGE} pytest jenkins/tests/test_fetch_arxiv.py --junitxml=jenkins/tests/junit-report.xml
-                    """
-                }
+                    sh '''
+                    docker run --rm \
+                        --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
+                        --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
+                        --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \
+                        --env S3_BUCKET=${S3_BUCKET_NAME} \
+                        -v /var/jenkins_home/workspace/Pipeline-Arxiv-FINAL:/app \
+                        ${TEST_IMAGE} pytest jenkins/tests/test_fetch_arxiv.py --junitxml=/app/jenkins/tests/junit-report.xml
+                    '''
+                 }
             }
             post {
                 always {
