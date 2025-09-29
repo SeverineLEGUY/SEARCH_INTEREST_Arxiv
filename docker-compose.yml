@@ -264,16 +264,16 @@ services:
       # ----------------------------------------
 # === DOCKER-IN-DOCKER SERVICE (NOUVEAU BLOC)
 # ----------------------------------------
-    jenkins-docker:
-      image: docker:dind
-      privileged: true
+  jenkins-docker:
+    image: docker:dind
+    privileged: true
     # container_name: jenkins-docker # Gardez le nom cohérent avec le depends_on
      # Exposer le port de l'API Docker pour que Jenkins puisse le contacter
-      ports:
-         - "2376:2376" 
-      volumes:
-        - jenkins-docker-certs:/certs/client # Pour la communication sécurisée si utilisée
-        - jenkins-data:/var/lib/docker # Pour persister les images/conteneurs construits par DinD
+    ports:
+       - "2376:2376" 
+    volumes:
+      - jenkins-docker-certs:/certs/client # Pour la communication sécurisée si utilisée
+      - jenkins-data:/var/lib/docker # Pour persister les images/conteneurs construits par DinD
 
 # === VOLUMES PERSISTANTS
 # ========================================
