@@ -10,10 +10,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /app
 
 # Copier les fichiers Python et requirements
-COPY jenkins/requirements_etl.txt .
+COPY jenkins/tests/requirements.txt .
 
 # Installer les dépendances Python
-RUN pip install --no-cache-dir -r requirements_etl.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copier tout le projet dans le container
 COPY . .
