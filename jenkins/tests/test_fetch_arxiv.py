@@ -1,8 +1,8 @@
 # test_fetch_arxiv.py
 import pytest
 from unittest.mock import patch, MagicMock
-import json
-from fetch_arxiv import fetch_arxiv, push_to_redis, get_redis_client
+from airflow.models import Variable
+from fetch_arxiv import fetch_arxiv, push_to_redis
 
 # === MOCK ENTRY CONSTRUCTION ===
 def make_mock_entry():
@@ -17,36 +17,27 @@ def make_mock_entry():
     mock_entry.arxiv_primary_category = {'term': 'cs.AI'}
     return mock_entry
 
-# === TEST 1: Fetch Arxiv - Basic Validations ===
+# === TEST 1: fetch_arxiv transforme bien les entries ===
+@patch.object(Variable, "get", return_value="cs.AI")  # Évite KeyError
 @patch("fetch_arxiv.feedparser.parse")
-def test_fetch_arxiv_valid_data(mock_parse):
-    # Mock du feedparser
+def test_fetch_arxiv_valid_data(mock_parse, mock_variable):
     mock_parse.return_value.entries = [make_mock_entry()]
-    
-    # Simuler le contexte Airflow pour push dans XCom
     mock_context = {'ti': MagicMock()}
     
     fetch_arxiv(**mock_context)
     
-    # Récupérer la valeur passée à xcom_push
     publications = mock_context['ti'].xcom_push.call_args[1]['value']
-    
     assert isinstance(publications, list)
-    assert len(publications) > 0
-    
+    assert len(publications) == 1
     pub = publications[0]
-    assert isinstance(pub["id"], str)
-    assert isinstance(pub["title"], str)
-    assert isinstance(pub["summary"], str)
-    assert isinstance(pub["published"], str)
-    assert isinstance(pub["link"], str)
-    assert isinstance(pub["authors"], list)
-    assert all(isinstance(author, str) for author in pub["authors"])
-    assert len(publications) <= 10
+    assert pub["id"] == "1234"
+    assert pub["title"] == "Test Title"
+    assert pub["authors"] == ["Author One", "Author Two"]
 
-# === TEST 2: Vérification liste appendée ===
+# === TEST 2: fetch_arxiv avec plusieurs entrées ===
+@patch.object(Variable, "get", return_value="cs.AI")
 @patch("fetch_arxiv.feedparser.parse")
-def test_fetch_arxiv_append_works(mock_parse):
+def test_fetch_arxiv_multiple_entries(mock_parse, mock_variable):
     mock_parse.return_value.entries = [make_mock_entry(), make_mock_entry()]
     mock_context = {'ti': MagicMock()}
     
@@ -55,26 +46,14 @@ def test_fetch_arxiv_append_works(mock_parse):
     publications = mock_context['ti'].xcom_push.call_args[1]['value']
     assert len(publications) == 2
 
-# === TEST 3: Push Redis - Connexion et Envoi ===
+# === TEST 3: push_to_redis appelle bien rpush ===
 @patch("fetch_arxiv.redis.Redis")
-def test_push_to_redis_connection_and_data(mock_redis_class):
+def test_push_to_redis(mock_redis_class):
     mock_redis_instance = MagicMock()
     mock_redis_class.return_value = mock_redis_instance
     
-    # Simuler XCom
     mock_context = {'ti': MagicMock()}
-    mock_context['ti'].xcom_pull.return_value = [{
-        "id": "1234",
-        "title": "Test Title",
-        "summary": "Summary",
-        "published": "2025-01-01T10:00:00Z",
-        "link": "http://arxiv.org/abs/1234",
-        "authors": ["Author One", "Author Two"],
-        "updated": "2025-01-01T10:00:00Z",
-        "category": "cs.AI"
-    }]
+    mock_context['ti'].xcom_pull.return_value = [{"id": "1234", "title": "Test Title"}]
     
     push_to_redis(**mock_context)
-    
-    # Vérifier que rpush a été appelé
-    assert mock_redis_instance.rpush.called
+    mock_redis_instance.rpush.assert_called()
