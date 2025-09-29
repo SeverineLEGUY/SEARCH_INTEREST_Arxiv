@@ -1,14 +1,8 @@
 FROM python:3.9-slim
-
-# Définir le répertoire de travail dans le container
 WORKDIR /app
 
-# Copier les fichiers nécessaires dans le container
-COPY etl_process.py .
-COPY upload_s3.py .
-COPY fetch_arxiv.py .   # maintenant présent dans ce dossier
+COPY *.py .
 COPY requirements.txt .
-COPY ./ /app/tests/     # tout le reste des tests
+COPY ./ /app/tests/
 
-# Installer les dépendances Python
 RUN pip install --no-cache-dir -r requirements.txt
