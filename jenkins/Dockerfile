@@ -10,5 +10,5 @@ COPY requirements.txt .
 RUN pip install --break-system-packages --no-cache-dir -r requirements.txt
 
 # Ajoutez l'utilisateur jenkins au groupe docker
-RUN usermod -a -G docker jenk
+RUN usermod -a -G docker jenkins
 USER jenkins
