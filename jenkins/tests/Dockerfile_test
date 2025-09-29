@@ -1,18 +1,17 @@
+# Dockerfile_test
 FROM python:3.9-slim
 
+# Définir le répertoire de travail
 WORKDIR /app
 
-# 1. Copie du fichier de dépendance spécifique aux tests
-# Le contexte de build étant la racine (.), le chemin est relatif à la racine.
-COPY tests/requirements.txt . 
+# Installer les dépendances de tests
+COPY tests/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 2. Copie du code de test et du code d'application
-# Le chemin DOIT être spécifié depuis la racine du contexte (la racine du projet)
-# Copie des fichiers de code que l'image de test doit exécuter (test scripts, etl_process.py, etc.)
+# Copier le code applicatif nécessaire aux tests
+COPY etl_process.py .
+COPY upload_s3.py .
+COPY arxiv_tasks.py .   # <-- tous les modules Python utilisés dans les tests
 
-COPY tests/ /app/tests/ 
-
-# 3. Copie des scripts ETL (qui sont à la racine de jenkins/)
-COPY etl_process.py /app/
-COPY upload_s3.py /app/
+# Copier les tests
+COPY tests/ /app/tests/

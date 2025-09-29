@@ -28,7 +28,7 @@ pipeline { //1
         stage('Run Unit Tests') { //3
             steps { //4
                 script { //5
-                    dir('jenkins') 
+                   // dir('jenkins') 
                     {
                         sh """
                         docker run --rm \\
@@ -38,7 +38,7 @@ pipeline { //1
                             ${TEST_IMAGE} \\
                             pytest /app/tests --junitxml=/app/tests/junit-report.xml
                     """
-                    }
+                   // }
                     // /bin/bash -c "pytest /app/tests --junitxml=/app/tests/junit-report.xml"
                     // -v ${WORKSPACE}/jenkins/tests:/app/tests \\
                 }  //5
