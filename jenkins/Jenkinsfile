@@ -82,6 +82,7 @@ pipeline { //1
                             -v ${WORKSPACE}/data:/app/data \\
                             ${APP_IMAGE} python upload_s3.py ${S3_BUCKET_NAME} data/output_data.csv
                     """
+                    }
                 } //5
             } //4
        
