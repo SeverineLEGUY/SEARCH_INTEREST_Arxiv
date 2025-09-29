@@ -2,7 +2,8 @@ import os
 import pytest
 from unittest.mock import patch, MagicMock
 # CORRECTION : Utilise upload_to_s3 au lieu de push_to_s3
-from jenkins.tests.fetch_arxiv_unitaire import fetch_arxiv, upload_to_s3 
+ 
+from .fetch_arxiv_unitaire import fetch_arxiv, upload_to_s3
 
 # Exemple de configuration
 TEST_QUERY = "machine learning"
