@@ -1,7 +1,15 @@
 # test_fetch_arxiv.py
 import pytest
 from unittest.mock import patch, MagicMock
-from airflow.models import Variable
+
+# === FIXTURE POUR PATCHER AIRFLOW.VARIABLE ===
+# On force Variable.get à retourner "cs.AI" avant même l'import de fetch_arxiv,
+# ce qui évite toute erreur liée à la base SQLite d'Airflow.
+@pytest.fixture(autouse=True)
+def patch_variable_get(monkeypatch):
+    monkeypatch.setattr("airflow.models.Variable.get", lambda key, default=None: "cs.AI")
+
+# On importe ensuite les fonctions de fetch_arxiv (après le patch de Variable.get)
 from fetch_arxiv import fetch_arxiv, push_to_redis
 
 # === MOCK ENTRY CONSTRUCTION ===
@@ -18,9 +26,8 @@ def make_mock_entry():
     return mock_entry
 
 # === TEST 1: fetch_arxiv transforme bien les entries ===
-@patch.object(Variable, "get", return_value="cs.AI")  # Évite KeyError
 @patch("fetch_arxiv.feedparser.parse")
-def test_fetch_arxiv_valid_data(mock_parse, mock_variable):
+def test_fetch_arxiv_valid_data(mock_parse):
     mock_parse.return_value.entries = [make_mock_entry()]
     mock_context = {'ti': MagicMock()}
     
@@ -35,9 +42,8 @@ def test_fetch_arxiv_valid_data(mock_parse, mock_variable):
     assert pub["authors"] == ["Author One", "Author Two"]
 
 # === TEST 2: fetch_arxiv avec plusieurs entrées ===
-@patch.object(Variable, "get", return_value="cs.AI")
 @patch("fetch_arxiv.feedparser.parse")
-def test_fetch_arxiv_multiple_entries(mock_parse, mock_variable):
+def test_fetch_arxiv_multiple_entries(mock_parse):
     mock_parse.return_value.entries = [make_mock_entry(), make_mock_entry()]
     mock_context = {'ti': MagicMock()}
     

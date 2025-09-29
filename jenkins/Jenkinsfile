@@ -36,6 +36,7 @@ pipeline { //1
                             --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\
                             --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\
                             ${TEST_IMAGE} \\
+                            export AIRFLOW__VARIABLES__ARXIV_CATEGORY=cs.AI
                             pytest /app/tests --junitxml=/app/tests/junit-report.xml
                     """
                     }
