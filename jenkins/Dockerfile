@@ -17,7 +17,7 @@ COPY jenkins/requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copier le script ETL principal
-COPY fetch_arxiv_unitaire.py fetch_arxiv_unitaire.py
+COPY jenkins/tests/fetch_arxiv_unitaire.py jenkins/tests/fetch_arxiv_unitaire.py
 
 # Définir l'entrée principale du conteneur
 ENTRYPOINT ["python", "/app/fetch_arxiv_unitaire.py"]
