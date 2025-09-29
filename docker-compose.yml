@@ -256,7 +256,7 @@ services:
       # Ligne ESSENTIELLE : Permet la communication avec Docker de l'hôte
       - /var/run/docker.sock:/var/run/docker.sock 
        # 2. Exécutable : Pour que la commande 'docker' existe à l'intérieur du conteneur (résout "executable file not found")
-      - /usr/bin/docker:/usr/bin/docker 
+      #- /usr/bin/docker:/usr/bin/docker 
       - sample-jenkins-server_jenkins-data:/var/jenkins_home
 
     depends_on:
