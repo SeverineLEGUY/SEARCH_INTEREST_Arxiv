@@ -10,7 +10,7 @@ WORKDIR /app
 
 # CORRECTION : Copier le fichier de dépendances SPECIFIQUE aux tests/CI
 # Le chemin source est relatif à la racine du projet (le contexte '.')
-COPY jenkins/requirements.txt requirements.txt 
+COPY requirements.txt requirements.txt 
 
 # Installer les dépendances Python
 # Cette étape est mise en cache tant que requirements.txt ne change pas.
