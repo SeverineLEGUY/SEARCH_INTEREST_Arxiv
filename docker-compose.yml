@@ -259,7 +259,7 @@ services:
       #- /usr/bin/docker:/usr/bin/docker 
       - sample-jenkins-server_jenkins-data:/var/jenkins_home
 
-    depends_on:
+    #depends_on:
      # - jenkins-docker
       # ----------------------------------------
 # === DOCKER-IN-DOCKER SERVICE (NOUVEAU BLOC)

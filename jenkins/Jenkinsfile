@@ -36,7 +36,7 @@ pipeline { //1
                                 ${TEST_IMAGE} \\
                                 /bin/bash -c "pytest --junitxml=/app/tests/junit-report.xml"
                         """
-                  //  } //6
+                    } //6
                 }  //5
             } //4
             post { //4
