@@ -14,10 +14,7 @@ pipeline {
 
         stage('Build Test Container') {
             steps {
-                // MODIFICATION 1 : Changement du contexte de build
-                // Exécuté à la racine du workspace (dir('.')) pour inclure TOUS les fichiers du projet
-                dir('.') { 
-                    // Utilise '.' (la racine du projet) comme contexte de build à la fin de la commande
+                dir('.') {
                     sh "docker build -t ${TEST_IMAGE} -f jenkins/tests/Dockerfile_test ."
                 }
             }
@@ -25,23 +22,18 @@ pipeline {
 
         stage('Run Unit Tests') {
             steps {
-                script {
-                    // MODIFICATION 2 : Exécuté à la racine du workspace pour un chemin absolu
-                    dir('.') {
-                        sh """
-                        docker run --rm \\
-                            --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\
-                            --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\
-                            --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\
-                            ${TEST_IMAGE}
-                        """
-                    }
+                dir('.') {
+                    sh """
+                    docker run --rm \\
+                        --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\
+                        --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\
+                        --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\
+                        ${TEST_IMAGE} python -m unittest discover -s jenkins/tests -p '*_test.py'
+                    """
                 }
             }
             post {
                 always {
-                    // Le rapport JUnit se trouve maintenant dans le chemin 'jenkins/tests' de l'image Docker,
-                    // et doit être récupéré depuis la racine du workspace Jenkins.
                     junit 'jenkins/tests/junit-report.xml'
                 }
             }
@@ -50,7 +42,6 @@ pipeline {
         stage('Build ETL Container') {
             steps {
                 dir('jenkins') {
-                    // Construit le container principal pour le ETL
                     sh "docker build -t ${APP_IMAGE} ."
                 }
             }
@@ -58,24 +49,18 @@ pipeline {
 
         stage('Run ETL and Upload to S3') {
             steps {
-                script {
-                    dir('jenkins') {
-                        echo "Starting ETL Process using image: ${APP_IMAGE}"
-                        
-                        // Exécuter le processus ETL
-                        sh "docker run --rm -v ${WORKSPACE}/data:/app/data ${APP_IMAGE} python etl_process.py"
-                        
-                        echo "ETL finished. Uploading output_data.csv to S3..."
-                        
-                        // Upload vers S3
-                        sh """
-                        docker run --rm \\
-                            --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\
-                            --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\
-                            --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\
-                            ${APP_IMAGE} python upload_s3.py ${S3_BUCKET_NAME} data/output_data.csv
-                        """
-                    }
+                dir('.') {
+                    echo "Starting ETL Process using ${APP_IMAGE}..."
+
+                    // Exécuter le script fetch_arxiv_unitaire.py qui fait fetch + upload S3
+                    sh """
+                    docker run --rm \\
+                        --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\
+                        --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\
+                        --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\
+                        --env S3_BUCKET=${S3_BUCKET_NAME} \\
+                        ${APP_IMAGE} python jenkins/tests/fetch_arxiv_unitaire.py
+                    """
                 }
             }
         }

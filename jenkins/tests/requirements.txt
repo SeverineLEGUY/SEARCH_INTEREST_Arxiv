@@ -5,3 +5,5 @@ numpy
 feedparser
 redis
 apache-airflow
+requests
+python-dotenv
