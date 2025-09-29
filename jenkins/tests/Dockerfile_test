@@ -1,12 +1,13 @@
-# Dockerfile_test
 FROM python:3.9-slim
 
 WORKDIR /app
 
-# Copier tous les fichiers nécessaires depuis le contexte (jenkins/tests)
+# Copier tous les fichiers Python et le requirements.txt depuis le contexte
 COPY *.py .
 COPY requirements.txt .
-COPY ./ /app/tests/
 
 # Installer les dépendances
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Optionnel : créer un sous-dossier pour les tests si besoin
+# COPY tests/ /app/tests/
