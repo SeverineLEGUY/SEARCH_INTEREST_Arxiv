@@ -4,8 +4,10 @@ pipeline { //1
     environment { //2
         TEST_IMAGE = 'arxive-tests'
         APP_IMAGE = 'arxiv-app'
-        // Utiliser withCredentials pour la sécurité et la portée
-        // ... (Les variables d'environnement sont bonnes, mais vérifiez les identifiants)
+        AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+        AWS_DEFAULT_REGION    = 'eu-west-3'
+        S3_BUCKET_NAME        = 'bucketarxiv'
     } //2
 
     stages { //2
@@ -26,19 +28,17 @@ pipeline { //1
         stage('Run Unit Tests') { //3
             steps { //4
                 script { //5
-                    withCredentials([
-                        string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'AWS_ACCESS_KEY_ID'),
-                        string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'AWS_SECRET_ACCESS_KEY')
-                    ]) {
+                    dir('jenkins') 
+                    {
                         sh """
-                            docker run --rm \\
-                                --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\
-                                --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\
-                                --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\
-                                -v ${WORKSPACE}/jenkins/tests:/app/tests \\
-                                ${TEST_IMAGE} \\
-                                pytest /app/tests --junitxml=/app/tests/junit-report.xml
-                        """
+                        docker run --rm \\
+                            --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\
+                            --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\
+                            --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\
+                            -v ${WORKSPACE}/jenkins/tests:/app/tests \\
+                            ${TEST_IMAGE} \\
+                            pytest /app/tests --junitxml=/app/tests/junit-report.xml
+                    """
                     }
                     // /bin/bash -c "pytest /app/tests --junitxml=/app/tests/junit-report.xml"
                 }  //5
@@ -65,6 +65,7 @@ pipeline { //1
         stage('Run ETL and Upload to S3') { //3
             steps { //4
                 script { //5
+                  dir('jenkins') {
                     echo "Starting ETL Process using image: ${APP_IMAGE}"
                     
                     // On utilise le code du workspace monté en volume
@@ -73,14 +74,14 @@ pipeline { //1
                     echo "ETL finished. Starting upload of output_data.csv to S3..."
 
                     // 2. Upload vers S3
-                    sh '''
+                    sh """
                         docker run --rm \\
                             --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\
                             --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\
                             --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\
                             -v ${WORKSPACE}/data:/app/data \\
                             ${APP_IMAGE} python upload_s3.py ${S3_BUCKET_NAME} data/output_data.csv
-                    '''
+                    """
                 } //5
             } //4
        
