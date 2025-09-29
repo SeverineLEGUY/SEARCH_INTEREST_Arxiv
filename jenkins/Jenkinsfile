@@ -1,32 +1,32 @@
-pipeline {
+pipeline {1
     agent any
 
-    environment {
+    environment { //2
         TEST_IMAGE = 'arxive-tests'
         APP_IMAGE = 'arxiv-app'
         // Utiliser withCredentials pour la sécurité et la portée
         // ... (Les variables d'environnement sont bonnes, mais vérifiez les identifiants)
-    }
+    } //2
 
-    stages {
-        // Le stage de clonage est supprimé car le SCM du job le gère
+    stages { //2
         
-        stage('Build Test Container') {
-            steps {
+        
+        stage('Build Test Container') { //3
+            steps { //4
                 // S'assure que l'agent a le code (via SCM auto-géré) et le construit
-                withEnv(["DOCKER_HOST=tcp://jenkins-docker:2376"]) {
-                    dir('jenkins') {
+                withEnv(["DOCKER_HOST=tcp://jenkins-docker:2376"]) {  //5
+                    dir('jenkins') { //6
                     // Le contexte de build est maintenant jenkins/, donc le Dockerfile est relatif à jenkins/
                         sh 'docker build -t arxive-tests -f tests/Dockerfile_test .'
-                        
-                 }
-            }exi
-        }
+                    } //6 
+                 } //5
+            } //4
+        } //3
 
-        stage('Run Unit Tests') {
-            steps {
-                script {
-                    withEnv(["DOCKER_HOST=tcp://jenkins-docker:2376"]) {
+        stage('Run Unit Tests') { //3
+            steps { //4
+                script { //5
+                    withEnv(["DOCKER_HOST=tcp://jenkins-docker:2376"]) { //6
                         sh """
                             docker run --rm \\
                                 --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\
@@ -36,28 +36,31 @@ pipeline {
                                 ${TEST_IMAGE} \\
                                 /bin/bash -c "pytest --junitxml=/app/tests/junit-report.xml"
                         """
-                    }
-                }
-            }
-            post {
-                always {
+                    } //6
+                }  //5
+            } //4
+            post { //4
+                always {  //5
                     junit 'jenkins/tests/junit-report.xml' 
-                }
-            }
-        }
+                } //5
+            } //4
+        } //3
 
-        stage('Build ETL Container') {
-            steps {
-                withEnv(["DOCKER_HOST=tcp://jenkins-docker:2376"]) { // Ajout de withEnv pour DinD
-                    dir('jenkins') { // Déplacement dans le dossier
-                         // Assumant que le Dockerfile principal est nommé "Dockerfile" et se trouve dans jenkins/
-                        sh 'docker build -t ${APP_IMAGE} .'
-            }
-        }
+        stage('Build ETL Container') { //3
+            steps { //4
+             withEnv(["DOCKER_HOST=tcp://jenkins-docker:2376"]) { // 5
+                dir('jenkins') { // 6
+                // Assumant que le Dockerfile principal est nommé "Dockerfile" et se trouve dans jenkins/
+                    sh 'docker build -t ${APP_IMAGE} .'
+                            } // 6 - Ferme dir('jenkins')
+                        } // 5
 
-        stage('Run ETL and Upload to S3') {
-            steps {
-                script {
+                    } // 4
+                 } // 3
+
+        stage('Run ETL and Upload to S3') { //3
+            steps { //4
+                script { //5
                     echo "Starting ETL Process using image: ${APP_IMAGE}"
                     
                     // On utilise le code du workspace monté en volume
@@ -74,17 +77,18 @@ pipeline {
                             -v ${PWD}/data:/app/data \\
                             ${APP_IMAGE} python upload_s3.py ${S3_BUCKET_NAME} data/output_data.csv
                     '''
-                }
-            }
-        }
-    } 
+                } //5
+            } //4
+        } //3
+   
     
-    post { 
-        success {
+    post { //3
+        success { //4
             echo '✅ Pipeline completed successfully!'
-        }
-        failure {
+        } //4
+        failure { //4
             echo '❌ Pipeline failed.'
-        }
-    }
-}
+            } //4
+        } //3
+    } //2
+} //1
