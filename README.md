@@ -52,41 +52,46 @@ Concrètement, le pipeline :
 ├── docker-compose.yaml       # Configuration Docker complète
 ├── import_env_to_airflow.py  # Script d'import des variables d'env dans Airflow
 
-## 📦 Services inclus
-## 🏗️ Installation et Lancement
+---
 
-### 🛠️ Étapes du Pipeline :
+## 🚀 Initialisation et Lancement
 
-1. **Cloner le dépôt :
-   ```bash
-   git clone https://github.com/SeverineLEGUY/SEARCH_INTEREST_Arxiv.git
-   cd SEARCH_INTEREST_Arxiv
-   ```
-2. **Configurer les variables d’environnementExécution des tests :** 
+### 1️⃣ Cloner le dépôt
+```bash
+git clone https://github.com/SeverineLEGUY/SEARCH_INTEREST_Arxiv.git
+cd SEARCH_INTEREST_Arxiv
 
-   - # ARXIV
-ARXIV_CATEGORY=""
+
+### 2️⃣ Configurer les variables d’environnement
+
+Créer un fichier `.env` à partir du template fourni :  
+```bash
+cp .env.template .env
+
+# ARXIV
+ARXIV_CATEGORY="cs.AI"
 ARXIV_START_DATE="2025-01-01T00:00:00Z"
 
-   - # Redis
+# Redis
 REDIS_HOST="airflow-run-redis"
 REDIS_PORT="6379"
 REDIS_TRAINQ="arxiv_classifier_train_test"
 REDIS_CLASSQ="arxiv_classifier"
 
-   - # MONGODB
+# MongoDB
 MONGO_URI="mongodb://backend-run-mongodb:27017/"
 MONGO_DB="arxiv"
 MONGO_SUMMARIZE="arxiv_summaries"
 MONGO_CLASSIFY="arxiv_classifications"
 
-   - # MLFLOW
+# MLflow
 MLFLOW_TRACKING_URI=http://mlflow:5050
 
-   - # API KEYS
+# API Keys
 MISTRAL_API_KEY=
 AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=
+
 
 3. **Contruire et lancer les services** :
    -    ```bash
