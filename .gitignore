@@ -8,5 +8,4 @@ airflow/plugins/
 airflow/mlflow/
 mlfow/mlruns/
 db/
-
 mlflow_example.py
