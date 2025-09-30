@@ -98,13 +98,14 @@ AWS_SECRET_ACCESS_KEY=
        docker compose up --build
        docker ps
   ```     
-# # 4️⃣ Accéder aux interfaces
+  ### 3️⃣ Accéder aux interfaces
 
 * Airflow → [http://localhost:8082](http://localhost:8082) ↗️
 * FastAPI → [http://localhost:8500/docs](http://localhost:8500/docs) ↗️
 * Streamlit → [http://localhost:8501](http://localhost:8501) ↗️
 * MLflow → [http://localhost:5050](http://localhost:5050) ↗️
 * Jenkins → [http://localhost:8080](http://localhost:8080) ↗️
+
 
 
 ### 🗂️ DAGs et ordre d’exécution
