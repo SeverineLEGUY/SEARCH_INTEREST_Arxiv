@@ -29,23 +29,34 @@ pipeline {
         stage('Run Unit Tests') {
     steps {
         dir('.') {
+            
+// 2. Commande pour RÉCUPÉRER le rapport (avec un NOUVEAU container)
+            // Nous utilisons 'docker cp' pour copier le rapport du conteneur vers le répertoire de travail de Jenkins (l'hôte).
+            // Pour cela, nous devons donner un nom au conteneur.
+            
+            // Nouveau bloc sh pour exécuter Pytest et copier le rapport
             sh '''
-            docker run --rm \\
+            CONTAINER_ID=$(docker run -d \\
                 --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\
                 --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\
                 --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\
                 --env S3_BUCKET=${S3_BUCKET_NAME} \\
-                -v /var/jenkins_home/workspace/Pipeline-Arxiv-FINAL:/app \\
-                arxiv-app /bin/bash -c "ls -l /app/jenkins/tests/test_fetch_arxiv.py && PYTHONPATH=/app pytest /app/jenkins/tests/test_fetch_arxiv.py -v --junitxml=/app/jenkins/tests/junit-report.xml"
-            '''
+                arxiv-app /bin/bash -c "PYTHONPATH=/app pytest /app/jenkins/tests/test_fetch_arxiv.py -v --junitxml=/tmp/junit-report.xml")
 
+            docker wait $CONTAINER_ID
+
+            # Copie le rapport de test du conteneur vers le workspace Jenkins
+            docker cp $CONTAINER_ID:/tmp/junit-report.xml jenkins/tests/junit-report.xml
+
+            docker rm $CONTAINER_ID
+            '''
         }
     }
 
     post {
         always {
-            // S'exécute toujours, même en cas d'échec de Pytest
-            junit 'jenkins/tests/junit-report.xml'
+            // Le fichier est maintenant dans jenkins/tests/ sur l'hôte
+            junit 'jenkins/tests/junit-report.xml' 
         }
     }
 }
