@@ -10,8 +10,6 @@ S3_BUCKET = os.getenv("S3_BUCKET")
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 
-if not all([S3_BUCKET, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]):
-    raise EnvironmentError("Il manque une variable d'environnement AWS ou S3_BUCKET.")
 
 # -----------------------------
 # Fonction pour récupérer les données Arxiv
@@ -36,6 +34,9 @@ def fetch_arxiv(query="cat:cs.LG", max_results=5):
 # -----------------------------
 def upload_to_s3(content, filename=None):
     """Upload le contenu sur S3."""
+    if not all([S3_BUCKET, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]):
+        raise EnvironmentError("Il manque une variable d'environnement AWS ou S3_BUCKET.")
+
     if filename is None:
         filename = f"arxiv_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xml"
 
