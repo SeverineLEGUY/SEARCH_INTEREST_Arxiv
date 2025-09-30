@@ -40,6 +40,7 @@ pipeline {
             '''
                 }
             }
+            
             post {
                 always {
                     // Publie les résultats des tests unitaires
