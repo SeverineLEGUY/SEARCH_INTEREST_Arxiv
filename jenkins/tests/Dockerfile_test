@@ -16,7 +16,7 @@ COPY jenkins/tests/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copier tout le projet dans le container (inclut les dossiers jenkins/tests/ avec les scripts)
-#COPY . .
+COPY . /app
 
 # Commande par défaut si on exécute le container sans arguments
 CMD ["python", "jenkins/tests/fetch_arxiv_unitaire.py"]
