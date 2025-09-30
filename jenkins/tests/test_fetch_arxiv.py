@@ -6,6 +6,7 @@ from unittest.mock import patch, MagicMock
 from jenkins.tests.fetch_arxiv_unitaire import fetch_arxiv, upload_to_s3
 
 
+
 # Exemple de configuration
 TEST_QUERY = "machine learning"cd 
 MAX_RESULTS = 5
