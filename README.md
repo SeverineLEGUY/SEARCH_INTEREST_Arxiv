@@ -52,3 +52,69 @@ Concrètement, le pipeline :
 ├── docker-compose.yaml       # Configuration Docker complète
 ├── import_env_to_airflow.py  # Script d'import des variables d'env dans Airflow
 
+## 🏗️ Installation et Lancement
+
+### 🛠️ Étapes du Pipeline :
+
+1. **Cloner le dépôt :**
+   ```bash
+   git clone https://github.com/SeverineLEGUY/SEARCH_INTEREST_Arxiv.git
+   cd SEARCH_INTEREST_Arxiv
+   ```
+2. **Configurer les variables d’environnementExécution des tests :** 
+
+
+
+# MLFLOW
+MLFLOW_TRACKING_URI="http://backend-run-mlflow:5050"
+
+# HUGGINGFACE
+# HUGGINGFACE_USERNAME="<username>"
+# HUGGINGFACE_MODELNAME="arxiv-classifier-dsl-31-final-project"
+# HUGGINGFACE_API_URL="https://api-inference.huggingface.co/models/<username>/arxiv-classifier-dsl-31-final-project"
+# HUGGINGFACE_TOKEN="TO_BE_DEFINED"
+
+# MISTRALAI
+MISTRAL_API_KEY="TO_BE_DEFINED"
+
+   - # ARXIV
+ARXIV_CATEGORY=""
+ARXIV_START_DATE="2025-01-01T00:00:00Z"
+
+   - # Redis
+REDIS_HOST="airflow-run-redis"
+REDIS_PORT="6379"
+REDIS_TRAINQ="arxiv_classifier_train_test"
+REDIS_CLASSQ="arxiv_classifier"
+
+   - # MONGODB
+MONGO_URI="mongodb://backend-run-mongodb:27017/"
+MONGO_DB="arxiv"
+MONGO_SUMMARIZE="arxiv_summaries"
+MONGO_CLASSIFY="arxiv_classifications"
+
+   - # MLFLOW
+MLFLOW_TRACKING_URI=http://mlflow:5050
+
+   - # API KEYS
+MISTRAL_API_KEY=
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+
+3. **Contruire et lancer les services** :
+   -    ```bash
+       docker compose up --build
+        ```
+### 🗂️ DAGs et ordre d’exécution
+
+Lancez manuellement les DAGs d'Entraînement 
+   - 1. cleanup_redis_and_mongo → Vide les bases Redis et MongoDB
+   - 2. arxiv_to_redis_train →  Récupère un échantillon d’articles depuis l’API ArXiv
+   - 3. arxiv_training → Entraîne le modèle de classification (LLM Mistral) et enregistre la version du modèle dans MLflow.  
+Puis activez les trois DAGs de Production pour lancement auto selon la frequence indiqué
+   - 4. arxiv_to_redis (8 minutes)  → recupère les nouveaux articles Arxiv pour les mettre dans la queue redis
+   - 5. summarize_arxiv_article (30 min) → résumé automatique des articles à l’aide du LLM Mistral
+   - 6. classify_arxiv_article (45 min) → Catégorise les articles par domaine scientifique 
+   - 7. evidently_daily_drift_monitoring : suivi quotidie de derive de données et de performance du modèle en production.  
+
+⚠️ Remarque : l’ordre doit être respecté. Les dépendances entre DAGs peuvent être configurées dans Airflow.
