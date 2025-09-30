@@ -35,12 +35,12 @@ pipeline {
                 --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\
                 --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\
                 --env S3_BUCKET=${S3_BUCKET_NAME} \\
-                -v /var/jenkins_home/workspace/Pipeline-Arxiv-FINAL:/app \\
                 arxiv-app /bin/bash -c "PYTHONPATH=/app pytest /app/jenkins/tests/test_fetch_arxiv.py -v --junitxml=/app/jenkins/tests/junit-report.xml"
             '''
 
         }
     }
+    
     post {
         always {
             // S'exécute toujours, même en cas d'échec de Pytest
