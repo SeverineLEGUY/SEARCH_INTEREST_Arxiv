@@ -98,7 +98,7 @@ AWS_SECRET_ACCESS_KEY=
        docker compose up --build
        docker ps
   ```     
-  ### 3️⃣ Accéder aux interfaces
+### 4️⃣ Accéder aux interfaces
 
 * Airflow → [http://localhost:8082](http://localhost:8082) ↗️
 * FastAPI → [http://localhost:8500/docs](http://localhost:8500/docs) ↗️
