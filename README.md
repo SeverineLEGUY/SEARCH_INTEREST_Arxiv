@@ -94,18 +94,17 @@ AWS_SECRET_ACCESS_KEY=
 
 ```
 ### 3️⃣ Construire et lancer les services
-   -    ```bash
+      ```bash
        docker compose up --build
        docker ps
-  ```      
-# 5️⃣ Accéder aux interfaces
+  ```     
+# # 4️⃣ Accéder aux interfaces
 
-* Airflow → [http://localhost:8082](http://localhost:8082)&nbsp;&nbsp;↗️
-* FastAPI → [http://localhost:8500/docs](http://localhost:8500/docs)&nbsp;&nbsp;↗️
-* Streamlit → [http://localhost:8501](http://localhost:8501)&nbsp;&nbsp;↗️
-* MLflow → [http://localhost:5050](http://localhost:5050)&nbsp;&nbsp;↗️
-* Jenkins → [http://localhost:8080](http://localhost:8080)&nbsp;&nbsp;↗️
-
+* Airflow → [http://localhost:8082](http://localhost:8082) ↗️
+* FastAPI → [http://localhost:8500/docs](http://localhost:8500/docs) ↗️
+* Streamlit → [http://localhost:8501](http://localhost:8501) ↗️
+* MLflow → [http://localhost:5050](http://localhost:5050) ↗️
+* Jenkins → [http://localhost:8080](http://localhost:8080) ↗️
 
 
 ### 🗂️ DAGs et ordre d’exécution
