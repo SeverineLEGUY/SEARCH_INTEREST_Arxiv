@@ -3,8 +3,8 @@ import pytest
 from unittest.mock import patch, MagicMock
 # CORRECTION : Utilise upload_to_s3 au lieu de push_to_s3
  
-from jenkins.tests.fetch_arxiv_unitaire import fetch_arxiv, upload_to_s3
-  # from .fetch_arxiv_unitaire import fetch_arxiv, upload_to_s3
+  # from jenkins.tests.fetch_arxiv_unitaire import fetch_arxiv, upload_to_s3
+from .fetch_arxiv_unitaire import fetch_arxiv, upload_to_s3
 
 
 # Exemple de configuration
@@ -16,6 +16,7 @@ TEST_OUTPUT_FILE = "data/output_data.csv"
 @pytest.fixture
 def mock_s3_upload():
     # CORRECTION : Patch de la fonction réelle upload_to_s3
+    #with patch("jenkins.tests.fetch_arxiv_unitaire.upload_to_s3") as mock_upload:
     with patch("jenkins.tests.fetch_arxiv_unitaire.upload_to_s3") as mock_upload:
         yield mock_upload
 
