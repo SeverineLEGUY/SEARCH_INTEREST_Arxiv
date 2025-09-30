@@ -37,6 +37,7 @@ pipeline {
             --env S3_BUCKET=${S3_BUCKET_NAME} \
             -v /var/jenkins_home/workspace/Pipeline-Arxiv-FINAL:/app \
             ${TEST_IMAGE} /bin/bash -c "cd /app && PYTHONPATH=/app/jenkins/tests pytest -v --junitxml=/app/jenkins/tests/junit-report.xml"
+               '''
                 }
             }
 
