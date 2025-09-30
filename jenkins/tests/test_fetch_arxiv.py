@@ -3,7 +3,7 @@ import pytest
 from unittest.mock import patch, MagicMock
 # CORRECTION : Utilise upload_to_s3 au lieu de push_to_s3
  
-from jenkins.tests.fetch_arxiv_unitaire import fetch_arxiv, upload_to_s3 
+from jenkins.tests.fetch_arxiv_unitaire import fetch_arxiv, upload_to_s3, run_etl_pipeline 
 
 
 # Exemple de configuration
@@ -71,3 +71,12 @@ def test_output_file_created(tmp_path, mock_fetch_arxiv_response):
         
         # Vérifie que le fichier a été créé localement (nécessite que upload_to_s3 le fasse)
         assert test_file.exists()
+
+
+def test_upload_to_s3_called(mock_fetch_arxiv_response, mock_s3_upload):
+    # Appelle la fonction qui déclenche l'appel à upload_to_s3 (qui est mocké)
+    # L'appel à fetch_arxiv est déjà mocké par mock_fetch_arxiv_response
+    run_etl_pipeline(TEST_QUERY, max_results=MAX_RESULTS)
+    
+    # Vérifie que le mock a été appelé (par run_etl_pipeline)
+    mock_s3_upload.assert_called_once() # Ceci devrait fonctionner MAINTENANT.

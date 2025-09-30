@@ -99,19 +99,31 @@ def upload_to_s3(articles: list, filename=None): # <-- Type Hinting pour la clar
     print(f"✅ Fichier uploadé sur S3: s3://{S3_BUCKET}/{filename}") 
     # Le fichier existe maintenant localement et sur S3. ✅ (Résout 'test_output_file_created')
 
+# ----------------------------
+# run-etl-pipeline
+# -----------------------------
+
+def run_etl_pipeline(query="cat:cs.LG", max_results=5):
+    """Exécute l'intégralité du pipeline ETL : fetch -> upload."""
+    
+    # 1. FETCH
+    articles = fetch_arxiv(query, max_results) 
+    
+    if articles:
+        # 2. UPLOAD
+        upload_to_s3(articles) # upload_to_s3 utilise des valeurs par défaut pour le filename
+        return True
+    return False
 # -----------------------------
 # Main
 # -----------------------------
 if __name__ == "__main__":
     print("🔄 Récupération des articles Arxiv...")
-    articles = fetch_arxiv(max_results=10) # <-- Renvoie une liste
-    print(f"✅ Récupération terminée, {len(articles)} articles récupérés.")
-
-    if articles:
-        print("🔄 Upload sur S3...")
-        # L'upload a besoin de la liste des articles
-        upload_to_s3(articles) 
+    
+    # 🚨 REMPLACEZ TOUTE LA LOGIQUE PAR L'APPEL À LA FONCTION PRINCIPALE
+    success = run_etl_pipeline(max_results=10)
+    
+    if success:
+        print("✅ ETL terminé avec succès.")
     else:
-        print("❌ Aucun article à uploader.")
-        
-    print("✅ ETL terminé avec succès.")
+        print("❌ ETL terminé avec échec ou sans articles.")
