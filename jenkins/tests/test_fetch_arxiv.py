@@ -7,7 +7,6 @@ from jenkins.tests.fetch_arxiv_unitaire import fetch_arxiv, upload_to_s3
   # from .fetch_arxiv_unitaire import fetch_arxiv, upload_to_s3
 
 
-
 # Exemple de configuration
 TEST_QUERY = "machine learning" 
 MAX_RESULTS = 5
