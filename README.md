@@ -4,8 +4,8 @@ Ce projet met en place une **architecture complète de MLOps** pour l’automati
 
 Concrètement, le pipeline :
 
-- 📥 **Récupère automatiquement** les nouveaux articles publiés sur l’API ArXiv ;  
-- 🗄️ **Stocke et organise** les données brutes dans plusieurs bases :  
+-  **Récupère automatiquement** les nouveaux articles publiés sur l’API ArXiv ;  
+-  **Stocke et organise** les données brutes dans plusieurs bases :  
             - Redis pour le cache  
             - MongoDB pour le NoSQL  
             - PostgreSQL pour le relationnel  
@@ -52,30 +52,17 @@ Concrètement, le pipeline :
 ├── docker-compose.yaml       # Configuration Docker complète
 ├── import_env_to_airflow.py  # Script d'import des variables d'env dans Airflow
 
+## 📦 Services inclus
 ## 🏗️ Installation et Lancement
 
 ### 🛠️ Étapes du Pipeline :
 
-1. **Cloner le dépôt :**
+1. **Cloner le dépôt :
    ```bash
    git clone https://github.com/SeverineLEGUY/SEARCH_INTEREST_Arxiv.git
    cd SEARCH_INTEREST_Arxiv
    ```
 2. **Configurer les variables d’environnementExécution des tests :** 
-
-
-
-# MLFLOW
-MLFLOW_TRACKING_URI="http://backend-run-mlflow:5050"
-
-# HUGGINGFACE
-# HUGGINGFACE_USERNAME="<username>"
-# HUGGINGFACE_MODELNAME="arxiv-classifier-dsl-31-final-project"
-# HUGGINGFACE_API_URL="https://api-inference.huggingface.co/models/<username>/arxiv-classifier-dsl-31-final-project"
-# HUGGINGFACE_TOKEN="TO_BE_DEFINED"
-
-# MISTRALAI
-MISTRAL_API_KEY="TO_BE_DEFINED"
 
    - # ARXIV
 ARXIV_CATEGORY=""
