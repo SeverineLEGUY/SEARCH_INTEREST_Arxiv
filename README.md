@@ -109,7 +109,6 @@ docker ps
 ### 🗂️ DAGs et ordre d’exécution
 
 → Lancez manuellement les **DAGs d'Entraînement** dans cet ordre :
-
 1.  `cleanup_redis_and_mongo` → Vide les bases Redis et MongoDB
 2.  `arxiv_to_redis_train` → Récupère un échantillon d'articles depuis l'API ArXiv
 3.  `arxiv_training` → Entraîne le modèle de classification (LLM Mistral) et enregistre la version du modèle dans MLflow.
@@ -118,6 +117,6 @@ docker ps
 4.  `arxiv_to_redis` → Récupère les nouveaux articles Arxiv pour les mettre dans la queue Redis (toutes les 8 minutes)
 5.  `summarize_arxiv_article` → Résumé automatique des articles à l'aide du LLM Mistral (toutes les 30 min)
 6.  `classify_arxiv_article` → Catégorise les articles par domaine scientifique (toutes les 45 min)
-7.   `evidently_daily_drift_monitoring`  → Suivi quotidien de dérive de données et de performance du modèle en production (quotidien)
+7.  `evidently_daily_drift_monitoring`  → Suivi quotidien de dérive de données et de performance du modèle en production (quotidien)
 
 ⚠️ **Important** : L'ordre d'exécution des DAGs **doit être respecté** pour la phase d'Entraînement. Les dépendances entre DAGs peuvent être configurées dans Airflow.
