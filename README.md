@@ -94,10 +94,10 @@ AWS_SECRET_ACCESS_KEY=
 
 ```
 ### 3️⃣ Construire et lancer les services
-      ```bash
+```bash
        docker compose up --build
        docker ps
-  ```     
+```     
 ### 4️⃣ Accéder aux interfaces
 
 * Airflow → [http://localhost:8082](http://localhost:8082) ↗️
