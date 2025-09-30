@@ -6,14 +6,14 @@ Concrètement, le pipeline :
 
 - 📥 **Récupère automatiquement** les nouveaux articles publiés sur l’API ArXiv ;  
 - 🗄️ **Stocke et organise** les données brutes dans plusieurs bases :  
-        - Redis pour le cache  
-        - MongoDB pour le NoSQL  
-        - PostgreSQL pour le relationnel  
+            - Redis pour le cache  
+            - MongoDB pour le NoSQL  
+            - PostgreSQL pour le relationnel  
 - 🏷️ **Catégorise** les articles selon leurs domaines scientifiques ;  
 - 📝 **Génère un résumé et une traduction multilingue** grâce à un **LLM Mistral** ;  
 - 🌐 **Expose les résultats** via :  
-        - une API REST (FastAPI)  
-        - une interface utilisateur interactive (Streamlit)  
+            - une API REST (FastAPI)  
+            - une interface utilisateur interactive (Streamlit)  
 - 📊 **Suit et versionne les modèles** avec **MLflow** (traçabilité des expériences, métriques, artefacts) ;  
 - ⚙️ **Orchestre et automatise** toutes les étapes avec **Airflow** (extraction, transformation, stockage, entraînement, déploiement) ;  
 - 🚀 **Déploie la solution en continu** grâce à **Docker** + **Jenkins/GitHub Actions** (CI/CD) ;  
