@@ -14,7 +14,7 @@ AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 # -----------------------------
 # Fonction pour récupérer les données Arxiv
 # -----------------------------
-dimport os
+import os
 import requests
 import boto3
 from datetime import datetime
