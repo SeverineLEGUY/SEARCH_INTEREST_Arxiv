@@ -38,7 +38,8 @@ pipeline {
                         -v /var/jenkins_home/workspace/Pipeline-Arxiv-FINAL:/app \
                         ${TEST_IMAGE} /bin/bash -c "cd /app && \
                         chmod -R 777 jenkins/tests && \
-                        ls jenkins/tests && \
+                        ls -l /app && \
+                        ls -l jenkins/tests && \
                         PYTHONPATH=/app pytest jenkins/tests -v --junitxml=/app/jenkins/tests/junit-report.xml"
                     '''
                  }
