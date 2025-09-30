@@ -1,4 +1,4 @@
-# 🚀 Data Pipeline avec Apache Airflow, FastAPI, Streamlit, MongoDB, PostgreSQL & MLflow
+# ⚙️ Pipeline MLOps ArXiv
 
 Ce projet met en place une **architecture complète de MLOps** pour l’automatisation du cycle de vie d’un modèle de Machine Learning appliqué aux articles scientifiques publiés sur l’**API ArXiv en temps réel**.
 
@@ -38,7 +38,7 @@ Concrètement, le pipeline :
 
 ---
 
-## 🏗️ Structure des dossiers
+## 🧱 Structure des dossiers
 
 ```bash
 .
