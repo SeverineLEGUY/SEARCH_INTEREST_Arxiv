@@ -2,15 +2,12 @@
 
 Ce projet met en place une **architecture complète de MLOps** pour l’automatisation du cycle de vie d’un modèle de Machine Learning appliqué aux articles scientifiques publiés sur l’**API ArXiv en temps réel**.
 
-Ce projet met en place une **architecture MLOps complète** pour automatiser le cycle de vie d’un modèle de Machine Learning appliqué aux articles **ArXiv en temps réel**.
-
 Concrètement, le pipeline :
-
 * **Extraction & Stockage :** Récupère les nouveaux articles ArXiv et stocke les données brutes dans :
     * Redis (cache)
     * MongoDB (NoSQL)
     * PostgreSQL (relationnel)
-* **Transformation (LLM) :**
+* **Transformation (Machine Learning) :**
     * 🏷️ **Catégorise** les articles par domaine scientifique.
     * 📝 **Génère un résumé et une traduction** multilingue via **LLM Mistral**.
 * **MLOps & Orchestration :**
@@ -20,23 +17,6 @@ Concrètement, le pipeline :
     * 🚀 **Déploie la solution en continu** via **Docker** et **Jenkins/GitHub Actions** (CI/CD).
     * 🌐 **Expose les résultats** via une **API REST (FastAPI)** et une interface **Streamlit**.
 * **Monitoring :** 👀 **Supervise le comportement** du modèle en production avec **Evidently** (dérive de données et performances).
-
-Concrètement, le pipeline :
-
--  **Récupère automatiquement** les nouveaux articles publiés sur l’API ArXiv ;  
--  **Stocke et organise** les données brutes dans plusieurs bases :  
-            - Redis pour le cache  
-            - MongoDB pour le NoSQL  
-            - PostgreSQL pour le relationnel  
-- 🏷️ **Catégorise** les articles selon leurs domaines scientifiques ;  
-- 📝 **Génère un résumé et une traduction multilingue** grâce à un **LLM Mistral** ;  
-- 🌐 **Expose les résultats** via :  
-            - une API REST (FastAPI)  
-            - une interface utilisateur interactive (Streamlit)  
-- 📊 **Suit et versionne les modèles** avec **MLflow** (traçabilité des expériences, métriques, artefacts) ;  
-- ⚙️ **Orchestre et automatise** toutes les étapes avec **Airflow** (extraction, transformation, stockage, entraînement, déploiement) ;  
-- 🚀 **Déploie la solution en continu** grâce à **Docker** + **Jenkins/GitHub Actions** (CI/CD) ;  
-- 👀 **Supervise le comportement en production** avec **Evidently** (suivi de la dérive de données et des performances).  
 
 
 ## 📦 Services inclus
@@ -128,21 +108,16 @@ docker ps
 
 ### 🗂️ DAGs et ordre d’exécution
 
-Lancez manuellement les **DAGs d'Entraînement** dans cet ordre :
+→ Lancez manuellement les **DAGs d'Entraînement** dans cet ordre :
 
 1.  `cleanup_redis_and_mongo` → Vide les bases Redis et MongoDB
 2.  `arxiv_to_redis_train` → Récupère un échantillon d'articles depuis l'API ArXiv
 3.  `arxiv_training` → Entraîne le modèle de classification (LLM Mistral) et enregistre la version du modèle dans MLflow.
 
-Puis activez les **DAGs de Production** pour lancement auto (selon la fréquence indiquée) :
-
-| Tâche | Fréquence | Description |
-| :--- | :--- | :--- |
-| **4.** `arxiv_to_redis` | 8 minutes | Récupère les nouveaux articles Arxiv pour les mettre dans la queue Redis. |
-| **5.** `summarize_arxiv_article` | 30 minutes | Résumé automatique des articles à l'aide du LLM Mistral. |
-| **6.** `classify_arxiv_article` | 45 minutes | Catégorise les articles par domaine scientifique. |
-| **7.** `evidently_daily_drift_monitoring` | Quotidien | Suivi quotidien de dérive de données et de performance du modèle en production. |
-
-<br>
+→ Puis activez les **DAGs de Production** pour lancement auto (selon la fréquence indiquée) :
+4.  `arxiv_to_redis` → Récupère les nouveaux articles Arxiv pour les mettre dans la queue Redis (toutes les 8 minutes)
+5.  `summarize_arxiv_article` → Résumé automatique des articles à l'aide du LLM Mistral (toutes les 30 min)
+6.  `classify_arxiv_article` → Catégorise les articles par domaine scientifique (toutes les 45 min)
+7.   `evidently_daily_drift_monitoring`  → Suivi quotidien de dérive de données et de performance du modèle en production (quotidien)
 
 ⚠️ **Important** : L'ordre d'exécution des DAGs **doit être respecté** pour la phase d'Entraînement. Les dépendances entre DAGs peuvent être configurées dans Airflow.
