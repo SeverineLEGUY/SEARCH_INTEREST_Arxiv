@@ -35,7 +35,7 @@ pipeline {
                 --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\
                 --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \\
                 --env S3_BUCKET=${S3_BUCKET_NAME} \\
-                - v /var/jenkins_home/workspace/Pipeline-Arxiv-FINAL:/app \
+                -v /var/jenkins_home/workspace/Pipeline-Arxiv-FINAL:/app \
     ${TEST_IMAGE} /bin/bash -c "cd /app && python -c 'import jenkins.tests.test_fetch_arxiv; print(\\"SUCCESS: Module Loaded\\")' "
                '''
                 }
