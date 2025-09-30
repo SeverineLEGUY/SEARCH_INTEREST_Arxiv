@@ -92,11 +92,12 @@ MISTRAL_API_KEY=
 AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=
 
+```
 
 3. **Contruire et lancer les services** :
    -    ```bash
        docker compose up --build
-        ```
+  ```      
 ### 🗂️ DAGs et ordre d’exécution
 
 Lancez manuellement les DAGs d'Entraînement 
