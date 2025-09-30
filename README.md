@@ -122,6 +122,4 @@ Puis activez les **DAGs de Production** pour lancement auto :
 6.  `classify_arxiv_article` (45 minutes) → Catégorise les articles par domaine scientifique
 7.  `evidently_daily_drift_monitoring` (quotidien) → Suivi de dérive de données et de performance du modèle en production.
 
-<br>
-
 ⚠️ **Important** : L'ordre d'exécution des DAGs doit être respecté pour la phase d'Entraînement. Les dépendances entre DAGs peuvent être configurées dans Airflow.
