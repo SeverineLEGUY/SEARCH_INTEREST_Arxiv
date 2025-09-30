@@ -52,7 +52,7 @@ Concrètement, le pipeline :
 ├── docker-compose.yaml       # Configuration Docker complète
 ├── import_env_to_airflow.py  # Script d'import des variables d'env dans Airflow
 
----
+```
 
 ## 🚀 Initialisation et Lancement
 
@@ -60,7 +60,7 @@ Concrètement, le pipeline :
 ```bash
 git clone https://github.com/SeverineLEGUY/SEARCH_INTEREST_Arxiv.git
 cd SEARCH_INTEREST_Arxiv
-
+```
 
 ### 2️⃣ Configurer les variables d’environnement
 
