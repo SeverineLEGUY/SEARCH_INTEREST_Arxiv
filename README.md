@@ -64,9 +64,8 @@ cd SEARCH_INTEREST_Arxiv
 
 ### 2️⃣ Configurer les variables d’environnement
 
-Créer un fichier `.env` à partir du template fourni :  
+Créer un fichier `.env` avec les valeurs suivantes :  
 ```bash
-cp .env.template .env
 
 # ARXIV
 ARXIV_CATEGORY="cs.AI"
@@ -95,8 +94,8 @@ AWS_SECRET_ACCESS_KEY=
 ```
 ### 3️⃣ Construire et lancer les services
 ```bash
-       docker compose up --build
-       docker ps
+docker compose up --build
+docker ps
 ```     
 ### 4️⃣ Accéder aux interfaces
 
