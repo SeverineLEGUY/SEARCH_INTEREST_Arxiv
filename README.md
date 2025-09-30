@@ -2,6 +2,25 @@
 
 Ce projet met en place une **architecture complète de MLOps** pour l’automatisation du cycle de vie d’un modèle de Machine Learning appliqué aux articles scientifiques publiés sur l’**API ArXiv en temps réel**.
 
+Ce projet met en place une **architecture MLOps complète** pour automatiser le cycle de vie d’un modèle de Machine Learning appliqué aux articles **ArXiv en temps réel**.
+
+Concrètement, le pipeline :
+
+* **Extraction & Stockage :** Récupère les nouveaux articles ArXiv et stocke les données brutes dans :
+    * Redis (cache)
+    * MongoDB (NoSQL)
+    * PostgreSQL (relationnel)
+* **Transformation (LLM) :**
+    * 🏷️ **Catégorise** les articles par domaine scientifique.
+    * 📝 **Génère un résumé et une traduction** multilingue via **LLM Mistral**.
+* **MLOps & Orchestration :**
+    * 📊 **Suit et versionne les modèles** avec **MLflow** (traçabilité, métriques).
+    * ⚙️ **Orchestre** toutes les étapes (ETL, entraînement, déploiement) avec **Airflow**.
+* **Déploiement & Exposition :**
+    * 🚀 **Déploie la solution en continu** via **Docker** et **Jenkins/GitHub Actions** (CI/CD).
+    * 🌐 **Expose les résultats** via une **API REST (FastAPI)** et une interface **Streamlit**.
+* **Monitoring :** 👀 **Supervise le comportement** du modèle en production avec **Evidently** (dérive de données et performances).
+
 Concrètement, le pipeline :
 
 -  **Récupère automatiquement** les nouveaux articles publiés sur l’API ArXiv ;  
@@ -109,14 +128,21 @@ docker ps
 
 ### 🗂️ DAGs et ordre d’exécution
 
-Lancez manuellement les DAGs d'Entraînement 
-   - 1. cleanup_redis_and_mongo → Vide les bases Redis et MongoDB
-   - 2. arxiv_to_redis_train →  Récupère un échantillon d’articles depuis l’API ArXiv
-   - 3. arxiv_training → Entraîne le modèle de classification (LLM Mistral) et enregistre la version du modèle dans MLflow.  
-Puis activez les trois DAGs de Production pour lancement auto selon la frequence indiqué
-   - 4. arxiv_to_redis (8 minutes)  → recupère les nouveaux articles Arxiv pour les mettre dans la queue redis
-   - 5. summarize_arxiv_article (30 min) → résumé automatique des articles à l’aide du LLM Mistral
-   - 6. classify_arxiv_article (45 min) → Catégorise les articles par domaine scientifique 
-   - 7. evidently_daily_drift_monitoring : suivi quotidie de derive de données et de performance du modèle en production.  
+Lancez manuellement les **DAGs d'Entraînement** dans cet ordre :
 
-⚠️ Remarque : l’ordre doit être respecté. Les dépendances entre DAGs peuvent être configurées dans Airflow.
+1.  `cleanup_redis_and_mongo` → Vide les bases Redis et MongoDB
+2.  `arxiv_to_redis_train` → Récupère un échantillon d'articles depuis l'API ArXiv
+3.  `arxiv_training` → Entraîne le modèle de classification (LLM Mistral) et enregistre la version du modèle dans MLflow.
+
+Puis activez les **DAGs de Production** pour lancement auto (selon la fréquence indiquée) :
+
+| Tâche | Fréquence | Description |
+| :--- | :--- | :--- |
+| **4.** `arxiv_to_redis` | 8 minutes | Récupère les nouveaux articles Arxiv pour les mettre dans la queue Redis. |
+| **5.** `summarize_arxiv_article` | 30 minutes | Résumé automatique des articles à l'aide du LLM Mistral. |
+| **6.** `classify_arxiv_article` | 45 minutes | Catégorise les articles par domaine scientifique. |
+| **7.** `evidently_daily_drift_monitoring` | Quotidien | Suivi quotidien de dérive de données et de performance du modèle en production. |
+
+<br>
+
+⚠️ **Important** : L'ordre d'exécution des DAGs **doit être respecté** pour la phase d'Entraînement. Les dépendances entre DAGs peuvent être configurées dans Airflow.
