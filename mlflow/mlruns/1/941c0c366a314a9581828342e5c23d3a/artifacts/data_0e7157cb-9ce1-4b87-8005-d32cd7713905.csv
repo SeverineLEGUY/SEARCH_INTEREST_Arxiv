@@ -1,0 +1,1853 @@
+text,label
+"Stitch: Training-Free Position Control in Multimodal Diffusion
+  Transformers Text-to-Image (T2I) generation models have advanced rapidly in recent years,
+but accurately capturing spatial relationships like ""above"" or ""to the right
+of"" poses a persistent challenge. Earlier methods improved spatial relationship
+following with external position control. However, as architectures evolved to
+enhance image quality, these techniques became incompatible with modern models.
+We propose Stitch, a training-free method for incorporating external position
+control into Multi-Modal Diffusion Transformers (MMDiT) via
+automatically-generated bounding boxes. Stitch produces images that are both
+spatially accurate and visually appealing by generating individual objects
+within designated bounding boxes and seamlessly stitching them together. We
+find that targeted attention heads capture the information necessary to isolate
+and cut out individual objects mid-generation, without needing to fully
+complete the image. We evaluate Stitch on PosEval, our benchmark for
+position-based T2I generation. Featuring five new tasks that extend the concept
+of Position beyond the basic GenEval task, PosEval demonstrates that even top
+models still have significant room for improvement in position-based
+generation. Tested on Qwen-Image, FLUX, and SD3.5, Stitch consistently enhances
+base models, even improving FLUX by 218% on GenEval's Position task and by 206%
+on PosEval. Stitch achieves state-of-the-art results with Qwen-Image on
+PosEval, improving over previous models by 54%, all accomplished while
+integrating position control into leading models training-free. Code is
+available at https://github.com/ExplainableML/Stitch.",cs
+"OmniRetarget: Interaction-Preserving Data Generation for Humanoid
+  Whole-Body Loco-Manipulation and Scene Interaction A dominant paradigm for teaching humanoid robots complex skills is to
+retarget human motions as kinematic references to train reinforcement learning
+(RL) policies. However, existing retargeting pipelines often struggle with the
+significant embodiment gap between humans and robots, producing physically
+implausible artifacts like foot-skating and penetration. More importantly,
+common retargeting methods neglect the rich human-object and human-environment
+interactions essential for expressive locomotion and loco-manipulation. To
+address this, we introduce OmniRetarget, an interaction-preserving data
+generation engine based on an interaction mesh that explicitly models and
+preserves the crucial spatial and contact relationships between an agent, the
+terrain, and manipulated objects. By minimizing the Laplacian deformation
+between the human and robot meshes while enforcing kinematic constraints,
+OmniRetarget generates kinematically feasible trajectories. Moreover,
+preserving task-relevant interactions enables efficient data augmentation, from
+a single demonstration to different robot embodiments, terrains, and object
+configurations. We comprehensively evaluate OmniRetarget by retargeting motions
+from OMOMO, LAFAN1, and our in-house MoCap datasets, generating over 8-hour
+trajectories that achieve better kinematic constraint satisfaction and contact
+preservation than widely used baselines. Such high-quality data enables
+proprioceptive RL policies to successfully execute long-horizon (up to 30
+seconds) parkour and loco-manipulation skills on a Unitree G1 humanoid, trained
+with only 5 reward terms and simple domain randomization shared by all tasks,
+without any learning curriculum.",cs
+"Quantum Simulation of Random Unitaries from Clebsch-Gordan Transforms We present a general method for simulating an action of $t$ copies of a Haar
+random unitary for arbitrary compact groups. This construction can be viewed as
+a representation-theoretic generalization of Zhandry's compressed function
+oracle technique. It is conceptually simple, exact and utilizes Clebsch-Gordan
+transforms as main building blocks. In particular, for the unitary group, our
+method is efficient in space and time. Finally, our general oracle for forward
+queries can be easily modified into oracles for conjugate, transpose, and
+inverse queries, thus unifying all four query types.",quant-ph
+"Searching for Difficult-to-Translate Test Examples at Scale NLP models require test data that are sufficiently challenging. The
+difficulty of an example is linked to the topic it originates from (''seed
+topic''). The relationship between the topic and the difficulty of its
+instances is stochastic in nature: an example about a difficult topic can
+happen to be easy, and vice versa. At the scale of the Internet, there are tens
+of thousands of potential topics, and finding the most difficult one by drawing
+and evaluating a large number of examples across all topics is computationally
+infeasible. We formalize this task and treat it as a multi-armed bandit
+problem. In this framework, each topic is an ''arm,'' and pulling an arm (at a
+cost) involves drawing a single example, evaluating it, and measuring its
+difficulty. The goal is to efficiently identify the most difficult topics
+within a fixed computational budget. We illustrate the bandit problem setup of
+finding difficult examples for the task of machine translation. We find that
+various bandit strategies vastly outperform baseline methods like brute-force
+searching the most challenging topics.",cs
+"Comparative study of Wavelet transform and Fourier domain filtering for
+  medical image denoising Denoising of images is a crucial preprocessing step in medical imaging,
+essential for improving diagnostic clarity. While deep learning methods offer
+state-of-the-art performance, their computational complexity and data
+requirements can be prohibitive. In this study we present a comprehensive
+comparative analysis of two classical, computationally efficient
+transform-domain techniques: Discrete Wavelet Transform (DWT) and Discrete
+Fourier Cosine Transform (DFCT) filtering. We evaluated their efficacy in
+denoising medical images which corrupted by Gaussian, Uniform, Poisson, and
+Salt-and-Pepper noise. Contrary to the common hypothesis favoring wavelets for
+their multi-resolution capabilities, our results demonstrate that a block-based
+DFCT approach consistently and significantly outperforms a global DWT approach
+across all noise types and performance metrics (SNR, PSNR, IM). We attribute
+DFCT's superior performance to its localized processing strategy, which better
+preserves fine details by operating on small image blocks, effectively adapting
+to local statistics without introducing global artifacts. This finding
+underscores the importance of algorithmic selection based on processing
+methodology, not just transform properties, and positions DFCT as a highly
+effective and efficient denoising tool for practical medical imaging
+applications.",cond-mat
+"DeepScientist: Advancing Frontier-Pushing Scientific Findings
+  Progressively While previous AI Scientist systems can generate novel findings, they often
+lack the focus to produce scientifically valuable contributions that address
+pressing human-defined challenges. We introduce DeepScientist, a system
+designed to overcome this by conducting goal-oriented, fully autonomous
+scientific discovery over month-long timelines. It formalizes discovery as a
+Bayesian Optimization problem, operationalized through a hierarchical
+evaluation process consisting of ""hypothesize, verify, and analyze"". Leveraging
+a cumulative Findings Memory, this loop intelligently balances the exploration
+of novel hypotheses with exploitation, selectively promoting the most promising
+findings to higher-fidelity levels of validation. Consuming over 20,000 GPU
+hours, the system generated about 5,000 unique scientific ideas and
+experimentally validated approximately 1100 of them, ultimately surpassing
+human-designed state-of-the-art (SOTA) methods on three frontier AI tasks by
+183.7\%, 1.9\%, and 7.9\%. This work provides the first large-scale evidence of
+an AI achieving discoveries that progressively surpass human SOTA on scientific
+tasks, producing valuable findings that genuinely push the frontier of
+scientific discovery. To facilitate further research into this process, we will
+open-source all experimental logs and system code at
+https://github.com/ResearAI/DeepScientist/.",cs
+"Neural Network-based Co-design of Output-Feedback Control Barrier
+  Function and Observer Control Barrier Functions (CBFs) provide a powerful framework for ensuring
+safety in dynamical systems. However, their application typically relies on
+full state information, which is often violated in real-world scenarios due to
+the availability of partial state information. In this work, we propose a
+neural network-based framework for the co-design of a safety controller,
+observer, and CBF for partially observed continuous-time systems. By
+formulating barrier conditions over an augmented state space, our approach
+ensures safety without requiring bounded estimation errors or handcrafted
+barrier functions. All components are jointly trained by formulating
+appropriate loss functions, and we introduce a validity condition to provide
+formal safety guarantees beyond the training data. Finally, we demonstrate the
+effectiveness of the proposed approach through several case studies.",eess
+"The JWST EXCELS Survey: A spectroscopic investigation of the ionizing
+  properties of star-forming galaxies at 1<z<8 Charting the Epoch of Reionization demands robust assessments of what drives
+the production of ionizing photons in high-redshift star-forming galaxies
+(SFGs), and requires better predictive capabilities from current observations.
+Using a sample of $N=159$ SFGs at $1<z<8$, observed with deep medium-resolution
+spectroscopy from the JWST/NIRSpec EXCELS survey, we perform a statistical
+analysis of their ionizing photon production efficiencies ($\xi_\rm{ion}$). We
+consider $\xi_\rm{ion}$, measured with Balmer line measurements, in relation to
+a number of key galaxy properties including; nebular emission line strengths
+($W_\lambda(\rm{H\alpha})$ and $W_\lambda$( [OIII])), UV luminosity
+($M_\rm{UV}$) and UV slope ($\beta_\rm{UV}$), as well as dust attenuation
+($E(B-V)_\rm{neb}$) and redshift. Implementing a Bayesian linear regression
+methodology, we fit $\xi_\rm{ion}$ against the principal observables while
+fully marginalising over all measurement uncertainties, mitigating against the
+impact of outliers and determining the intrinsic scatter. Significant relations
+between $\xi_\rm{ion}$ and $ W_\lambda(\rm{H\alpha})$, $W_\lambda$([OIII]) and
+$\beta_\rm{UV}$ are recovered. Moreover, the weak trends with $M_\rm{UV}$ and
+redshift can be fully explained by the remaining property dependencies.
+Expanding our analysis to multivariate regression, we determine that
+$W_\lambda(\rm{H\alpha})$ or $W_\lambda$([OIII]), along with $\beta_\rm{UV}$
+and $E(B-V)_\rm{neb}$, are the most important observables for accurately
+predicting $\xi_\rm{ion,0}$. The latter identifies the most common outliers as
+SFGs with relatively high $E(B-V)_\rm{neb}\gtrsim0.5$, possibly indicative of
+obscured star-formation or strong differential attenuation. Combining these
+properties enable $\xi_\rm{ion,0}$ to be inferred with an accuracy of
+$\sim0.15\,$dex, with a population intrinsic scatter of
+$\sigma_\rm{int}\sim0.035\,$dex.",astro-ph
+"The distorted Fourier transform for the linearized Gross-Pitaevskii
+  equation in the Hyperbolic plane Motivated by the stability problem for Ginzburg-Landau vortices on the
+hyperbolic plane, we develop the distorted Fourier transform for a general
+class of radial non-self-adjoint matrix Schr\""odinger operators on the
+hyperbolic plane. This applies in particular to the operator obtained by
+linearizing the equivariant Ginzburg-Landau equation on the hyperbolic plane
+around the degree one vortex. We systematically
+  construct the distorted Fourier transform by writing the Stone formula for
+complex energies and taking the limit as the energy tends to the spectrum of
+the operator on the real line. This approach entails a careful analysis of the
+resolvent for complex energies in a neighborhood of the real line. It is the
+analogue of the approaches used in \cite{KS,ES2, LSS25}, where the limiting
+operator as $r\to\infty$ is not self-adjoint and which we carry out for all
+energies. Our analysis serves as the starting point for the study of the
+stability of the Ginzburg-Landau vortex under equivariant perturbations.",math
+"Totally real points in the multibrot sets We classify all totally real parabolic parameters in the multibrot sets,
+extending a theorem of Buff and Koch.",math
+"Molecular dynamics insights into the Debye process of 1-propanol The dielectric response of mono-alcohols exhibits a strong Debye peak
+generally attributed to the dynamics of hydrogen-bonds (HB) supramolecular
+structures through a mechanism that remains unclear in many aspects. In this
+letter, we use standard all-atom molecular dynamics simulations to investigate
+this phenomenon in 1-propanol, a prototypic monoalcohol, over a wide
+temperature range covering a significant change in dielectric permittivity. We
+obtained dielectric spectra showing a Debye peak in good agreement with
+experimental data, which we decomposed into the self and cross parts of the
+dipolar correlations. The latter extends over a few molecular distances and
+contributes increasingly to the Debye peak upon cooling. To investigate its
+physical origin, we analyzed the HB structures by identifying clusters from
+simulation snapshots. Below 300~K, the dielectric permittivity was shown to
+arise almost entirely from intra-cluster cross-correlations. Furthermore, by
+tracking the dipole decorrelation of groups of molecules initially belonging to
+the same cluster, we found that supramolecular structures play a key role in
+stabilizing cross-correlation over time scales longer than the relaxation of
+individual molecules.",cond-mat
+"Importance of localized dilatation and distensibility in identifying
+  determinants of thoracic aortic aneurysm with neural operators Thoracic aortic aneurysms (TAAs) arise from diverse mechanical and
+mechanobiological disruptions to the aortic wall that increase the risk of
+dissection or rupture. Evidence links TAA development to dysfunctions in the
+aortic mechanotransduction axis, including loss of elastic fiber integrity and
+cell-matrix connections. Because distinct insults create different mechanical
+vulnerabilities, there is a critical need to identify interacting factors that
+drive progression. Here, we use a finite element framework to generate
+synthetic TAAs from hundreds of heterogeneous insults spanning varying degrees
+of elastic fiber damage and impaired mechanosensing. From these simulations, we
+construct spatial maps of localized dilatation and distensibility to train
+neural networks that predict the initiating combined insult. We compare several
+architectures (Deep Operator Networks, UNets, and Laplace Neural Operators) and
+multiple input data formats to define a standard for future subject-specific
+modeling. We also quantify predictive performance when networks are trained
+using only geometric data (dilatation) versus both geometric and mechanical
+data (dilatation plus distensibility). Across all networks, prediction errors
+are significantly higher when trained on dilatation alone, underscoring the
+added value of distensibility information. Among the tested models, UNet
+consistently provides the highest accuracy across all data formats. These
+findings highlight the importance of acquiring full-field measurements of both
+dilatation and distensibility in TAA assessment to reveal the mechanobiological
+drivers of disease and support the development of personalized treatment
+strategies.",cs
+"Probing the Critical Point (CritPt) of AI Reasoning: a Frontier Physics
+  Research Benchmark While large language models (LLMs) with reasoning capabilities are
+progressing rapidly on high-school math competitions and coding, can they
+reason effectively through complex, open-ended challenges found in frontier
+physics research? And crucially, what kinds of reasoning tasks do physicists
+want LLMs to assist with? To address these questions, we present the CritPt
+(Complex Research using Integrated Thinking - Physics Test, pronounced
+""critical point""), the first benchmark designed to test LLMs on unpublished,
+research-level reasoning tasks that broadly covers modern physics research
+areas, including condensed matter, quantum physics, atomic, molecular & optical
+physics, astrophysics, high energy physics, mathematical physics, statistical
+physics, nuclear physics, nonlinear dynamics, fluid dynamics and biophysics.
+CritPt consists of 71 composite research challenges designed to simulate
+full-scale research projects at the entry level, which are also decomposed to
+190 simpler checkpoint tasks for more fine-grained insights. All problems are
+newly created by 50+ active physics researchers based on their own research.
+Every problem is hand-curated to admit a guess-resistant and machine-verifiable
+answer and is evaluated by an automated grading pipeline heavily customized for
+advanced physics-specific output formats. We find that while current
+state-of-the-art LLMs show early promise on isolated checkpoints, they remain
+far from being able to reliably solve full research-scale challenges: the best
+average accuracy among base models is only 4.0% , achieved by GPT-5 (high),
+moderately rising to around 10% when equipped with coding tools. Through the
+realistic yet standardized evaluation offered by CritPt, we highlight a large
+disconnect between current model capabilities and realistic physics research
+demands, offering a foundation to guide the development of scientifically
+grounded AI tools.",cs
+"Electrical Readout of Spin Environments in Diamond for Quantum Sensing Nitrogen-vacancy (NV) centres in diamond are a key platform for quantum
+sensing and quantum information, combining long coherence times with
+controllable spin-spin interactions. Most of current quantum algorithms rely on
+optical access, which limit device integration and applicability in opaque or
+miniaturized settings. Here we demonstrate an all-electrical approach,
+photocurrent double electron-electron resonance (PC-DEER), permitting
+exploiting local dipolar interactions between individual NV spin qubits or
+ensembles and nearby paramagnetic defects with sub-confocal resolution. PC-DEER
+extends photocurrent NV readout from single-spin to spin-bath control and
+coherent manipulation, enabling characterization of bath-induced noise and
+effective deployment of noise-reduction protocols. We resolve the signatures of
+substitutional nitrogen (P1) and NVH centers with reproducible contrast by
+using electrical signals. Our results establish a scalable, optical-free spin
+readout strategy that bridges fundamental studies of spin environments with
+deployable quantum technologies, advancing the integration of diamond-based
+sensors into solid-state quantum devices.",quant-ph
+"Estimating Dimensionality of Neural Representations from Finite Samples The global dimensionality of a neural representation manifold provides rich
+insight into the computational process underlying both artificial and
+biological neural networks. However, all existing measures of global
+dimensionality are sensitive to the number of samples, i.e., the number of rows
+and columns of the sample matrix. We show that, in particular, the
+participation ratio of eigenvalues, a popular measure of global dimensionality,
+is highly biased with small sample sizes, and propose a bias-corrected
+estimator that is more accurate with finite samples and with noise. On
+synthetic data examples, we demonstrate that our estimator can recover the true
+known dimensionality. We apply our estimator to neural brain recordings,
+including calcium imaging, electrophysiological recordings, and fMRI data, and
+to the neural activations in a large language model and show our estimator is
+invariant to the sample size. Finally, our estimators can additionally be used
+to measure the local dimensionalities of curved neural manifolds by weighting
+the finite samples appropriately.",stat
+"Radio-based Multi-Robot Odometry and Relative Localization Radio-based methods such as Ultra-Wideband (UWB) and RAdio Detection And
+Ranging (radar), which have traditionally seen limited adoption in robotics,
+are experiencing a boost in popularity thanks to their robustness to harsh
+environmental conditions and cluttered environments. This work proposes a
+multi-robot UGV-UAV localization system that leverages the two technologies
+with inexpensive and readily-available sensors, such as Inertial Measurement
+Units (IMUs) and wheel encoders, to estimate the relative position of an aerial
+robot with respect to a ground robot. The first stage of the system pipeline
+includes a nonlinear optimization framework to trilaterate the location of the
+aerial platform based on UWB range data, and a radar pre-processing module with
+loosely coupled ego-motion estimation which has been adapted for a multi-robot
+scenario. Then, the pre-processed radar data as well as the relative
+transformation are fed to a pose-graph optimization framework with odometry and
+inter-robot constraints. The system, implemented for the Robotic Operating
+System (ROS 2) with the Ceres optimizer, has been validated in
+Software-in-the-Loop (SITL) simulations and in a real-world dataset. The
+proposed relative localization module outperforms state-of-the-art closed-form
+methods which are less robust to noise. Our SITL environment includes a custom
+Gazebo plugin for generating realistic UWB measurements modeled after real
+data. Conveniently, the proposed factor graph formulation makes the system
+readily extensible to full Simultaneous Localization And Mapping (SLAM).
+Finally, all the code and experimental data is publicly available to support
+reproducibility and to serve as a common open dataset for benchmarking.",cs
+"The REDTOP experiment: a $η/η^{\prime}$ factory to explore dark
+  matter and physics beyond the Standard Model The REDTOP experiment is a proposed super-$\eta$/$\eta'$ factory aimed at
+exploring physics beyond the Standard Model in the MeV-GeV range and rare
+$\eta$/$\eta'$ meson decays. With projected production rates exceeding
+$10^{13}$ $\eta$/year and $10^{12}$ $\eta'$/year, REDTOP will enable studies of
+symmetry violations and all four portals to the Dark Sector. Preliminary
+studies show sensitivity, which could open a broad possibility for exploring
+new physics and contribute to a deeper understanding of fundamental
+interactions within the Standard Model. Such high statistics experiments and
+the required sensitivity can only be achieved with a high intensity proton or
+pion beam, available at several accelerator facilities worldwide. This article
+discusses the physics potential of the REDTOP experiment, the detector design,
+and the future beam requirements.",hep-ex
+"Can LLMs Write Mathematics Papers? A Case Study in Reservoir Computing As AI capabilities continue to grow exponentially on economically relevant
+human expert tasks, with task completion horizons doubling every 7 months
+according to the Model Evaluation and Threat Research (METR), we are interested
+in how this applies to the task of mathematics research. To explore this, we
+evaluated the capability of four frontier large language models (LLMs), ChatGPT
+5, Claude 4.1 Opus, Gemini 2.5 Pro, and Grok 4, at the task of creating a
+mini-paper on reservoir computing. All models produced engaging papers with
+some apparent understanding of various techniques, but were sometimes lead to
+mistakes by surface level understanding of key ideas. That said, the
+capabilities on LLMs on this task was likely as good or greater than that
+predicted by METR.",math
+"TASP: Topology-aware Sequence Parallelism Long-context large language models (LLMs) face constraints due to the
+quadratic complexity of the self-attention mechanism. The mainstream sequence
+parallelism (SP) method, Ring Attention, attempts to solve this by distributing
+the query into multiple query chunks across accelerators and enable each Q
+tensor to access all KV tensors from other accelerators via the Ring AllGather
+communication primitive. However, it exhibits low communication efficiency,
+restricting its practical applicability. This inefficiency stems from the
+mismatch between the Ring AllGather communication primitive it adopts and the
+AlltoAll topology of modern accelerators. A Ring AllGather primitive is
+composed of iterations of ring-styled data transfer, which can only utilize a
+very limited fraction of an AlltoAll topology.
+  Inspired by the Hamiltonian decomposition of complete directed graphs, we
+identify that modern accelerator topology can be decomposed into multiple
+orthogonal ring datapaths which can concurrently transfer data without
+interference. Based on this, we further observe that the Ring AllGather
+primitive can also be decomposed into the same number of concurrent ring-styled
+data transfer at every iteration. Based on these insights, we propose TASP, a
+topology-aware SP method for long-context LLMs that fully utilizes the
+communication capacity of modern accelerators via topology decomposition and
+primitive decomposition. Experimental results on both single-node and
+multi-node NVIDIA H100 systems and a single-node AMD MI300X system demonstrate
+that TASP achieves higher communication efficiency than Ring Attention on these
+modern accelerator topologies and achieves up to 3.58 speedup than Ring
+Attention and its variant Zigzag-Ring Attention. The code is available at
+https://github.com/infinigence/HamiltonAttention.",cs
+"Rearchitecting Datacenter Lifecycle for AI: A TCO-Driven Framework The rapid rise of large language models (LLMs) has been driving an enormous
+demand for AI inference infrastructure, mainly powered by high-end GPUs. While
+these accelerators offer immense computational power, they incur high capital
+and operational costs due to frequent upgrades, dense power consumption, and
+cooling demands, making total cost of ownership (TCO) for AI datacenters a
+critical concern for cloud providers. Unfortunately, traditional datacenter
+lifecycle management (designed for general-purpose workloads) struggles to keep
+pace with AI's fast-evolving models, rising resource needs, and diverse
+hardware profiles. In this paper, we rethink the AI datacenter lifecycle scheme
+across three stages: building, hardware refresh, and operation. We show how
+design choices in power, cooling, and networking provisioning impact long-term
+TCO. We also explore refresh strategies aligned with hardware trends. Finally,
+we use operation software optimizations to reduce cost. While these
+optimizations at each stage yield benefits, unlocking the full potential
+requires rethinking the entire lifecycle. Thus, we present a holistic lifecycle
+management framework that coordinates and co-optimizes decisions across all
+three stages, accounting for workload dynamics, hardware evolution, and system
+aging. Our system reduces the TCO by up to 40\% over traditional approaches.
+Using our framework we provide guidelines on how to manage AI datacenter
+lifecycle for the future.",cs
+"TAP: Two-Stage Adaptive Personalization of Multi-task and Multi-Modal
+  Foundation Models in Federated Learning Federated Learning (FL), despite demonstrating impressive capabilities in the
+training of multiple models in a decentralized manner, has been shown to
+produce a final model not necessarily well-suited to the needs of each client.
+While extensive work has been conducted on how to create tailored personalized
+models, called Personalized Federated Learning (PFL), less attention has been
+given to personalization via fine-tuning of foundation models with multi-task
+and multi-modal properties. Moreover, there exists a lack of understanding in
+the literature on how to fine-tune and personalize such models in a setting
+that is heterogeneous across clients not only in data, but also in tasks and
+modalities. To address this gap in the literature, we propose TAP (Two-Stage
+Adaptive Personalization), which (i) leverages mismatched model architectures
+between the clients and server to selectively conduct replacement operations
+when it benefits a client's local tasks and (ii) engages in post-FL knowledge
+distillation for capturing beneficial general knowledge without compromising
+personalization. We also introduce the first convergence analysis of the server
+model under its modality-task pair architecture, and demonstrate that as the
+number of modality-task pairs increases, its ability to cater to all tasks
+suffers. Through extensive experiments, we demonstrate the effectiveness of our
+proposed algorithm across a variety of datasets and tasks in comparison to a
+multitude of baselines. Implementation code is publicly available at
+https://github.com/lee3296/TAP.",cs
+"Entropy After $\langle \texttt{/Think} \rangle$ for reasoning model
+  early exiting Large reasoning models show improved performance with longer chains of
+thought. However, recent work has highlighted (qualitatively) their tendency to
+overthink, continuing to revise answers even after reaching the correct
+solution. We quantitatively confirm this inefficiency by tracking Pass@1 for
+answers averaged over a large number of rollouts and find that the model often
+begins to always produce the correct answer early in the reasoning, making
+extra reasoning a waste of tokens. To detect and prevent overthinking, we
+propose a simple and inexpensive novel signal -- Entropy After </Think> (EAT)
+-- for monitoring and deciding whether to exit reasoning early. By appending a
+stop thinking token (</think>) and monitoring the entropy of the following
+token as the model reasons, we obtain a trajectory that decreases and
+stabilizes when Pass@1 plateaus; thresholding its variance under an exponential
+moving average yields a practical stopping rule. Importantly, our approach
+enables adaptively allocating compute based on the EAT trajectory, allowing us
+to spend compute in a more efficient way compared with fixing the token budget
+for all questions. Empirically, on MATH500 and AIME2025, EAT reduces token
+usage by 13 - 21% without harming accuracy, and it remains effective in black
+box settings where logits from the reasoning model are not accessible, and EAT
+is computed with proxy models.",cs
+"Diversity of Cold Worlds: Predicted Near- to Mid-infrared Spectral
+  Signatures of a Cold Brown Dwarf with Potential Auroral Heating Recent JWST/NIRSpec observations have revealed strong methane emission at
+3.326 microns in the $\approx$482 K brown dwarf CWISEP J193518.59$-$154620.3
+(W1935). Atmospheric modeling suggests the presence of a $\approx$300 K thermal
+inversion in its upper atmosphere, potentially driven by auroral activity. We
+present an extension of the retrieved spectra of W1935 with and without
+inversion spanning 1--20 microns, to identify thermal inversion-sensitive
+spectral features and explore the origin of the object's peculiar
+characteristics. Our analysis indicates that atmospheric heating contributes
+approximately 15% to the bolometric luminosity. The model with inversion
+predicts an additional similar-strength methane emission feature at 7.7 microns
+and tentative ammonia emission features in the mid-infrared. Wavelengths beyond
+$\sim$2 microns are significantly influenced by the inversion, except for the
+4.1--5.0 microns CO$_2$ and CO features that originate from atmospheric layers
+deeper than the region where the inversion occurs. W1935 appears as an outlier
+in Spitzer/IRAC mid-infrared color-magnitude diagrams (CMDs) based on the
+$m_{\rm Ch1}-m_{\rm Ch2}$ (IRAC 3.6 microns $-$ 4.5 microns) color, but
+exhibits average behavior in all other combinations that trace clear sequences.
+This anomaly is likely due to the Ch2 filter probing vertical mixing-sensitive
+CO$_2$ and CO features that do not correlate with temperature or spectral type.
+We find that the thermal inversion tends to produce bluer $m_{\rm Ch1}-m_{\rm
+Ch2}$ colors, so the overluminous and/or redder position of W1935 in diagrams
+involving this color cannot be explained by the thermal inversion. This
+analysis provides insights into the intriguing dispersion of cold brown dwarfs
+in mid-infrared CMDs and sheds light on their spectral diversity.",astro-ph
+"GastroViT: A Vision Transformer Based Ensemble Learning Approach for
+  Gastrointestinal Disease Classification with Grad CAM & SHAP Visualization The gastrointestinal (GI) tract of humans can have a wide variety of aberrant
+mucosal abnormality findings, ranging from mild irritations to extremely fatal
+illnesses. Prompt identification of gastrointestinal disorders greatly
+contributes to arresting the progression of the illness and improving
+therapeutic outcomes. This paper presents an ensemble of pre-trained vision
+transformers (ViTs) for accurately classifying endoscopic images of the GI
+tract to categorize gastrointestinal problems and illnesses. ViTs,
+attention-based neural networks, have revolutionized image recognition by
+leveraging the transformative power of the transformer architecture, achieving
+state-of-the-art (SOTA) performance across various visual tasks. The proposed
+model was evaluated on the publicly available HyperKvasir dataset with 10,662
+images of 23 different GI diseases for the purpose of identifying GI tract
+diseases. An ensemble method is proposed utilizing the predictions of two
+pre-trained models, MobileViT_XS and MobileViT_V2_200, which achieved
+accuracies of 90.57% and 90.48%, respectively. All the individual models are
+outperformed by the ensemble model, GastroViT, with an average precision,
+recall, F1 score, and accuracy of 69%, 63%, 64%, and 91.98%, respectively, in
+the first testing that involves 23 classes. The model comprises only 20 million
+(M) parameters, even without data augmentation and despite the highly
+imbalanced dataset. For the second testing with 16 classes, the scores are even
+higher, with average precision, recall, F1 score, and accuracy of 87%, 86%,
+87%, and 92.70%, respectively. Additionally, the incorporation of explainable
+AI (XAI) methods such as Grad-CAM (Gradient Weighted Class Activation Mapping)
+and SHAP (Shapley Additive Explanations) enhances model interpretability,
+providing valuable insights for reliable GI diagnosis in real-world settings.",eess
+"OffTopicEval: When Large Language Models Enter the Wrong Chat, Almost
+  Always! Large Language Model (LLM) safety is one of the most pressing challenges for
+enabling wide-scale deployment. While most studies and global discussions focus
+on generic harms, such as models assisting users in harming themselves or
+others, enterprises face a more fundamental concern: whether LLM-based agents
+are safe for their intended use case. To address this, we introduce operational
+safety, defined as an LLM's ability to appropriately accept or refuse user
+queries when tasked with a specific purpose. We further propose OffTopicEval,
+an evaluation suite and benchmark for measuring operational safety both in
+general and within specific agentic use cases. Our evaluations on six model
+families comprising 20 open-weight LLMs reveal that while performance varies
+across models, all of them remain highly operationally unsafe. Even the
+strongest models -- Qwen-3 (235B) with 77.77\% and Mistral (24B) with 79.96\%
+-- fall far short of reliable operational safety, while GPT models plateau in
+the 62--73\% range, Phi achieves only mid-level scores (48--70\%), and Gemma
+and Llama-3 collapse to 39.53\% and 23.84\%, respectively. While operational
+safety is a core model alignment issue, to suppress these failures, we propose
+prompt-based steering methods: query grounding (Q-ground) and system-prompt
+grounding (P-ground), which substantially improve OOD refusal. Q-ground
+provides consistent gains of up to 23\%, while P-ground delivers even larger
+boosts, raising Llama-3.3 (70B) by 41\% and Qwen-3 (30B) by 27\%. These results
+highlight both the urgent need for operational safety interventions and the
+promise of prompt-based steering as a first step toward more reliable LLM-based
+agents.",cs
+"Stab-QRAM: An All-Clifford Quantum Random Access Memory for Special Data Quantum random access memories (QRAMs) are pivotal for data-intensive quantum
+algorithms, but existing general-purpose and domain-specific architectures are
+hampered by a critical bottleneck: a heavy reliance on non-Clifford gates
+(e.g., T-gates), which are prohibitively expensive to implement
+fault-tolerantly. To address this challenge, we introduce the Stabilizer-QRAM
+(Stab-QRAM), a domain-specific architecture tailored for data with an affine
+Boolean structure ($f(\mathbf{x}) = A\mathbf{x} + \mathbf{b}$ over
+$\mathbb{F}_2$), a class of functions vital for optimization, time-series
+analysis, and quantum linear systems algorithms. We demonstrate that the gate
+interactions required to implement the matrix $A$ form a bipartite graph. By
+applying K\""{o}nig's edge-coloring theorem to this graph, we prove that
+Stab-QRAM achieves an optimal logical circuit depth of $O(\log N)$ for $N$ data
+items, matching its $O(\log N)$ space complexity. Critically, the Stab-QRAM is
+constructed exclusively from Clifford gates (CNOT and X), resulting in a zero
+$T$-count. This design completely circumvents the non-Clifford bottleneck,
+eliminating the need for costly magic state distillation and making it
+exceptionally suited for early fault-tolerant quantum computing platforms. We
+highlight Stab-QRAM's utility as a resource-efficient oracle for applications
+in discrete dynamical systems, and as a core component in Quantum Linear
+Systems Algorithms, providing a practical pathway for executing data-intensive
+tasks on emerging quantum hardware.",quant-ph
+"A systematic comparison of Large Language Models for automated
+  assignment assessment in programming education: Exploring the importance of
+  architecture and vendor This study presents the first large-scale, side-by-side comparison of
+contemporary Large Language Models (LLMs) in the automated grading of
+programming assignments. Drawing on over 6,000 student submissions collected
+across four years of an introductory programming course, we systematically
+analysed the distribution of grades, differences in mean scores and variability
+reflecting stricter or more lenient grading, and the consistency and clustering
+of grading patterns across models. Eighteen publicly available models were
+evaluated: Anthropic (claude-3-5-haiku, claude-opus-4-1, claude-sonnet-4);
+Deepseek (deepseek-chat, deepseek-reasoner); Google (gemini-2.0-flash-lite,
+gemini-2.0-flash, gemini-2.5-flash-lite, gemini-2.5-flash, gemini-2.5-pro); and
+OpenAI (gpt-4.1-mini, gpt-4.1-nano, gpt-4.1, gpt-4o-mini, gpt-4o, gpt-5-mini,
+gpt-5-nano, gpt-5). Statistical tests, correlation and clustering analyses
+revealed clear, systematic differences between and within vendor families, with
+""mini"" and ""nano"" variants consistently underperforming their full-scale
+counterparts. All models displayed high internal agreement, measured by the
+intraclass correlation coefficient, with the model consensus but only moderate
+agreement with human teachers' grades, indicating a persistent gap between
+automated and human assessment. These findings underscore that the choice of
+model for educational deployment is not neutral and should be guided by
+pedagogical goals, transparent reporting of evaluation metrics, and ongoing
+human oversight to ensure accuracy, fairness and relevance.",cs
+"Tests of Evolving Dark Energy with Geometric Probes of the Late-Time
+  Universe Recent results from the Dark Energy Spectroscopic Instrument (DESI) have
+shown a strong statistical preference for a time-evolving dark energy model
+over $\Lambda$CDM when combining BAO, CMB, and supernova (SN) data. We
+investigate the robustness of this conclusion by isolating geometric
+information in weak lensing measurements from the DES Year 3 survey and
+combining it with different datasets. We introduce a hyperparameter,
+$\Omega_{\rm m}^{\rm growth}$, to decouple the growth contribution from the
+lensing 2-point correlation and thus bypass the possible effect of the
+$\sigma_8$ tension in our analysis. We then combine with the late-time
+geometric probes provided by BAO and SN, along with CMB primary data. The
+preference for evolving dark energy is consistent with the DESI-DR2 findings:
+when combining BAO, primary CMB, and weak lensing data, the $w_0w_a$CDM is
+preferred at about the $3\sigma$ significance. However, when we add SN, the
+result is sensitive to the choice of data: if we leave out $z<0.1$ SN data in
+the analysis, as a test of the effect of inhomogeneous calibration, we obtain a
+statistical significance below $2\sigma$ for time evolving dark energy. Indeed,
+the high-z only SN data \textbf{lowers} the evidence for evolving dark energy
+in all the data combinations we have examined. This underscores the importance
+of improved SN samples at low redshift and of alternative data combinations. We
+show that cosmic shear measurements with LSST Year 1 data will provide
+comparable power to current SN data. We discuss other low-redshift probes
+provided by lensing and galaxy clustering to test for evolving dark energy.",astro-ph
+"Bi-Hamiltonian Structures and Equivalent Representations of the
+  Pais-Uhlenbeck Model We provide a complete classification of all the ways the Pais-Uhlenbeck
+osicllator might be embedded in two dimensional space. We discuss the
+Bi-Hamiltonian structures of this model, and examine how alternative
+Hamiltonian structures might be generated from the dynamical Lie symmetries of
+the theory. We then examine how the Bi-Hamiltonian strucutre may be exploited
+to evade the problem of unbounded Hamiltonians that is usually associated with
+Higher Time Derivative Theories. The effect of interactions on this
+Bi-Hamiltonian structure is also considered.",math-ph
+"On Deepfake Voice Detection -- It's All in the Presentation While the technologies empowering malicious audio deepfakes have dramatically
+evolved in recent years due to generative AI advances, the same cannot be said
+of global research into spoofing (deepfake) countermeasures. This paper
+highlights how current deepfake datasets and research methodologies led to
+systems that failed to generalize to real world application. The main reason is
+due to the difference between raw deepfake audio, and deepfake audio that has
+been presented through a communication channel, e.g. by phone. We propose a new
+framework for data creation and research methodology, allowing for the
+development of spoofing countermeasures that would be more effective in
+real-world scenarios. By following the guidelines outlined here we improved
+deepfake detection accuracy by 39% in more robust and realistic lab setups, and
+by 57% on a real-world benchmark. We also demonstrate how improvement in
+datasets would have a bigger impact on deepfake detection accuracy than the
+choice of larger SOTA models would over smaller models; that is, it would be
+more important for the scientific community to make greater investment on
+comprehensive data collection programs than to simply train larger models with
+higher computational demands.",eess
+"Experimental overview of electromagnetic radiation in heavy-ion
+  collisions Electromagnetic (EM) probes such as photons and dileptons provide direct
+insight into the space-time evolution of the hot and dense matter formed in
+heavy-ion collisions. Being unaffected by strong interactions, they serve as
+penetrating messengers from all collision stages, from pre-equilibrium dynamics
+to the quark-gluon plasma (QGP) and hadronic phases. This contribution
+summarises recent experimental results on direct-photon and dilepton production
+from RHIC and LHC experiments, as well as at lower energies. Particular
+emphasis is given to the ongoing 'direct-photon puzzle', the study of universal
+scaling of direct-photon production over a large range of collision systems and
+energies. Recent dielectron measurements from ALICE, STAR, and HADES, as well
+as new experimental developments at the LHC, are presented, along with
+perspectives for future facilities.",nucl-ex
+"ORACLE: A rigorous metric and method to explore all near-optimal designs
+  for energy systems Optimization models are fundamental tools for providing quantitative insights
+to decision-makers. However, models, objectives, and constraints do not capture
+all real-world factors accurately. Thus, instead of the single optimal
+solution, real-world stakeholders are often interested in the near-optimal
+space -- solutions that lie within a specified margin of the optimal objective
+value. Solutions in the near-optimal space can then be assessed regarding
+desirable non-modeled or qualitative aspects. The near-optimal space is usually
+explored by so-called Modelling to Generate Alternatives (MGA) methods.
+However, current MGA approaches mainly employ heuristics, which do not measure
+or guarantee convergence.
+  We propose a method called ORACLE, which guarantees generation and
+exploration on the \emph{entire near-optimal} space by exploiting convexity.
+ORACLE iteratively approximates the near-optimal space by introducing a metric
+that both measures convergence and suggests exploration directions. Once the
+approximations are refined to a desired tolerance, any near-optimal designs can
+be generated with negligible computational effort.
+  We compare our approach with existing methods on a sector-coupled energy
+system model of Switzerland. ORACLE is the only method able to guarantee
+convergence within a desired tolerance. Additionally, we show that heuristic
+MGA methods miss large areas of the near-optimal space, potentially skewing
+decision-making by leaving viable options for the energy transition off the
+table.",math
+"Non-local edge mode hybridization in the long-range interacting Kitaev
+  chain In one-dimensional p-wave superconductors with short-range interactions,
+topologically protected Majorana modes emerge, whose mass decays exponentially
+with system size, as first shown by Kitaev. In this work, we extend this
+prototypical model by including power law long-range interactions within a
+self-consistent framework, leading to the self-consistent long-range Kitaev
+chain (seco-LRKC). In this model, the gap matrix acquires a rich structure
+where short-range superconducting correlations coexist with long-range
+correlations that are exponentially localized at both chain edges
+simultaneously. As a direct consequence, the topological edge modes hybridize
+even if their wavefunction overlap vanishes, and the edge mode mass inherits
+the asymptotic scaling of the interaction. In contrast to models with imposed
+power law pairing, where massive Dirac modes emerge for exponents $\nu < d$, we
+analytically motivate and numerically demonstrate that, in the fully
+self-consistent model, algebraic edge mode decay with system size persists for
+all interaction exponents $\nu > 0$, despite exponential wave function
+localization. While the edge mode remains massless in the thermodynamic limit,
+finite-size corrections can be experimentally relevant in mesoscopic systems
+with effective long-range interactions that decay sufficiently slowly.",cond-mat
+"Silicon pinhole strip defects and their impact on ATLAS Inner Tracker HV
+  current measurement In preparation for the High-Luminsoity LHC (HL-LHC), the ATLAS detector will
+undergo major detector upgrades, including the replacement of the current Inner
+Detector with the new all-silicon Inner Tracker (ITk). The ITk consists of a
+pixel detector close to the beamline surrounded by a large-area strip detector.
+During detector production, the electrical properties of silicon sensors and
+readout electronics must be characterized through a series of quality control
+(QC) and quality assurance tests. These tests ensure any defect is captured at
+the earliest possible stage. One such defect, called a pinhole, occurs when the
+strip implant and the metal readout electrode are shorted through the
+intermediary dielectric layer. Notably, the introduction of pinholes during
+module assembly and pinhole effects on completed modules, especially on leakage
+current measurement circuitry, have never been studied. In this paper, we
+investigate the effect of such connections on the sensor leakage current
+measurements of completed modules and introduce new ways to locate pinholed
+strips. With minor modifications to testing procedures, such defects are shown
+not to impede module testing or performance.",physics
+"Transformer Classification of Breast Lesions: The BreastDCEDL_AMBL
+  Benchmark Dataset and 0.92 AUC Baseline The error is caused by special characters that arXiv's system doesn't
+recognize. Here's the cleaned version with all problematic characters replaced:
+Breast magnetic resonance imaging is a critical tool for cancer detection and
+treatment planning, but its clinical utility is hindered by poor specificity,
+leading to high false-positive rates and unnecessary biopsies. This study
+introduces a transformer-based framework for automated classification of breast
+lesions in dynamic contrast-enhanced MRI, addressing the challenge of
+distinguishing benign from malignant findings. We implemented a SegFormer
+architecture that achieved an AUC of 0.92 for lesion-level classification, with
+100% sensitivity and 67% specificity at the patient level - potentially
+eliminating one-third of unnecessary biopsies without missing malignancies. The
+model quantifies malignant pixel distribution via semantic segmentation,
+producing interpretable spatial predictions that support clinical
+decision-making. To establish reproducible benchmarks, we curated
+BreastDCEDL_AMBL by transforming The Cancer Imaging Archive's AMBL collection
+into a standardized deep learning dataset with 88 patients and 133 annotated
+lesions (89 benign, 44 malignant). This resource addresses a key infrastructure
+gap, as existing public datasets lack benign lesion annotations, limiting
+benign-malignant classification research. Training incorporated an expanded
+cohort of over 1,200 patients through integration with BreastDCEDL datasets,
+validating transfer learning approaches despite primary tumor-only annotations.
+Public release of the dataset, models, and evaluation protocols provides the
+first standardized benchmark for DCE-MRI lesion classification, enabling
+methodological advancement toward clinical deployment.",cs
+"Adaptive Planning for Multi-Attribute Controllable Summarization with
+  Monte Carlo Tree Search Controllable summarization moves beyond generic outputs toward human-aligned
+summaries guided by specified attributes. In practice, the interdependence
+among attributes makes it challenging for language models to satisfy correlated
+constraints consistently. Moreover, previous approaches often require
+per-attribute fine-tuning, limiting flexibility across diverse summary
+attributes. In this paper, we propose adaptive planning for multi-attribute
+controllable summarization (PACO), a training-free framework that reframes the
+task as planning the order of sequential attribute control with a customized
+Monte Carlo Tree Search (MCTS). In PACO, nodes represent summaries, and actions
+correspond to single-attribute adjustments, enabling progressive refinement of
+only the attributes requiring further control. This strategy adaptively
+discovers optimal control orders, ultimately producing summaries that
+effectively meet all constraints. Extensive experiments across diverse domains
+and models demonstrate that PACO achieves robust multi-attribute
+controllability, surpassing both LLM-based self-planning models and fine-tuned
+baselines. Remarkably, PACO with Llama-3.2-1B rivals the controllability of the
+much larger Llama-3.3-70B baselines. With larger models, PACO achieves superior
+control performance, outperforming all competitors.",cs
+"Improved Approximation for Broadcasting in k-cycle Graphs Broadcasting is an information dissemination primitive where a message
+originates at a node (called the originator) and is passed to all other nodes
+in the network. Broadcasting research is motivated by efficient network design
+and determining the broadcast times of standard network topologies. Verifying
+the broadcast time of a node $v$ in an arbitrary network $G$ is known to be
+NP-hard. Additionally, recent findings show that the broadcast time problem is
+also NP-complete in general cactus graphs and some highly restricted
+subfamilies of cactus graphs. These graph families are structurally similar to
+$k$-cycle graphs, in which the broadcast time problem is also believed to be
+NP-complete. In this paper, we present a simple $(1.5-\epsilon)$-approximation
+algorithm for determining the broadcast time of networks modeled using
+$k$-cycle graphs, where $\epsilon > 0$ depends on the structure of the graph.",cs
+"Locally Lipschitz Path Dependent FBSDEs with Unbounded Terminal
+  Conditions in Brownian and L{é}vy Settings This paper is dedicated to the analysis of forward backward stochastic
+differential equations driven by a L{\'e}vy process. We assume that the
+generator and the terminal condition are path-dependent and satisfy a local
+Lipschitz condition. We study solvability and Malliavin differentiability of
+such BSDEs. The proof of the existence and uniqueness is done in three steps.
+First of all, we truncate and localize the terminal condition and the
+generator. Then we use an iteration argument to get bounds for the solutions of
+the truncated BSDE (independent from the level of truncation). Finally, we let
+the level of truncation tend to infinity. A stability result ends the proof.
+The Malliavin differentiability result is based on a recent characterisation
+for the Malliavin Sobolev space D 1,2 by S. Geiss and Zhou.",math
+"PRISM: Progressive Rain removal with Integrated State-space Modeling Image deraining is an essential vision technique that removes rain streaks
+and water droplets, enhancing clarity for critical vision tasks like autonomous
+driving. However, current single-scale models struggle with fine-grained
+recovery and global consistency. To address this challenge, we propose
+Progressive Rain removal with Integrated State-space Modeling (PRISM), a
+progressive three-stage framework: Coarse Extraction Network (CENet), Frequency
+Fusion Network (SFNet), and Refine Network (RNet). Specifically, CENet and
+SFNet utilize a novel Hybrid Attention UNet (HA-UNet) for multi-scale feature
+aggregation by combining channel attention with windowed spatial transformers.
+Moreover, we propose Hybrid Domain Mamba (HDMamba) for SFNet to jointly model
+spatial semantics and wavelet domain characteristics. Finally, RNet recovers
+the fine-grained structures via an original-resolution subnetwork. Our model
+learns high-frequency rain characteristics while preserving structural details
+and maintaining global context, leading to improved image quality. Our method
+achieves competitive results on multiple datasets against recent deraining
+methods.",cs
+"Chiral Pt(Me-BPCH): Synthesis and theoretical investigation of parity
+  violation sensitivity A complex of platinum and the tetra-coordinate chelating ligand,
+R,R'-6,6'-dimethyl-N,N'-bis(2'-pyridine-carboxamide)-1-cyclohexane (Me-BPCH) is
+investigated as a potential candidate for measurement of parity violation (PV)
+in chiral molecules. The synthesis of Pt(Me-BPCH) is presented alongside
+computational investigation of PV sensitivity in its vibrational spectrum.
+Pt(Me-BPCH) is compared to other two derivatives of this complex, Au(Me-BPCH)
+and Pt(CF$_3$-BPCH) in terms of their PV response and suitability for
+measurement. We identify the most promising vibrational transitions based on
+their enhanced PV effects and practical experimental considerations and analyze
+the relationship between the vibrational structure and the corresponding PV
+sensitivity for all three molecules.",physics
+"Refine Drugs, Don't Complete Them: Uniform-Source Discrete Flows for
+  Fragment-Based Drug Discovery We introduce InVirtuoGen, a discrete flow generative model for fragmented
+SMILES for de novo and fragment-constrained generation, and
+target-property/lead optimization of small molecules. The model learns to
+transform a uniform source over all possible tokens into the data distribution.
+Unlike masked models, its training loss accounts for predictions on all
+sequence positions at every denoising step, shifting the generation paradigm
+from completion to refinement, and decoupling the number of sampling steps from
+the sequence length. For \textit{de novo} generation, InVirtuoGen achieves a
+stronger quality-diversity pareto frontier than prior fragment-based models and
+competitive performance on fragment-constrained tasks. For property and lead
+optimization, we propose a hybrid scheme that combines a genetic algorithm with
+a Proximal Property Optimization fine-tuning strategy adapted to discrete
+flows. Our approach sets a new state-of-the-art on the Practical Molecular
+Optimization benchmark, measured by top-10 AUC across tasks, and yields higher
+docking scores in lead optimization than previous baselines. InVirtuoGen thus
+establishes a versatile generative foundation for drug discovery, from early
+hit finding to multi-objective lead optimization. We further contribute to open
+science by releasing pretrained checkpoints and code, making our results fully
+reproducible\footnote{https://github.com/invirtuolabs/InVirtuoGen_results}.",cs
+"SeedPrints: Fingerprints Can Even Tell Which Seed Your Large Language
+  Model Was Trained From Fingerprinting Large Language Models (LLMs) is essential for provenance
+verification and model attribution. Existing methods typically extract post-hoc
+signatures based on training dynamics, data exposure, or hyperparameters --
+properties that only emerge after training begins. In contrast, we propose a
+stronger and more intrinsic notion of LLM fingerprinting: SeedPrints, a method
+that leverages random initialization biases as persistent, seed-dependent
+identifiers present even before training. We show that untrained models exhibit
+reproducible token selection biases conditioned solely on their parameters at
+initialization. These biases are stable and measurable throughout training,
+enabling our statistical detection method to recover a model's lineage with
+high confidence. Unlike prior techniques, unreliable before convergence and
+vulnerable to distribution shifts, SeedPrints remains effective across all
+training stages and robust under domain shifts or parameter modifications.
+Experiments on LLaMA-style and Qwen-style models show that SeedPrints achieves
+seed-level distinguishability and can provide birth-to-lifecycle identity
+verification akin to a biometric fingerprint. Evaluations on large-scale
+pretrained models and fingerprinting benchmarks further confirm its
+effectiveness under practical deployment scenarios. These results suggest that
+initialization itself imprints a unique and persistent identity on neural
+language models, forming a true ''Galtonian'' fingerprint.",cs
+"On Independent Spanning Trees in Random and Pseudorandom Graphs In 1989, Zehavi and Itai conjectured that every $k$-connected graph contains
+$k$ independent spanning trees rooted at any prescribed vertex $r$. That is,
+for each vertex $v$, the unique $r$-$v$ paths within these $k$ spanning trees
+are internally disjoint. This fundamental problem has received much attention,
+in part motivated by its applications to network reliability, but despite that
+has only been resolved for $k \le 4$ and certain restricted graph families.
+  We establish the conjecture for almost all graphs of essentially any relevant
+density. Specifically, we prove that there exists a constant $C > 1$ such that,
+with high probability, the random graph $G(n,p)$ contains $\delta(G)$
+independent spanning trees rooted at any vertex whenever $C \log n/n \leq p <
+0.99$. Since the lower bound on $p$ coincides (up to the constant $C$) with the
+connectivity threshold of $G(n,p)$, this result is essentially optimal. In
+addition, we show that $(n,d,\lambda)$-graphs with fairly mild bounds on the
+spectral ratio $d/\lambda$ contain $(1-o(1))d$ independent spanning trees
+rooted at each vertex, thereby settling the conjecture asymptotically for
+random $d$-regular graphs as well.",math
+"A solution to the mystery of the sub-harmonic series and to the
+  combination tone via a linear mathematical model of the cochlea In this paper, we study a simple linear model of the cochlea as a set of
+vibrating strings. We make hypothesis that the information sent to the auditory
+cortex is the energy stored in the strings and consider all oscillation modes
+of the strings. We show the emergence of the sub-harmonic series whose
+existence was hypothesized in the XVI century to explain the consonance of the
+minor chord. We additionally show how the nonlinearity of the energy can be
+used to study the emergence of the combination tone (Tartini's third sound)
+shedding new light on this long debated subject.",eess
+"MotionRAG: Motion Retrieval-Augmented Image-to-Video Generation Image-to-video generation has made remarkable progress with the advancements
+in diffusion models, yet generating videos with realistic motion remains highly
+challenging. This difficulty arises from the complexity of accurately modeling
+motion, which involves capturing physical constraints, object interactions, and
+domain-specific dynamics that are not easily generalized across diverse
+scenarios. To address this, we propose MotionRAG, a retrieval-augmented
+framework that enhances motion realism by adapting motion priors from relevant
+reference videos through Context-Aware Motion Adaptation (CAMA). The key
+technical innovations include: (i) a retrieval-based pipeline extracting
+high-level motion features using video encoder and specialized resamplers to
+distill semantic motion representations; (ii) an in-context learning approach
+for motion adaptation implemented through a causal transformer architecture;
+(iii) an attention-based motion injection adapter that seamlessly integrates
+transferred motion features into pretrained video diffusion models. Extensive
+experiments demonstrate that our method achieves significant improvements
+across multiple domains and various base models, all with negligible
+computational overhead during inference. Furthermore, our modular design
+enables zero-shot generalization to new domains by simply updating the
+retrieval database without retraining any components. This research enhances
+the core capability of video generation systems by enabling the effective
+retrieval and transfer of motion priors, facilitating the synthesis of
+realistic motion dynamics.",cs
+"Game-Time: Evaluating Temporal Dynamics in Spoken Language Models Conversational Spoken Language Models (SLMs) are emerging as a promising
+paradigm for real-time speech interaction. However, their capacity of temporal
+dynamics, including the ability to manage timing, tempo and simultaneous
+speaking, remains a critical and unevaluated challenge for conversational
+fluency. To address this gap, we introduce the Game-Time Benchmark, a framework
+to systematically assess these temporal capabilities. Inspired by how humans
+learn a language through language activities, Game-Time consists of basic
+instruction-following tasks and advanced tasks with temporal constraints, such
+as tempo adherence and synchronized responses. Our evaluation of diverse SLM
+architectures reveals a clear performance disparity: while state-of-the-art
+models handle basic tasks well, many contemporary systems still struggle with
+fundamental instruction-following. More critically, nearly all models degrade
+substantially under temporal constraints, exposing persistent weaknesses in
+time awareness and full-duplex interaction. The Game-Time Benchmark provides a
+foundation for guiding future research toward more temporally-aware
+conversational AI. Demos and datasets are available on our project website
+https://ga642381.github.io/Game-Time.",eess
+"Joint Inference for the Regression Discontinuity Effect and Its External
+  Validity The external validity of regression discontinuity (RD) designs is essential
+for informing policy and remains an active research area in econometrics and
+statistics. However, we document that only a limited number of empirical
+studies explicitly address the external validity of standard RD effects. To
+advance empirical practice, we propose a simple joint inference procedure for
+the RD effect and its local external validity, building on Calonico, Cattaneo,
+and Titiunik (2014, Econometrica) and Dong and Lewbel (2015, Review of
+Economics and Statistics). We further introduce a locally linear treatment
+effects assumption, which enhances the interpretability of the treatment effect
+derivative proposed by Dong and Lewbel. Under this assumption, we establish
+identification and derive a uniform confidence band for the extrapolated
+treatment effects. Our approaches require no additional covariates or design
+features, making them applicable to virtually all RD settings and thereby
+enhancing the policy relevance of many empirical RD studies. The usefulness of
+the method is demonstrated through an empirical application, highlighting its
+complementarity to existing approaches.",econ
+"MR$^2$-Bench: Going Beyond Matching to Reasoning in Multimodal Retrieval Multimodal retrieval is becoming a crucial component of modern AI
+applications, yet its evaluation lags behind the demands of more realistic and
+challenging scenarios. Existing benchmarks primarily probe surface-level
+semantic correspondence (e.g., object-text matching) while failing to assess
+the deeper reasoning required to capture complex relationships between visual
+and textual information. To address this gap, we introduce MR$^2$-Bench, a
+reasoning-intensive benchmark for multimodal retrieval. MR$^2$-Bench presents
+the following critical values: 1) all tasks are reasoning-driven, going beyond
+shallow matching to effectively assess models' capacity for logical, spatial,
+and causal inference; 2) it features diverse multimodal data, such as natural
+images, diagrams, and visual puzzles, enabling comprehensive evaluation across
+content types; 3) it supports complex queries and documents containing multiple
+images and covers diverse retrieval scenarios, more accurately reflecting
+real-world applications. Our benchmark contains 1,309 curated queries, derived
+either from manual collection and annotation or from selective consolidation of
+public datasets. Despite achieving strong results on existing benchmarks,
+current state-of-the-art models still struggle on MR$^2$-Bench: for example,
+the leading Seed1.6-Embedding model attains a Recall@1 of 77.78 on MMEB, but
+only 9.91 on MR$^2$-Bench. This substantial performance gap highlights both the
+increased challenge posed by our benchmark and the pressing need for further
+advances in reasoning-intensive multimodal retrieval. The dataset and
+evaluation code will be made publicly available at
+https://github.com/VectorSpaceLab/MR2-Bench.",cs
+"Long-range minimal models We study a class of nonlocal conformal field theories in two dimensions which
+are obtained as deformations of the Virasoro minimal models. The construction
+proceeds by coupling a relevant primary operator $\phi_{r,s}$ of the $m$-th
+minimal model to a generalized free field, in such a way that the interaction
+term has scaling dimension $2-\delta$. Flowing to the infrared, we reach a new
+class of CFTs that we call long-range minimal models. In the case $r=s=2$, the
+resulting line of fixed points, parametrized by $\delta$, can be studied using
+two perturbative expansions with different regimes of validity, one near the
+mean-field theory end, and one close to the long-range to short-range
+crossover. This is due to a straightforward generalization of an infrared
+duality which was proposed for the long-range Ising model ($m = 3$) in 2017. We
+find that the large-$m$ limit is problematic in both perturbative regimes,
+hence nonperturbative methods will be required in the intermediate range for
+all values of $m$. For the models based on $\phi_{1,2}$, the situation is
+rather different. In this case, only one perturbative expansion is known but it
+is well behaved at large $m$. We confirm this with a computation of infinitely
+many anomalous dimensions at two loops. Their large-$m$ limits are obtained
+from both numerical extrapolations and a method we develop which carries out
+conformal perturbation theory using Mellin amplitudes. For minimal models,
+these can be accessed from the Coulomb gas representations of the correlators.
+This method reveals analytic expressions for some integrals in conformal
+perturbation theory which were previously only known numerically.",hep-th
+"Vector-Valued Reproducing Kernel Banach Spaces for Neural Networks and
+  Operators Recently, there has been growing interest in characterizing the function
+spaces underlying neural networks. While shallow and deep scalar-valued neural
+networks have been linked to scalar-valued reproducing kernel Banach spaces
+(RKBS), $\mathbb{R}^d$-valued neural networks and neural operator models remain
+less understood in the RKBS setting. To address this gap, we develop a general
+definition of vector-valued RKBS (vv-RKBS), which inherently includes the
+associated reproducing kernel. Our construction extends existing definitions by
+avoiding restrictive assumptions such as symmetric kernel domains,
+finite-dimensional output spaces, reflexivity, or separability, while still
+recovering familiar properties of vector-valued reproducing kernel Hilbert
+spaces (vv-RKHS). We then show that shallow $\mathbb{R}^d$-valued neural
+networks are elements of a specific vv-RKBS, namely an instance of the integral
+and neural vv-RKBS. To also explore the functional structure of neural
+operators, we analyze the DeepONet and Hypernetwork architectures and
+demonstrate that they too belong to an integral and neural vv-RKBS. In all
+cases, we establish a Representer Theorem, showing that optimization over these
+function spaces recovers the corresponding neural architectures.",math
+"Joint Communication and Parameter Estimation in MIMO Channels We study a joint communication and sensing setting comprising a transmitter,
+a receiver, and a sensor, all equipped with multiple antennas. The transmitter
+sends an encoded signal over the channel with the dual purpose of communicating
+an information message to the receiver, and enabling the sensor to estimate a
+target parameter vector by generating back-scattered signals. We assume that
+the transmitter and sensor are co-located, or fully connected, giving the
+latter access to the transmitted signal. The target parameter vector is
+randomly drawn from a continuous distribution, yet remains fixed throughout the
+transmission block. We establish the fundamental performance trade-off between
+the communication and sensing tasks, captured in terms of a capacity-MSE
+function. In doing so, we identify optimal coding schemes for this
+multi-antenna joint communication and sensing setting. Moreover, we
+particularize our result to two practically-inspired scenarios where we
+showcase optimal schemes and trade-offs.",cs
+"Data-to-Energy Stochastic Dynamics The Schr\""odinger bridge problem is concerned with finding a stochastic
+dynamical system bridging two marginal distributions that minimises a certain
+transportation cost. This problem, which represents a generalisation of optimal
+transport to the stochastic case, has received attention due to its connections
+to diffusion models and flow matching, as well as its applications in the
+natural sciences. However, all existing algorithms allow to infer such dynamics
+only for cases where samples from both distributions are available. In this
+paper, we propose the first general method for modelling Schr\""odinger bridges
+when one (or both) distributions are given by their unnormalised densities,
+with no access to data samples. Our algorithm relies on a generalisation of the
+iterative proportional fitting (IPF) procedure to the data-free case, inspired
+by recent developments in off-policy reinforcement learning for training of
+diffusion samplers. We demonstrate the efficacy of the proposed data-to-energy
+IPF on synthetic problems, finding that it can successfully learn transports
+between multimodal distributions. As a secondary consequence of our
+reinforcement learning formulation, which assumes a fixed time discretisation
+scheme for the dynamics, we find that existing data-to-data Schr\""odinger
+bridge algorithms can be substantially improved by learning the diffusion
+coefficient of the dynamics. Finally, we apply the newly developed algorithm to
+the problem of sampling posterior distributions in latent spaces of generative
+models, thus creating a data-free image-to-image translation method. Code:
+https://github.com/mmacosha/d2e-stochastic-dynamics",cs
+"Cubic Fourfolds with an Order-$7$ Automorphism We study smooth cubic fourfolds admitting an automorphism of order $7$. It is
+known that the possible symplectic automorphism groups of such cubic fourfolds
+are precisely $F_{21}$, $\mathrm{PSL}(2,\mathbb{F}_7)$, and $A_7$. In this
+paper, we determine all possible full automorphism groups of smooth cubic
+fourfolds with an automorphism of order $7$. We also investigate the moduli
+spaces of cubic fourfolds whose automorphism group is either $F_{21}$ or
+$\mathrm{PSL}(2,\mathbb{F}_7)$, describing them both as GIT quotients and as
+locally symmetric varieties. In particular, we give an explicit description of
+the singular cubic fourfolds that appear in the boundary of the corresponding
+GIT quotients. For these two cases, we determine the commensurability classes
+of the monodromy groups by explicitly identifying certain arithmetic subgroups.
+As an interesting consequence, we prove that the period domain for cubic
+fourfolds equipped with an order-$7$ automorphism is isogenous to a Hilbert
+modular surface.",math
+"Derived equivalences, matrix equivalences, and homological conjectures Centralizer matrix algebras were investigated initially by Georg Ferdinand
+Frobenius in the Crelle's Journal around 1877. By introducing three new
+equivalence relations on all square matrices over a field, we completely
+characterize Morita, derived and almost $\nu$-stable derived equivalences
+between centralizer matrix algebras in terms of these matrix equivalences,
+respectively. Thus the categorical equivalences are reduced to matrix
+equivalences in linear algebra. Further, we show that a derived equivalence
+between centralizer matrix algebras of permutation matrices induces both a
+Morita equivalence and additional derived equivalences for $p$-regular parts
+and for $p$-singular parts. As applications, we show that the finitistic
+dimension conjecture and Nakayama conjecture are valid for centralizer matrix
+algebras.",math
+"SQUARE: Semantic Query-Augmented Fusion and Efficient Batch Reranking
+  for Training-free Zero-Shot Composed Image Retrieval Composed Image Retrieval (CIR) aims to retrieve target images that preserve
+the visual content of a reference image while incorporating user-specified
+textual modifications. Training-free zero-shot CIR (ZS-CIR) approaches, which
+require no task-specific training or labeled data, are highly desirable, yet
+accurately capturing user intent remains challenging. In this paper, we present
+SQUARE, a novel two-stage training-free framework that leverages Multimodal
+Large Language Models (MLLMs) to enhance ZS-CIR. In the Semantic
+Query-Augmented Fusion (SQAF) stage, we enrich the query embedding derived from
+a vision-language model (VLM) such as CLIP with MLLM-generated captions of the
+target image. These captions provide high-level semantic guidance, enabling the
+query to better capture the user's intent and improve global retrieval quality.
+In the Efficient Batch Reranking (EBR) stage, top-ranked candidates are
+presented as an image grid with visual marks to the MLLM, which performs joint
+visual-semantic reasoning across all candidates. Our reranking strategy
+operates in a single pass and yields more accurate rankings. Experiments show
+that SQUARE, with its simplicity and effectiveness, delivers strong performance
+on four standard CIR benchmarks. Notably, it maintains high performance even
+with lightweight pre-trained, demonstrating its potential applicability.",cs
+"Local constants and Bohr's phenomenon for Banach spaces of analytic
+  polynomials The primary aim of this work is to develop methods that provide new insights
+into the relationships between fundamental constants in Banach space
+theory--specifically, the projection constant, the unconditional basis constant
+and the Gordon-Lewis constant--for the Banach space $\mathcal{P}_J(X_n)$ of
+multivariate analytic polynomials. This class consists of all polynomials whose
+monomial coefficients vanish outside the set of multi-indices $J$, and it is
+equipped with the supremum norm on the unit sphere of the finite-dimensional
+Banach space $X_n = (\mathbb{C}^n, \|\cdot\|)$. We establish a~general
+framework for proving quantitative results on the asymptotic optimal behavior
+of these constants, which depend on both the dimension of the space and the
+degree of the polynomials. Using the tools developed, we derive asymptotic
+estimates of the Bohr radius for general Banach sequence lattices.
+Additionally, we apply our results to the asymptotic study of local constants
+and the Bohr radius within finite-dimensional Lorentz sequence spaces, which
+requires a~refined analysis of the combinatorial structure of the associated
+index sets. As a consequence, we obtain optimal results across a broad range of
+parameters.",math
+"Ramsey numbers of long even cycles versus books For any positive integers $k$ and $n$, let $B_n^{(k)}$ be the book graph
+consisting of $n$ copies of the complete graph $K_{k+1}$ sharing a common
+$K_k$. Let $C_m$ be a cycle of length $m$. Prior work by Allen, \L uczak,
+Polcyn, and Zhang (2023) established the Ramsey number $R(C_{m},B_n^{(1)})$ for
+all sufficiently large even integer $m = \Omega(n^{9/10})$. Recently, Hu, Lin,
+{\L}uczak, Ning, and Peng (2025) obtained the exact value of
+$R(C_{m},B_n^{(2)})$ under the same asymptotic conditions. A natural problem is
+to determine the exact value of $R(C_{m},B_n^{(k)})$ for each fixed $k\ge3$
+under similar conditions. This paper provides a complete solution to this
+problem. The lower bound is proved by an explicit construction, while the tight
+upper bound is established by analyzing the corresponding Ramsey graph using
+semi-random ideas.",math
+"Strong random unitaries and fast scrambling Understanding how fast physical systems can resemble Haar-random unitaries is
+a fundamental question in physics. Many experiments of interest in quantum
+gravity and many-body physics, including the butterfly effect in quantum
+information scrambling and the Hayden-Preskill thought experiment, involve
+queries to a random unitary $U$ alongside its inverse $U^\dagger$, conjugate
+$U^*$, and transpose $U^T$. However, conventional notions of approximate
+unitary designs and pseudorandom unitaries (PRUs) fail to capture these
+experiments. In this work, we introduce and construct strong unitary designs
+and strong PRUs that remain robust under all such queries. Our constructions
+achieve the optimal circuit depth of $O(\log n)$ for systems of $n$ qubits. We
+further show that strong unitary designs can form in circuit depth $O(\log^2
+n)$ in circuits composed of independent two-qubit Haar-random gates, and that
+strong PRUs can form in circuit depth $\text{poly}(\log n)$ in circuits with no
+ancilla qubits. Our results provide an operational proof of the fast scrambling
+conjecture from black hole physics: every observable feature of the fastest
+scrambling quantum systems reproduces Haar-random behavior at logarithmic
+times.",quant-ph
+"An all-topology two-fluid model for two-phase flows derived through
+  Hamilton's Stationary Action Principle We present a novel multi-fluid model for compressible two-phase flows. The
+model is derived through a newly developed Stationary Action Principle
+framework. It is fully closed and introduces a new interfacial quantity, the
+interfacial work. The closures for the interfacial quantities are provided by
+the variational principle. They are physically sound and well-defined for all
+type of flow topologies. The model is shown to be hyperbolic, symmetrizable,
+and admits an entropy conservation law. Its non-conservative products yield
+uniquely defined jump conditions which are provided. As such, it allows for the
+proper treatment of weak solutions. In the multi-dimensional setting, the model
+presents lift forces which are discussed. The model constitutes a sound basis
+for future numerical simulations.",math
+"Solar Low Energy X-ray Spectrometer on board Aditya-L1: Ground
+  Calibration and In-flight Performance The Solar Low-Energy X-ray Spectrometer (SoLEXS) on board India's Aditya-L1
+mission was launched on 2 September 2023 and commenced solar observations on 13
+December 2023 following successful aperture cover deployment. Operating from
+the Sun-Earth L1 Lagrange point, SoLEXS has been providing continuous
+Sun-as-a-star soft X-ray spectroscopy across 2-22 keV with 170 eV resolution at
+5.9 keV and 1-second temporal cadence since 6 January 2024. The instrument
+employs two Silicon Drift Detectors with aperture areas of 7.1 mm$^2$ and 0.1
+mm$^2$ to accommodate the full dynamic range of solar activity from A-class to
+X-class flares. This paper presents comprehensive ground and on board
+calibration procedures that establish SoLEXS's quantitative spectroscopic
+capabilities. Ground calibration encompassed energy-channel relationships,
+spectral resolution characterization, instrument response functions, and
+collimator angular response measurements, with thermo-vacuum testing validating
+performance stability across operational temperature ranges. On board
+calibration utilizing an internal $^{55}$Fe source demonstrated preserved
+post-launch spectral resolution (164.9-171.2 eV), while cross-calibration with
+GOES-XRS and Chandrayaan-2/XSM confirmed radiometric accuracy and flux
+agreement. The instrument's 100% observational duty cycle at L1 enables
+unprecedented continuous monitoring of solar flare evolution across all
+intensity classes, providing calibrated data for advancing coronal heating
+mechanisms, flare energetics, and flare-coronal mass ejection relationship
+studies through soft X-ray spectroscopy.",astro-ph
+"Néel vector and Rashba SOC effects on RKKY interaction in 2D
+  $d$-wave altermagnets Altermagnets possess two key features: non-relativistic alternating spin
+splitting (i.e., altermagnetism) and a material-dependent N\'{e}el vector. The
+former naturally coexists with Rashba spin-orbit coupling (SOC) in real
+materials on substrates, prompting the question of how SOC affects the magnetic
+properties of altermagnets. The latter is crucial for information storage,
+making it essential to determine its orientation. To address these issues, we
+study the Ruderman-Kittel-Kasuya-Yosida (RKKY) interaction in two-dimensional
+(2D) $d$-wave altermagnets by independently varying the N\'{e}el vector
+orientation and the SOC strength. Our results demonstrate that the N\'{e}el
+vector orientation can be accurately determined via the Ising term without SOC,
+or qualitatively inferred via the DM terms with SOC. Moreover, we observe a
+novel Dzyaloshinskii-Moriya (DM) component distinct from previous reports,
+whose emergence is attributed to the synergy between altermagnetism and SOC.
+Additionally, through tuning SOC strength, we reveal the evolution of the RKKY
+spin models governed by five distinct mechanisms: the spin model may be
+determined solely by altermagnetism, solely by SOC, or solely by the kinetic
+term; alternatively, altermagnetism may coincidentally yield the same
+moderately anisotropic spin model as SOC, or compete with SOC to produce a spin
+model with maximal anisotropy. Beyond SOC strength, which mechanism operates
+also relies on the N\'{e}el vector orientation and impurity configurations. All
+results are numerically verified. These findings -- which were inaccessible in
+prior studies due to the limitations of first-order SOC expansion and fixed
+N\'{e}el vector orientation -- provide important new insights into the magnetic
+properties of altermagnets.",cond-mat
+"On the Ultra-Long Gamma-Ray Transient GRB 250702B/EP250702 GRB 250702B/EP250702a is an interesting long-duration gamma-ray transient
+whose nature is in debate. To obtain a full picture in gamma-ray band, we
+implement a comprehensive targeted search of burst emission in a wide window of
+30 days jointly with Insight-HXMT, GECAM and Fermi/GBM data within the ETJASMIN
+framework. In gamma-ray band, we find there is a 50-second precursor about 25
+hours before the 4-hour main burst, which generally consists of 4 emission
+episodes. Remarkably, we find that the soft X-ray emission (after the main
+burst) decays as a power-law with start time aligning with the last episode of
+main emission and index of -5/3 perfectly consistent with the canonical
+prediction of fallback accretion. We conclude that the properties of precursor,
+main burst and the following soft X-ray emission strongly support the atypical
+collapsar Ultra-Long Gamma-Ray Burst (ULGRB) scenario rather than the Tidal
+Disruption Event (TDE), and all these gamma-ray and soft X-ray emission
+probably originate from relativistic jet whose luminosity is dominated by the
+fallback accretion rate during the death collapse of a supergiant star.",astro-ph
+"Cat: Post-training quantization error reduction via cluster-based affine
+  transformation Post-Training Quantization (PTQ) reduces the memory footprint and
+computational overhead of deep neural networks by converting full-precision
+(FP) values into quantized and compressed data types. While PTQ is more
+cost-efficient than Quantization-Aware Training (QAT), it is highly susceptible
+to accuracy degradation under a low-bit quantization (LQ) regime (e.g., 2-bit).
+Affine transformation is a classical technique used to reduce the discrepancy
+between the information processed by a quantized model and that processed by
+its full-precision counterpart; however, we find that using plain affine
+transformation, which applies a uniform affine parameter set for all outputs,
+worsens the results in low-bit PTQ. To address this, we propose Cluster-based
+Affine Transformation (CAT), an error-reduction framework that employs
+cluster-specific parameters to align LQ outputs with FP counterparts. CAT
+refines LQ outputs with only a negligible number of additional parameters,
+without requiring fine-tuning of the model or quantization parameters. We
+further introduce a novel PTQ framework integrated with CAT. Experiments on
+ImageNet-1K show that this framework consistently outperforms prior PTQ methods
+across diverse architectures and LQ settings, achieving up to 53.18% Top-1
+accuracy on W2A2 ResNet-18. Moreover, CAT enhances existing PTQ baselines by
+more than 3% when used as a plug-in. We plan to release our implementation
+alongside the publication of this paper.",cs
+"Zeta expansion for long-range interactions under periodic boundary
+  conditions with applications to micromagnetics We address the efficient computation of power-law-based interaction
+potentials of homogeneous $d$-dimensional bodies with an infinite
+$n$-dimensional array of copies, including their higher-order derivatives. This
+problem forms a serious challenge in micromagnetics with periodic boundary
+conditions and related fields. Nowadays, it is common practice to truncate the
+associated infinite lattice sum to a finite number of images, introducing
+uncontrolled errors. We show that, for general interacting geometries, the
+exact infinite sum for both dipolar interactions and generalized Riesz
+power-law potentials can be obtained by complementing a small direct sum by a
+correction term that involves efficiently computable derivatives of generalized
+zeta functions. We show that the resulting representation converges
+exponentially in the derivative order, reaching machine precision at a
+computational cost no greater than that of truncated summation schemes. In
+order to compute the generalized zeta functions efficiently, we provide a
+superexponentially convergent algorithm for their evaluation, as well as for
+all required special functions, such as incomplete Bessel functions. Magnetic
+fields can thus be evaluated to machine precision in arbitrary cuboidal domains
+periodically extended along one or two dimensions. We benchmark our method
+against known formulas for magnetic interactions and against direct summation
+for Riesz potentials with large exponents, consistently achieving full
+precision. In addition, we identify new corrections to the asymptotic limit of
+the demagnetization field and tabulate high-precision benchmark values that can
+be used as a reliable reference for micromagnetic solvers. The techniques
+developed are broadly applicable, with direct impact in other areas such as
+molecular dynamics.",math
+"Rings of Light, Speed of AI: YOLO for Cherenkov Reconstruction Cherenkov rings play a crucial role in identifying charged particles in
+high-energy physics (HEP) experiments. Most Cherenkov ring pattern
+reconstruction algorithms currently used in HEP experiments rely on a
+likelihood fit to the photo-detector response, which often consumes a
+significant portion of the computing budget for event reconstruction. We
+present a novel approach to Cherenkov ring reconstruction using YOLO, a
+computer vision algorithm capable of real-time object identification with a
+single pass through a neural network. We obtain a reconstruction efficiency
+above 95% and a pion misidentification rate below 5% across a wide momentum
+range for all particle species.",hep-ex
+"$K$-Branching Random Walk with Noisy Selection: Large Population Limits
+  and Phase Transitions We analyze a variant of the Noisy $K$-Branching Random Walk, a population
+model that evolves according to the following procedure. At each time step,
+each individual produces a large number of offspring that inherit the fitness
+of their parents up to independent and identically distributed fluctuations.
+The next generation consists of a random sample of all the offspring so that
+the population size remains fixed, where the sampling is made according to a
+parameterized Gibbs measure of the fitness of the offspring. Our model
+interpolates between classical models of fitness waves and exhibits a novel
+phase transition in the propagation of the wave. By employing a stochastic
+Hopf-Cole transformation, we show that as we increase the population size, the
+random dynamics of the model can be described by deterministic operations
+acting on the limiting population densities. We then show that for fitness
+fluctuations with exponential tails, these operations admit a unique traveling
+wave solution with local stability. The traveling wave solution undergoes a
+phase transition when changing selection pressure, revealing a complex
+interaction between evolution and natural selection.",math
+"Comparative study of YSO, GaGG, and BGO scintillators coupled to a SiPM
+  array for gamma-ray spectroscopy A compact gamma-ray detector module was developed and characterized for
+spectroscopic applications across a wide energy range. The detector comprises a
+4x4 array of silicon photomultipliers (SiPMs, Hamamatsu MPPC S13360-3050)
+coupled with three different inorganic scintillators (YSO, GaGG, BGO). The
+performance of the detector was evaluated over an energy range from 32 keV to
+2500 keV using various standard gamma-ray point sources ({241}Am, {137}Cs,
+{22}Na, {60}Co, {228}Th). All three detector configurations demonstrated
+linearity between pulse height and gamma-ray energy over most of the tested
+range. GAGG exhibited the most consistent linear behavior up to 2500 keV. YSO
+with a faster decay constant showed linearity up to ~2000 keV, followed by
+slight saturation effects likely due to SiPM microcell occupancy limits at
+higher photon flux. BGO, characterized by a low light output and longer decay
+time, demonstrated stable linearity up to 2500 keV but reduced sensitivity
+below 300 keV. The measured energy resolution at 662 keV was 8.17% for GAGG,
+9.3% for YSO, and 10.2% for BGO, consistent with their light yield and photon
+detection efficiency (PDE) - matching characteristics. The obtained results
+showed the trade-offs between scintillator materials in terms of energy
+resolution, dynamic range, and linearity, and confirm the suitability of the
+tested configurations for compact gamma-ray spectroscopy applications across
+the studied energy range.",physics
+"Suppressing leakage and maintaining robustness in transmon qubits:
+  Signatures of a trade-off relation We study the problem of optimally generating quantum gates in a logical
+subspace embedded in a larger Hilbert space, where the dynamics is also
+affected by unknown static imperfections. This general problem is widespread
+across various emergent quantum technology architectures. We derive the
+fidelity susceptibility in the computational subspace as a measure of
+robustness to perturbations, and define a cost function that quantifies leakage
+out of the subspace. We tackle both effects using a two-stage optimization
+where two cost functions are minimized in series. Specifically, we apply this
+framework to the generation of single-qubit gates in a superconducting transmon
+system, and find high-fidelity solutions robust to detuning and amplitude
+errors across various parameter regimes. We also show control pulses which
+maximize fidelity while minimizing leakage at all times during the evolution.
+However, finding control solutions that address both effects simultaneously is
+shown to be much more challenging, indicating the presence of a trade-off
+relation.",quant-ph
+"SlimPack: Fine-Grained Asymmetric Packing for Balanced and Efficient
+  Variable-Length LLM Training The efficient distributed training of Large Language Models (LLMs) is
+severely hampered by the extreme variance in context lengths. This data
+heterogeneity, amplified by conventional packing strategies and asymmetric
+forward-backward costs, leads to critical inefficiencies such as cascading
+workload imbalances and severe hardware underutilization. Existing solutions
+attempt to mitigate these challenges, but often at the expense of memory or
+communication efficiency.
+  To address these challenges, we introduce SlimPack, a framework that
+fundamentally rethinks data packing and scheduling by decomposing samples into
+fine-grained slices. This slice-level decomposition immediately mitigates
+critical memory and communication bottlenecks by transforming large, volatile
+workloads into a stream of smaller, manageable units. This flexibility is then
+harnessed for our core innovation, Asymmetric Partitioning, which assembles
+balanced scheduling units uniquely optimized for the different demands of the
+forward and backward passes. Orchestrated by a two-phase solver and a
+high-fidelity simulator, SlimPack holistically resolves imbalances across all
+parallel dimensions. Extensive experiments demonstrate that SlimPack achieves
+up to a $2.8\times$ training throughput improvement over baselines, breaking
+the conventional trade-off by delivering both superior balance and high
+resource efficiency.",cs
+"Beyond Linear Probes: Dynamic Safety Monitoring for Language Models Monitoring large language models' (LLMs) activations is an effective way to
+detect harmful requests before they lead to unsafe outputs. However,
+traditional safety monitors often require the same amount of compute for every
+query. This creates a trade-off: expensive monitors waste resources on easy
+inputs, while cheap ones risk missing subtle cases. We argue that safety
+monitors should be flexible--costs should rise only when inputs are difficult
+to assess, or when more compute is available. To achieve this, we introduce
+Truncated Polynomial Classifiers (TPCs), a natural extension of linear probes
+for dynamic activation monitoring. Our key insight is that polynomials can be
+trained and evaluated progressively, term-by-term. At test-time, one can
+early-stop for lightweight monitoring, or use more terms for stronger
+guardrails when needed. TPCs provide two modes of use. First, as a safety dial:
+by evaluating more terms, developers and regulators can ""buy"" stronger
+guardrails from the same model. Second, as an adaptive cascade: clear cases
+exit early after low-order checks, and higher-order guardrails are evaluated
+only for ambiguous inputs, reducing overall monitoring costs. On two
+large-scale safety datasets (WildGuardMix and BeaverTails), for 4 models with
+up to 30B parameters, we show that TPCs compete with or outperform MLP-based
+probe baselines of the same size, all the while being more interpretable than
+their black-box counterparts. Our code is available at
+http://github.com/james-oldfield/tpc.",cs
+"Products of strictly hyperbolic conjugacy classes in symplectic groups We call a conjugacy class of the symplectic group Sp$(2n, K)$ over a field
+$K$ strictly hyperbolic if its minimal polynomial is of the form $q(x) q^*(x)$,
+where the polynomial $q(x)$ is prime to its reciprocal $q^*(x) := x^n
+q(x^{-1})$. It is shown that the product of 2 cyclic, strictly hyperbolic
+conjugacy classes of Sp$(2n, K)$ contains all nonscalar elements of Sp$(2n,
+K)$. It follows that the projective symplectic group has a conjugacy class of
+covering number 2, i.e. PSp$(2n,K) = \Omega^2$ for some conjugacy class
+$\Omega$ of PSp$(2n,K)$. This verifies a conjecture of J. G. Thompson in the
+special case of a (finite) projective symplectic group.",math
+"ISyHand: A Dexterous Multi-finger Robot Hand with an Articulated Palm The rapid increase in the development of humanoid robots and customized
+manufacturing solutions has brought dexterous manipulation to the forefront of
+modern robotics. Over the past decade, several expensive dexterous hands have
+come to market, but advances in hardware design, particularly in servo motors
+and 3D printing, have recently facilitated an explosion of cheaper open-source
+hands. Most hands are anthropomorphic to allow use of standard human tools, and
+attempts to increase dexterity often sacrifice anthropomorphism. We introduce
+the open-source ISyHand (pronounced easy-hand), a highly dexterous, low-cost,
+easy-to-manufacture, on-joint servo-driven robot hand. Our hand uses
+off-the-shelf Dynamixel motors, fasteners, and 3D-printed parts, can be
+assembled within four hours, and has a total material cost of about 1,300 USD.
+The ISyHands's unique articulated-palm design increases overall dexterity with
+only a modest sacrifice in anthropomorphism. To demonstrate the utility of the
+articulated palm, we use reinforcement learning in simulation to train the hand
+to perform a classical in-hand manipulation task: cube reorientation. Our
+novel, systematic experiments show that the simulated ISyHand outperforms the
+two most comparable hands in early training phases, that all three perform
+similarly well after policy convergence, and that the ISyHand significantly
+outperforms a fixed-palm version of its own design. Additionally, we deploy a
+policy trained on cube reorientation on the real hand, demonstrating its
+ability to perform real-world dexterous manipulation.",cs
+"Nephrobase Cell+: Multimodal Single-Cell Foundation Model for Decoding
+  Kidney Biology Background: Large foundation models have revolutionized single-cell analysis,
+yet no kidney-specific model currently exists, and it remains unclear whether
+organ-focused models can outperform generalized models. The kidney's complex
+cellular architecture further complicate integration of large-scale omics data,
+where current frameworks trained on limited datasets struggle to correct batch
+effects, capture cross-modality variation, and generalize across species.
+Methods: We developed Nephrobase Cell+, the first kidney-focused large
+foundation model, pretrained on ~100 billion tokens from ~39.5 million
+single-cell and single-nucleus profiles across 4,319 samples. Nephrobase Cell+
+uses a transformer-based encoder-decoder architecture with gene-token
+cross-attention and a mixture-of-experts module for scalable representation
+learning. Results: Nephrobase Cell+ sets a new benchmark for kidney single-cell
+analysis. It produces tightly clustered, biologically coherent embeddings in
+human and mouse kidneys, far surpassing previous foundation models such as
+Geneformer, scGPT, and UCE, as well as traditional methods such as PCA and
+autoencoders. It achieves the highest cluster concordance and batch-mixing
+scores, effectively removing donor/assay batch effects while preserving
+cell-type structure. Cross-species evaluation shows superior alignment of
+homologous cell types and >90% zero-shot annotation accuracy for major kidney
+lineages in both human and mouse. Even its 1B-parameter and 500M variants
+consistently outperform all existing models. Conclusions: Nephrobase Cell+
+delivers a unified, high-fidelity representation of kidney biology that is
+robust, cross-species transferable, and unmatched by current single-cell
+foundation models, offering a powerful resource for kidney genomics and disease
+research.",q-bio
+"Beyond Pixels: Efficient Dataset Distillation via Sparse Gaussian
+  Representation Dataset distillation has emerged as a promising paradigm that synthesizes
+compact, informative datasets capable of retaining the knowledge of large-scale
+counterparts, thereby addressing the substantial computational and storage
+burdens of modern model training. Conventional approaches typically rely on
+dense pixel-level representations, which introduce redundancy and are difficult
+to scale up. In this work, we propose GSDD, a novel and efficient sparse
+representation for dataset distillation based on 2D Gaussians. Instead of
+representing all pixels equally, GSDD encodes critical discriminative
+information in a distilled image using only a small number of Gaussian
+primitives. This sparse representation could improve dataset diversity under
+the same storage budget, enhancing coverage of difficult samples and boosting
+distillation performance. To ensure both efficiency and scalability, we adapt
+CUDA-based splatting operators for parallel inference and training, enabling
+high-quality rendering with minimal computational and memory overhead. Our
+method is simple yet effective, broadly applicable to different distillation
+pipelines, and highly scalable. Experiments show that GSDD achieves
+state-of-the-art performance on CIFAR-10, CIFAR-100, and ImageNet subsets,
+while remaining highly efficient encoding and decoding cost. Our code is
+available at https://github.com/j-cyoung/GSDatasetDistillation.",cs
+"Symmetric Killing tensors on almost abelian Lie groups In this work we provide a complete characterization of left-invariant
+symmetric Killing tensors on almost abelian Lie groups endowed with a
+left-invariant Riemannian metric. We show in particular that all such tensors
+are decomposable, in the sense that they can be expressed as a polynomial in
+the Killing vector fields and the Riemannian metric.",math
+"I Like To Move It -- Computation Instead of Data in the Brain The detailed functioning of the human brain is still poorly understood. Brain
+simulations are a well-established way to complement experimental research, but
+must contend with the computational demands of the approximately $10^{11}$
+neurons and the $10^{14}$ synapses connecting them, the network of the latter
+referred to as the connectome. Studies suggest that changes in the connectome
+(i.e., the formation and deletion of synapses, also known as structural
+plasticity) are essential for critical tasks such as memory formation and
+learning. The connectivity update can be efficiently computed using a
+Barnes-Hut-inspired approximation that lowers the computational complexity from
+$O(n^2)$ to $O(n log n)$, where n is the number of neurons. However, updating
+synapses, which relies heavily on RMA, and the spike exchange between neurons,
+which requires all-to-all communication at every time step, still hinder
+scalability. We present a new algorithm that significantly reduces the
+communication overhead by moving computation instead of data. This shrinks the
+time it takes to update connectivity by a factor of six and the time it takes
+to exchange spikes by more than two orders of magnitude.",cs
+"VietBinoculars: A Zero-Shot Approach for Detecting Vietnamese
+  LLM-Generated Text The rapid development research of Large Language Models (LLMs) based on
+transformer architectures raises key challenges, one of them being the task of
+distinguishing between human-written text and LLM-generated text. As
+LLM-generated textual content, becomes increasingly complex over time, and
+resembles human writing, traditional detection methods are proving less
+effective, especially as the number and diversity of LLMs continue to grow with
+new models and versions being released at a rapid pace. This study proposes
+VietBinoculars, an adaptation of the Binoculars method with optimized global
+thresholds, to enhance the detection of Vietnamese LLM-generated text. We have
+constructed new Vietnamese AI-generated datasets to determine the optimal
+thresholds for VietBinoculars and to enable benchmarking. The results from our
+experiments show results show that VietBinoculars achieves over 99\% in all two
+domains of accuracy, F1-score, and AUC on multiple out-of-domain datasets. It
+outperforms the original Binoculars model, traditional detection methods, and
+other state-of-the-art approaches, including commercial tools such as ZeroGPT
+and DetectGPT, especially under specially modified prompting strategies.",cs
+"Packing subgraphs in regular graphs An $H$-packing in a graph $G$ is a collection of pairwise vertex-disjoint
+copies of $H$ in $G$. We prove that for every $c > 0$ and every bipartite graph
+$H$, any $\lfloor{cn}\rfloor$-regular graph $G$ admits an $H$-packing that
+covers all but a constant number of vertices. This resolves a problem posed by
+K\""uhn and Osthus in 2005. Moreover, our result is essentially tight: the
+conclusion fails if $G$ is not both regular and sufficiently dense; it is in
+general not possible to guarantee covering all vertices of $G$ by an
+$H$-packing, and if $H$ is not bipartite then $G$ need not contain any copies
+of $H$.
+  We also prove that for all $c > 0$, integers $t \geq 2$, and sufficiently
+large $n$, all the vertices of every $\lfloor cn \rfloor$-regular graph can be
+covered by vertex-disjoint subdivisions of $K_t$. This resolves another problem
+of K\""uhn and Osthus from 2005, which goes back to a conjecture of Verstra\""ete
+from 2002.
+  Our proofs combine novel methods for balancing expanders and super-regular
+subgraphs with a number of powerful techniques including properties of robust
+expanders, the regularity lemma, and the blow-up lemma.",math
+"BABY 1L: First Tritium Breeding Campaign Results Achieving tritium self-sufficiency is a critical challenge for future fusion
+power plants. The BABY 1L experiment, part of the LIBRA project at MIT, aims to
+benchmark tritium breeding and release in molten salt breeder systems under
+deuterium-tritium (DT) neutron irradiation. Building on the initial
+\SI{100}{mL} campaign, BABY 1L introduces a tenfold increase in breeder volume,
+improved thermal and gas handling systems, and enhanced neutron diagnostics,
+including a proton recoil telescope. We report on results from four irradiation
+experiments using sealed-tube DT neutron generators, with tritium collected by
+water bubblers measured via liquid scintillation counting. Experimentally
+determined Tritium Breeding Ratios (TBRs) were compared to OpenMC neutronics
+simulations, showing very good agreement. The measured TBR values demonstrate a
+six-fold improvement over the \SI{100}{mL} experiments, largely attributed to
+the increased solid angle and improved measurement fidelity. We also
+investigate tritium release dynamics and identify diffusion-limited transport
+as the dominant regime in the salt volume in the temperature range 630-750
+\si{\celsius}. Additionally, we observe that the introduction of hydrogen in
+the helium carrier gas significantly accelerates tritium release, consistent
+with an isotopic exchange mechanism. All analysis is conducted through the
+open-source \texttt{libra-toolbox} \cite{libra-toolbox}, which streamlines
+simulation, data processing, and validation across experimental campaigns.
+These results provide critical insights into the design and operation of future
+liquid breeder systems and demonstrate the maturity of the BABY platform as a
+testbed for tritium breeding studies.",physics
+"Beyond Overall Accuracy: Pose- and Occlusion-driven Fairness Analysis in
+  Pedestrian Detection for Autonomous Driving Pedestrian detection plays a critical role in autonomous driving (AD), where
+ensuring safety and reliability is important. While many detection models aim
+to reduce miss-rates and handle challenges such as occlusion and long-range
+recognition, fairness remains an underexplored yet equally important concern.
+In this work, we systematically investigate how variations in the pedestrian
+pose -- including leg status, elbow status, and body orientation -- as well as
+individual joint occlusions, affect detection performance. We evaluate five
+pedestrian-specific detectors (F2DNet, MGAN, ALFNet, CSP, and Cascade R-CNN)
+alongside three general-purpose models (YOLOv12 variants) on the EuroCity
+Persons Dense Pose (ECP-DP) dataset. Fairness is quantified using the Equal
+Opportunity Difference (EOD) metric across various confidence thresholds. To
+assess statistical significance and robustness, we apply the Z-test. Our
+findings highlight biases against pedestrians with parallel legs, straight
+elbows, and lateral views. Occlusion of lower body joints has a more negative
+impact on the detection rate compared to the upper body and head. Cascade R-CNN
+achieves the lowest overall miss-rate and exhibits the smallest bias across all
+attributes. To the best of our knowledge, this is the first comprehensive pose-
+and occlusion-aware fairness evaluation in pedestrian detection for AD.",cs
+"Human-MME: A Holistic Evaluation Benchmark for Human-Centric Multimodal
+  Large Language Models Multimodal Large Language Models (MLLMs) have demonstrated significant
+advances in visual understanding tasks. However, their capacity to comprehend
+human-centric scenes has rarely been explored, primarily due to the absence of
+comprehensive evaluation benchmarks that take into account both the
+human-oriented granular level and higher-dimensional causal reasoning ability.
+Such high-quality evaluation benchmarks face tough obstacles, given the
+physical complexity of the human body and the difficulty of annotating granular
+structures. In this paper, we propose Human-MME, a curated benchmark designed
+to provide a more holistic evaluation of MLLMs in human-centric scene
+understanding. Compared with other existing benchmarks, our work provides three
+key features: 1. Diversity in human scene, spanning 4 primary visual domains
+with 15 secondary domains and 43 sub-fields to ensure broad scenario coverage.
+2. Progressive and diverse evaluation dimensions, evaluating the human-based
+activities progressively from the human-oriented granular perception to the
+higher-dimensional reasoning, consisting of eight dimensions with 19,945
+real-world image question pairs and an evaluation suite. 3. High-quality
+annotations with rich data paradigms, constructing the automated annotation
+pipeline and human-annotation platform, supporting rigorous manual labeling to
+facilitate precise and reliable model assessment. Our benchmark extends the
+single-target understanding to the multi-person and multi-image mutual
+understanding by constructing the choice, short-answer, grounding, ranking and
+judgment question components, and complex questions of their combination. The
+extensive experiments on 17 state-of-the-art MLLMs effectively expose the
+limitations and guide future MLLMs research toward better human-centric image
+understanding. All data and code are available at
+https://github.com/Yuan-Hou/Human-MME.",cs
+"Temperature Optimisation in Data Centres Raising server inlet temperatures tends to increase the server power
+consumption due to heightened server fan activity needed to compensate for the
+warmer air, and to decrease cooling infrastructure power consumption due to
+less intense and possibly less frequent chiller activity.
+  Relying on primary data from two data centres of a colocation provider in
+Switzerland, this study succeeds in confirming and quantifying the first
+effect: In the upper half of the ASHRAE recommended temperature range and
+slightly above it, i.e., between 23 - 30 {\deg}C, the server power consumption
+correlated positively with the temperature, with a server room-wide temperature
+sensitivity of 0.35 - 0.5 %/{\deg}C.
+  Based on the available data and due to ambivalent results, the study did not
+succeed in answering which effect is stronger for the entire data centre: the
+increase in server consumption or the savings in cooling consumption. Whether
+raising inlet temperatures beyond the ASHRAE upper limit (i.e., 27 {\deg}C)
+yields additional overall benefits thus remains an open question that would be
+best addressed through controlled experiments.
+  A few pieces of evidence indicate nevertheless that the upper part of the
+current ASHRAE recommendation (i.e., around 25 - 27 {\deg}C) might be the
+current sweet spot for colocation DCs.
+  The widely used power usage effectiveness (PUE) metric is not at all useful
+in this context. For practical reasons but semantically wrong, the server fan
+power consumption is included in the consumption of servers (and thus, of the
+IT infrastructure) and is thus on the wrong side of the PUE fraction. An inlet
+temperature raise, which will lead to increased fan consumption, will thus
+always yield a PUE decrease, irrespective of what happens to the overall data
+centre power consumption.",cs
+"The transverse-traceless gauge and the gauge problem of second order
+  gravitational waves The gauge problem arises in the second order gravitational waves due to the
+mode mixing. Here, we introduce the transverse-traceless (TT) gauge to
+cosmological backgrounds, and find that if we choose the TT gauge at first
+order, the second order tensor mode would be gauge invariant. Analogous to the
+Ricci flat spacetime, the vacuum condition is the key to guarantee the
+existence of the TT gauge on cosmological backgrounds. When we have the vacuum
+condition, the Poisson gauge, the uniform curvature gauge, the synchronous
+gauge and the total matter gauge are all equivalent to the TT gauge. Once the
+vacuum condition is approximately satisfied, the Poisson gauge would reduce to
+the TT gauge at the same order of approximation. With the sub-horizon limit,
+the vacuum condition could be obtained approximately, and the Poisson gauge,
+the uniform curvature gauge and the synchronous gauge are all approximated TT
+gauge. Our findings explain several existing results in the literature and
+indicate that the proposed TT gauge is useful to discuss higher order
+gravitational waves.",gr-qc
+"Simple Yetter-Drinfeld modules over infinite-dimensional Taft algebras Let H be an infinite-dimensional Taft algebra over an algebraically closed
+field k of characteristic 0. We find all the simple Yetter-Drinfeld modules V
+over H, and classifies those V with B(V) is finite-dimensional.",math
+"Multi-strangeness matter from ab initio calculations Hypernuclei and hypernuclear matter connect nuclear structure in the
+strangeness sector with the astrophysics of neutron stars, where hyperons are
+expected to emerge at high densities and affect key astrophysical observables.
+We present the first {\em ab initio} calculations that simultaneously describe
+single- and double-$\Lambda$ hypernuclei from the light to medium-mass range,
+the equation of state for $\beta$-stable hypernuclear matter, and neutron star
+properties. Despite the formidable complexity of quantum Monte Carlo~(QMC)
+simulations with multiple baryonic degrees of freedom, by combining nuclear
+lattice effective field theory with a newly developed auxiliary-field QMC
+algorithm we achieve the first sign-problem free {\em ab initio} QMC
+simulations of hypernuclear systems containing an arbitrary number of neutrons,
+protons, and $\Lambda$ hyperons, including all relevant two- and three-body
+interactions. This eliminates reliance on the symmetry-energy approximation,
+long used to interpolate between symmetric nuclear matter and pure neutron
+matter. Our unified calculations reproduce hyperon separation energies, yield a
+neutron star maximum mass consistent with observations, predict tidal
+deformabilities compatible with gravitational-wave measurements, and give a
+trace anomaly in line with Bayesian constraints. By bridging the physics of
+finite hypernuclei and infinite hypernuclear matter within a single {\em ab
+initio} framework, this work establishes a direct microscopic link between
+hypernuclear structure, dense matter composition, and the astrophysical
+properties of neutron stars.",nucl-th
+"Cosmological constraints on non-phantom dynamical dark energy with DESI
+  Data Release 2 Baryon Acoustic Oscillations: A 3$σ$+ lensing anomaly We consider a 12-parameter cosmological model with non-phantom dynamical dark
+energy (NPDDE), where non-phantom implies that the equation of state (EoS) of
+dark energy (DE), $w(z)\geq-1$ for all redshifts $z$. Thus, the DE EoS covers
+the parameter space corresponding to the popular single scalar-field dark
+energy models, i.e., Quintessence. The cosmological model comprises 6
+parameters of the $\Lambda$-Cold Dark Matter ($\Lambda$CDM) model, and
+additionally the dynamical DE EoS parameters ($w_0$, $w_a$), the scaling of the
+lensing amplitude ($A_{\rm lens}$), sum of the neutrino masses ($\sum m_\nu$),
+the effective number of non-photon relativistic degrees of freedom ($N_{\rm
+eff}$), and the running of the scalar spectral index ($\alpha_s$). We derive
+constraints on the parameters by combining the latest Dark Energy Spectroscopic
+Instrument (DESI) Data Release (DR) 2 Baryon Acoustic Oscillation (BAO)
+measurements with cosmic microwave background (CMB) power spectra from Planck
+Public Release (PR) 4, CMB lensing data from Planck PR4 and Atacama Cosmology
+Telescope (ACT) DR6, uncalibrated Type Ia supernovae (SNe) data from the
+Pantheon+ and Dark Energy Survey (DES) Year 5 (DESY5) samples, and Weak Lensing
+(WL) data from DES Year 1. Our major finding is that with CMB+BAO+WL and
+CMB+BAO+SNe+WL, we find 3$\sigma$+ evidence for $A_{\rm lens} >1$, indicating a
+higher than expected CMB lensing amplitude relative to the NPDDE prediction of
+unity. This implies that for cosmology to accommodate realistic
+quintessence-like dark energy models (as opposed to unrealistic phantom DE),
+one would also need to explain a relatively significant presence of the lensing
+anomaly.",astro-ph
+"Conjectures About Cyclic Numbers: Resolutions and Counterexamples We settle 22 conjectures of Cohen about cyclic numbers (positive integers $n$
+with $\gcd(n,\varphi(n))=1$), proving 16 and disproving 6, and we completely
+resolve a related OEIS problem about sequences whose running averages are
+Fibonacci numbers. Highlights include: asymptotics for cyclics between
+consecutive squares with a second-order term (Conj.~9), Legendre- and $k$-fold
+Oppermann-type results in short quadratic intervals (Conj.~6, Conj.~20, and
+twin cyclics between cubes, Conj.~32), gap and growth analogs (Visser, Rosser,
+Ishikawa, and a sum-3-versus-sum-2 inequality; Conj.~47,~52,~54,~56), limiting
+ratios (Vrba and Hassani; Conj.~60,~61), and structure results for Sophie
+Germain cyclics (Conj.~36,~37). We also resolve two Firoozbakht-type
+conjectures for cyclics (Conj.~41--42). On the negative side we exhibit
+counterexamples to the Panaitopol, Dusart, and Carneiro analogs
+(Conj.~59,~53,~50--51). Finally, for the lexicographically least sequence of
+pairwise distinct positive integers whose running averages are Fibonacci
+numbers (\seqnum{A248982}), we give explicit closed forms for all $n$ and prove
+Fried's Conjecture~2 asserting the disjointness of the parity-defined value
+sets (equivalently, $F_{n+2}+2nF_{n+1}$ is never a Fibonacci number). Proofs in
+this paper were assisted by GPT-5.",math
+"Progress in the study of the (non)existence of genuinely unextendible
+  product bases We investigate the open problem of the existence of genuinely unextendible
+product bases (GUPBs), that is, multipartite unextendible product bases (UPBs)
+which remain unextendible even with respect to biproduct vectors across all
+bipartitions of the parties. To this end, we exploit the well-known connection
+between UPBs and graph theory through orthogonality graphs and orthogonal
+representations, together with recent progress in this framework, and employ
+forbidden induced subgraph characterizations to single out the admissible local
+orthogonality graphs for GUPBs. Using this approach, we establish that GUPBs of
+size thirteen in three-qutrit systems-the smallest candidate GUPBs-do not
+exist. We further provide a partial characterization of graphs relevant to
+larger bases and systems with ququart subsystems.",quant-ph
+"A note on the distribution of the sum of lengths of the initial longest
+  increasing sequences in cycles of random permutations Let $S_n$ be the set of all permutations of $\{1,2,\ldots,n\}$ and let
+$\sigma=(\sigma_1,\sigma_2,\ldots,\sigma_n)\in S_n$. The {\it initial longest
+increasing sequence} (ILIS) in $\sigma$ has length $m$ if, for $1\le m\le n-1$,
+$\sigma_1<\sigma_2<\ldots<\sigma_m, \sigma_m>\sigma_{m+1}$, and has length $n$
+if $\sigma=(1,2,\ldots,n)$. Let $l(\sigma)$ be the length of the ILIS in
+$\sigma$. We assume that $\sigma$ is represented in cycle notation, so that the
+first number in each cycle is the minimum number of this cycle. We also assume
+that $\sigma$ is chosen uniformly at random from $S_n$, i.e., with probability
+$1/n!$. Let $C_n(\sigma)$ be the set of all cycles of $\sigma$. In [9], T.
+Mansour investigated enumerative properties related to lengths of the ILIS in
+random permutations represented by the cycle notation. In particular, he
+studied the sum of the ILIS' lengths defined by $s_n=\sum_{c\in C_n(\sigma)}
+l(c)$ and derived exact and asymptotic expressions for its expectation and
+variance. In this note, we supplement Mansour's results on $s_n$ with a limit
+theorem. We show that $s_n$, appropriately normalized, converges weakly to a
+standard normal random variable as $n\to\infty$.",math
+"Tracer diffusion coefficients in a sheared granular gas. Exact results The diffusion of tracer particles immersed in a granular gas under uniform
+shear flow (USF) is analyzed within the framework of the inelastic Boltzmann
+equation. Two different but complementary approaches are followed to achieve
+exact results. First, we maintain the structure of the Boltzmann collision
+operator but consider inelastic Maxwell models (IMM). Using IMM allows us to
+compute the collisional moments of the Boltzmann operator without knowing the
+velocity distribution functions of the granular binary mixture explicitly.
+Second, we consider a kinetic model of the Boltzmann equation for inelastic
+hard spheres (IHS). This kinetic model is based on the equivalence between a
+gas of elastic hard spheres subjected to a drag force proportional to the
+particle velocity and a gas of IHS. We solve the Boltzmann--Lorentz kinetic
+equation for tracer particles using a generalized Chapman--Enskog--like
+expansion around the shear flow distribution. This reference distribution
+retains all hydrodynamic orders in the shear rate. The mass flux is obtained to
+first order in the deviations of the concentration, pressure, and temperature
+from their values in the reference state. Due to the velocity space anisotropy
+induced by the shear flow, the mass flux is expressed in terms of tensorial
+quantities rather than the conventional scalar diffusion coefficients. The
+exact results derived here are compared with those previously obtained for IHS
+by using different approximations [JSTAT P02012 (2007)]. The comparison
+generally shows reasonable quantitative agreement, especially for IMM results.
+Finally, we study segregation by thermal diffusion as an application of the
+theory. The phase diagrams illustrating segregation are shown and compared with
+IHS results, demonstrating qualitative agreement.",cond-mat
+"Items Proxy Bridging: Enabling Frictionless Critiquing in Knowledge
+  Graph Recommendations Modern recommender systems place great inclination towards facilitating user
+experience, as more applications enabling users to critique and then refine
+recommendations immediately. Considering the real-time requirements,
+critique-able recommender systems typically straight modify the model
+parameters and update the recommend list through analyzing the user critiquing
+keyphrases in the inference phase. Current critiquing methods require first
+constructing a specially designated model which establish direct correlations
+between users and keyphrases during the training phase allowing for innovative
+recommendations upon the critiquing,restricting the applicable scenarios.
+Additionally, all these approaches ignore the catastrophic forgetting problem,
+where the cumulative changes in parameters during continuous multi-step
+critiquing may lead to a collapse in model performance. Thus, We conceptualize
+a proxy bridging users and keyphrases, proposing a streamlined yet potent Items
+Proxy Generic Critiquing Framework (IPGC) framework, which can serve as a
+universal plugin for most knowledge graph recommender models based on
+collaborative filtering (CF) strategies. IPGC provides a new paradigm for
+frictionless integration of critique mechanisms to enable iterative
+recommendation refinement in mainstream recommendation scenarios. IPGC
+describes the items proxy mechanism for transforming the critiquing
+optimization objective of user-keyphrase pairs into user-item pairs, adapting
+it for general CF recommender models without the necessity of specifically
+designed user-keyphrase correlation module. Furthermore, an anti-forgetting
+regularizer is introduced in order to efficiently mitigate the catastrophic
+forgetting problem of the model as a prior for critiquing optimization.",cs
+"Spatiotemporal Raman Probing of Molecular Transport in sub-2-nm
+  Plasmonic Quasi-2D Nanochannels Capturing molecular dynamics in nanoconfined channels with high
+spatiotemporal resolution is a key challenge in nanoscience, crucial for
+advancing catalysis, energy conversion, and molecular sensing. Bottom-up
+ultrathin plasmonic nanogaps, such as nanoparticle-on-mirror (NPoM) structures,
+are ideal for ultrasensitive probing due to their extreme light confinement,
+but their perceived sealed geometry has cast doubt on the existence of
+accessible transport pathways. Here, counterintuitively, we demonstrate that
+ubiquitous ligand-capped NPoM-type nanogaps can form a natural
+quasi-two-dimensional nanochannel, supporting molecular transport over
+unprecedented length scales ($\gtrsim5$ $\mu$m) with an extreme aspect ratio
+($>10^3$). Using wavelength-multiplexed Raman spectroscopy, we resolve the
+underlying centripetal infiltration pathway with a spatial resolving power of
+$\sim$20 nm. This redefines the NPoM architecture as a sensitive,
+\textit{in-situ}, all-in-one ""transport-and-probe"" platform, enabling
+real-time, reusable monitoring of analyte with $\sim$10$^{-11}$ M. This work
+establishes a versatile new platform for advancing super-resolved
+\textit{in-situ} molecular sensing, nanoscale physicochemical studies, and
+on-chip nanophotofluidics.",physics
+"On Computing Top-$k$ Simple Shortest Paths from a Single Source We investigate the problem of computing the top-$k$ simple shortest paths in
+weighted digraphs. While the single-pair variant -- finding the top-$k$ simple
+shortest paths between two specified vertices -- has been extensively studied
+over the past decades, with Yen's algorithm and its heuristic improvements
+emerging as the most effective solving strategies, relatively little attention
+has been devoted to the more general single-source version, where the goal is
+determining top-$k$ simple shortest paths from a source vertex to all other
+vertices. Motivated by the numerous practical applications of ranked shortest
+paths, in this paper we provide new insights and algorithmic contributions to
+this problem. In particular, we first present a theoretical characterization of
+the structural properties of its solutions. Then, we introduce the first
+polynomial-time algorithm specifically designed to handle it. On the one hand,
+we prove our new algorithm is on par, in terms of time complexity, with the
+best (and only) polynomial-time approach known in the literature to solve the
+problem, that is applying the fastest single-pair algorithm independently to
+each vertex pair formed by the source and the remaining vertices. On the other
+hand, through an extensive experimental evaluation on both real-world and
+synthetic graphs, we demonstrate that our algorithm consistently and
+significantly outperforms the latter baseline in terms of running time,
+achieving speed-ups of up to several orders of magnitude. These results
+establish our new algorithm as the solution to be preferred for computing $k$
+simple shortest paths from a single source in practical settings.",cs
+"Flexible-Sector 6DMA Base Station: Modeling and Design Six-dimensional movable antenna (6DMA) has emerged as a promising new
+technology for future wireless networks, which can adaptively adjust the
+three-dimensional (3D) positions and 3D rotations of antennas/antenna arrays
+for performance enhancement. This paper proposes a novel cost-effective
+6DMA-based base station (BS) architecture, termed the \textit{flexible-sector}
+BS, which allows the deployed antennas to flexibly rotate and move along a
+circular track, thus enabling common sector rotation and flexible antenna
+allocation across sectors to adapt to the spatial user distribution
+efficiently. In particular, we focus on the uplink transmission in a
+single-cell system, where the flexible-sector BS receives independent messages
+from multiple users. We introduce an angular-domain user distribution model,
+which captures the users' spatial clustering or hot-spot distribution
+effectively. Assuming the zero-forcing (ZF) based receiver applied at the BS to
+decode multiuser signals, we derive the average sum rate achievable for the
+users as a function of the common rotation of sectors and the antenna
+allocation over them. Moreover, we develop a two-step algorithm to jointly
+optimize the common sector rotation and antenna allocation to maximize the
+average sum rate of all users. It is shown that the optimal antenna number in
+each sector linearly increases with the number of users in it. It is also
+revealed that under the most favorable user distribution, the achievable sum
+rate gain increases in the order of $\log_{2}(B)$ in the regime of
+asymptotically large number of antennas, where $B$ denotes the number of
+sectors. Numerically results also show that as $B$ increases, the proposed
+flexible-sector BS achieves higher sum rate, and it outperforms other benchmark
+schemes, such as the traditional fixed-sector BS as well as the BS with sector
+rotation or antenna allocation optimization only.",cs
+"The Tidal Torque Theory Revisited: II. Rotational Halo Properties The peak model of structure formation was built more than fifty years ago
+with the aim to address the origin of dark matter halo rotation in the tidal
+torque theory (TTT). Paradoxically, it has allowed one to explain and reproduce
+all halo properties found in cosmological simulations except their rotation,
+which remains to be understood. With the present two Papers we remedy this
+anomaly. In Paper I we derived the angular momentum (AM) of protohalos centered
+on triaxial peaks of suited scale, taking into account that, to leading order,
+their density profile is smooth and homogeneous. Here we use that result to
+derive the AM of these objects, accounting for the fact that their actual
+density profile is slightly outward decreasing and lumpy so that they do not
+collapse monolithically at once, but progressively from inside out, undergoing
+mergers during the process. By monitoring in detail their resulting mass and AM
+growth, we characterize the spin distribution of final halos and the precise
+mass and radial distribution of their inner mean specific AM. The results
+obtained explain and reproduce the rotational properties of simulated halos.",astro-ph
+"Multi-modal Liver Segmentation and Fibrosis Staging Using Real-world MRI
+  Images Liver fibrosis represents the accumulation of excessive extracellular matrix
+caused by sustained hepatic injury. It disrupts normal lobular architecture and
+function, increasing the chances of cirrhosis and liver failure. Precise
+staging of fibrosis for early diagnosis and intervention is often invasive,
+which carries risks and complications. To address this challenge, recent
+advances in artificial intelligence-based liver segmentation and fibrosis
+staging offer a non-invasive alternative. As a result, the CARE 2025 Challenge
+aimed for automated methods to quantify and analyse liver fibrosis in
+real-world scenarios, using multi-centre, multi-modal, and multi-phase MRI
+data. This challenge included tasks of precise liver segmentation (LiSeg) and
+fibrosis staging (LiFS). In this study, we developed an automated pipeline for
+both tasks across all the provided MRI modalities. This pipeline integrates
+pseudo-labelling based on multi-modal co-registration, liver segmentation using
+deep neural networks, and liver fibrosis staging based on shape, textural,
+appearance, and directional (STAD) features derived from segmentation masks and
+MRI images. By solely using the released data with limited annotations, our
+proposed pipeline demonstrated excellent generalisability for all MRI
+modalities, achieving top-tier performance across all competition subtasks.
+This approach provides a rapid and reproducible framework for quantitative
+MRI-based liver fibrosis assessment, supporting early diagnosis and clinical
+decision-making. Code is available at
+https://github.com/YangForever/care2025_liver_biodreamer.",eess
+"Extreme NiI/FeI abundance ratio in the coma of the interstellar comet
+  3I/ATLAS Emission lines of FeI and NiI are commonly found in the coma of solar system
+comets, even at large heliocentric distances. These atoms are most likely
+released from the surface of the comet's nucleus or from a short-lived parent.
+The presence of these lines in cometary spectra is unexpected because the
+surface blackbody equilibrium temperature is too low to allow the sublimation
+of refractory minerals containing these metals. These lines were also found in
+the interstellar comet 2I/Borisov which has a NiI/FeI abundance ratio similar
+to that observed in solar system comets. On average, this ratio is one order of
+magnitude higher than the solar Ni/Fe abundance ratio. Here, we report
+observations of the new interstellar comet 3I/ATLAS, which were carried out
+with the ESO Very Large Telescope equipped with the UVES spectrograph. Spectra
+were obtained at six epochs, at heliocentric distances ranging from 3.14 to
+2.14 au. NiI was detected at all epochs. FeI was only detected at heliocentric
+distances smaller than 2.64 au. We estimated the NiI and FeI production rates
+by comparing the observed line intensities with those produced by a
+fluorescence model. Comet 3I exhibits a high production rate of NiI atoms as
+well as a high NiI/FeI ratio, making it exceptional when compared to solar
+system comets and 2I/Borisov. Additionally, we found that the NiI/FeI ratio
+decreases rapidly with decreasing heliocentric distance, suggesting that comet
+3I could soon become indistinguishable from solar system comets in this
+respect. We interpreted these observations assuming that the NiI and FeI atoms
+were released through the sublimation of Ni(CO)$_4$ and Fe(CO)$_5$ carbonyls,
+which supports the presence of these species in the cometary material.",astro-ph
+"Abelian 3D TQFT gravity, ensemble holography and stabilizer states We construct a model of 3D quantum gravity based on abelian topological
+quantum field theory (TQFT), by defining the gravitational path-integral as a
+sum over all 3D topologies with genus-$g$ boundary $\Sigma_g$. The
+path-integral of an abelian TQFT $\mathcal T$ on any single topology with
+boundary $\Sigma_g$ prepares a stabilizer state. This way, $\mathcal T$
+partitions all these topologies into finitely many equivalence classes, where
+each topology within a class is associated with the same stabilizer state. The
+gravitational path-integral can thus be rephrased as a weighted sum over
+representative topologies, which are further organized into orbits under the
+mapping class group of $\Sigma_g$. One orbit is represented by handlebodies,
+whose average reproduces the ``Poincar\'e series of the vacuum"", while
+additional orbits describe non-handlebody topologies. The resulting quantum
+gravity state is $Sp(2g,\mathbb Z)$-invariant and can be expressed as a
+weighted average of 2D CFT partition functions on $\Sigma_g$. This establishes
+a duality between a weighted sum over bulk topologies and a weighted sum over
+boundary CFTs. We introduce the ``$\lambda$-matrix"", which relates bulk and
+boundary weights. The $\lambda$-matrix can be fully determined by the set of
+topological boundary conditions that the TQFT admits, and we present a
+systematic procedure to construct this set. Using this framework, we evaluate
+the $\lambda$-matrix and the TQFT gravity state in several tractable examples.",hep-th
+"SETR: A Two-Stage Semantic-Enhanced Framework for Zero-Shot Composed
+  Image Retrieval Zero-shot Composed Image Retrieval (ZS-CIR) aims to retrieve a target image
+given a reference image and a relative text, without relying on costly triplet
+annotations. Existing CLIP-based methods face two core challenges: (1)
+union-based feature fusion indiscriminately aggregates all visual cues,
+carrying over irrelevant background details that dilute the intended
+modification, and (2) global cosine similarity from CLIP embeddings lacks the
+ability to resolve fine-grained semantic relations. To address these issues, we
+propose SETR (Semantic-enhanced Two-Stage Retrieval). In the coarse retrieval
+stage, SETR introduces an intersection-driven strategy that retains only the
+overlapping semantics between the reference image and relative text, thereby
+filtering out distractors inherent to union-based fusion and producing a
+cleaner, high-precision candidate set. In the fine-grained re-ranking stage, we
+adapt a pretrained multimodal LLM with Low-Rank Adaptation to conduct binary
+semantic relevance judgments (""Yes/No""), which goes beyond CLIP's global
+feature matching by explicitly verifying relational and attribute-level
+consistency. Together, these two stages form a complementary pipeline: coarse
+retrieval narrows the candidate pool with high recall, while re-ranking ensures
+precise alignment with nuanced textual modifications. Experiments on CIRR,
+Fashion-IQ, and CIRCO show that SETR achieves new state-of-the-art performance,
+improving Recall@1 on CIRR by up to 15.15 points. Our results establish
+two-stage reasoning as a general paradigm for robust and portable ZS-CIR.",cs
+"New Fourth-Order Grayscale Indicator-Based Telegraph Diffusion Model for
+  Image Despeckling Second-order PDE models have been widely used for suppressing multiplicative
+noise, but they often introduce blocky artifacts in the early stages of
+denoising. To resolve this, we propose a fourth-order nonlinear PDE model that
+integrates diffusion and wave properties. The diffusion process, guided by both
+the Laplacian and intensity values, reduces noise better than gradient-based
+methods, while the wave part keeps fine details and textures. The effectiveness
+of the proposed model is evaluated against two second-order anisotropic
+diffusion approaches using the Peak Signal-to-Noise Ratio (PSNR) and Mean
+Structural Similarity Index (MSSIM) for images with available ground truth. For
+SAR images, where a noise-free reference is unavailable, the Speckle Index (SI)
+is used to measure noise reduction. Additionally, we extend the proposed model
+to study color images by applying the denoising process independently to each
+channel, preserving both structure and color consistency. The same quantitative
+metrics PSNR and MSSIM are used for performance evaluation, ensuring a fair
+comparison across grayscale and color images. In all the cases, our computed
+results produce better results compared to existing models in this genre.",cs

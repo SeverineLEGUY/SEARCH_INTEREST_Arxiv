@@ -24,8 +24,8 @@ MLFLOW_TRACKING_URI = Variable.get("MLFLOW_TRACKING_URI")
 MLFLOW_LOCAL = "/opt/airflow/mlflow" # Dossier de travail local
 
 # NOTE: Vous devez définir les variables suivantes dans Airflow
-MLFLOW_RUN_ID = Variable.get("LATEST_TRAINING_RUN_ID") # ID du dernier run de arxiv_training
-# Si vous utilisez la version Cloud (Optionnel)
+#MLFLOW_RUN_ID = Variable.get("LATEST_TRAINING_RUN_ID") # ID du dernier run de arxiv_training
+# Si utilisation de la version Cloud (Optionnel)
 # EVIDENTLY_CLOUD_API_KEY = Variable.get("EVIDENTLY_CLOUD_API_KEY", default_var="")
 # EVIDENTLY_PROJECT_ID = Variable.get("EVIDENTLY_PROJECT_ID", default_var="")
 
@@ -33,13 +33,18 @@ MLFLOW_RUN_ID = Variable.get("LATEST_TRAINING_RUN_ID") # ID du dernier run de ar
 
 
 def run_drift_check(**context):
+    
+            # LECTURE DE LA VARIABLE AIRFLOW À L'INTÉRIEUR DE LA TÂCHE
+    current_mlflow_run_id = Variable.get("LATEST_TRAINING_RUN_ID")
     # 1. Configuration MLflow
     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
+
+
     
     # 2. Téléchargement des données de référence (doit contenir 'embedding' + 'target')
     # Ceci télécharge le dossier 'evidently_reference' (qui contient reference_data.csv)
     reference_artifact_path = mlflow.artifacts.download_artifacts(
-        run_id=MLFLOW_RUN_ID,
+        run_id=current_mlflow_run_id,
         artifact_path="evidently_reference", 
         dst_path=MLFLOW_LOCAL
     )
@@ -108,11 +113,11 @@ def run_drift_check(**context):
     )
     
     # 5. Sauvegarde et/ou Envoi du Rapport
-    # Utilisation de l'Option B (Sauvegarde locale) pour la simplicité MLOps
+    #  Sauvegarde locale pour la simplicité MLOps
     report_path = f"{MLFLOW_LOCAL}/drift_report_{datetime.now().strftime('%Y%m%d%H%M%S')}.html"
     data_drift_report.save_html(report_path)
     
-    # Logguer le rapport sous un nouveau run MLflow ou dans un run existant
+    # Logguer le rapport sous dans MLflow 
     mlflow.set_experiment("evidently_monitoring")
     with mlflow.start_run(run_name=f"drift_check_{datetime.now().strftime('%Y-%m-%d')}"):
         mlflow.log_artifact(report_path, artifact_path="daily_drift_reports")
@@ -125,6 +130,8 @@ def run_drift_check(**context):
             #if metric['metric'] == 'DataDriftPreset':
                # dataset_drift = metric['result']['dataset_drift']
                # break
+        dataset_drift = report_dict['metrics'][0]['result']['dataset_drift']
+               
         mlflow.log_metric("drift_detected", int(dataset_drift))
         print(f"Drift détecté: {dataset_drift}")
     print(f"Rapport sauvegardé et loggué dans MLflow: {report_path}")

@@ -172,9 +172,14 @@ def train_model_from_redis():
             )
 
 # 2. Sauvegarder le jeu de données de référence (CSV) et le logguer dans MLflow
-        reference_data_file = f"{MLFLOW_LOCAL}/reference_data.csv"
+        # --- AJOUT : dossier de référence Evidently ---
+        evidently_reference_dir = os.path.join(MLFLOW_LOCAL, "evidently_reference")
+        os.makedirs(evidently_reference_dir, exist_ok=True)
+        reference_data_file = os.path.join(evidently_reference_dir, "reference_data.csv")
         df_reference.to_csv(reference_data_file, index=False)
-        mlflow.log_artifact(reference_data_file, artifact_path="evidently_reference")
+
+        # Log du dossier complet dans MLflow
+        mlflow.log_artifacts(evidently_reference_dir, artifact_path="evidently_reference")
         print(f"Jeu de données de référence Evidently sauvegardé dans MLflow.")
 
         # 3. Générer la TestSuite (Data Stability)

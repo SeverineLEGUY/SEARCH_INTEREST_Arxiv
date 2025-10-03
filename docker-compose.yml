@@ -3,7 +3,7 @@
 # ========================================
 x-airflow-common:
   &airflow-common
-  image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.3.2}
+  image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.8.3}
   build: ./airflow  # Permet l’extension via Dockerfile personnalisé si besoin
   environment:
     &airflow-common-env
@@ -72,7 +72,7 @@ services:
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
       interval: 5s
-      timeout: 30s
+      timeout: 120s
       retries: 50
     restart: always
 
@@ -84,11 +84,7 @@ services:
       - "27017:27017"
     volumes:
       - ./db/mongo:/data/db
-    healthcheck:
-      test: [ "CMD", "mongo", "--eval", "db.runCommand({ ping: 1 })" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    
 
 
 
@@ -97,17 +93,28 @@ services:
   # ========================================
   airflow-init:
     <<: *airflow-common
-    entrypoint: >
-      bash -c "
-      airflow db upgrade &&
-      airflow users create --username admin --firstname Airflow --lastname Admin --role Admin --email admin@example.com --password admin &&
-      python /opt/airflow/import_env_to_airflow.py
-      "
+    user: "root" # Reste ROOT pour exécuter la création de dossier
+    entrypoint: [
+        "/bin/bash", 
+        "-c", 
+        "
+        # 1. COMMANDES ROOT : Création et permissions pour MLflow
+        mkdir -p /mlflow && chown -R ${AIRFLOW_UID:-50000}:root /mlflow &&
+
+        # 2. COMMANDES AIRFLOW : Basculer vers l'utilisateur 'airflow' pour exécuter les commandes Airflow
+        su airflow -c '
+          airflow db migrate &&
+          airflow users create --username admin --firstname Airflow --lastname Admin --role Admin --email admin@example.com --password admin &&
+          python /opt/airflow/import_env_to_airflow.py
+        '
+        "
+    ]
     env_file:
       - .env
     volumes:
       - ./airflow/dags:/opt/airflow/dags
       - ./import_env_to_airflow.py:/opt/airflow/import_env_to_airflow.py
+      - mlflow-data:/mlflow   # <-- volume partagé MLflow
 
   airflow-webserver:
     <<: *airflow-common
@@ -116,6 +123,8 @@ services:
       - .env
     ports:
       - "8082:8080"
+    volumes:
+      - ./mlflow:/mlflow
     healthcheck:
       test: [ "CMD", "curl", "--fail", "http://localhost:8080/health" ]
       interval: 10s
@@ -130,8 +139,11 @@ services:
   airflow-scheduler:
     <<: *airflow-common
     command: scheduler
+    user: "airflow"
     env_file:
       - .env
+    volumes:
+      - ./mlflow:/mlflow
     healthcheck:
       test: [ "CMD-SHELL", 'airflow jobs check --job-type SchedulerJob --hostname "$${HOSTNAME}"' ]
       interval: 10s
@@ -148,8 +160,11 @@ services:
   airflow-worker:
     <<: *airflow-common
     command: celery worker
+    user: "airflow"
     env_file:
       - .env
+    volumes:
+      - ./mlflow:/mlflow
     healthcheck:
       test:
         - "CMD-SHELL"
@@ -157,9 +172,6 @@ services:
       interval: 10s
       timeout: 10s
       retries: 5
-    environment:
-      <<: *airflow-common-env
-      DUMB_INIT_SETSID: "0"  # Permet une gestion propre des signaux d’arrêt
     restart: always
     depends_on:
       <<: *airflow-common-depends-on
@@ -286,4 +298,6 @@ volumes:
     external: true 
   jenkins-docker-certs:
   jenkins-data:
+  volumes:
+  mlflow-data:
   
